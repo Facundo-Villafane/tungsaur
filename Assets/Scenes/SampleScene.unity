@@ -620,3 +620,4 @@ MonoBehaviour:
   deceleration: 10
   maxSpeed: 8
   usePhysics: 1
+  graphicsTransform: {fileID: 1627972254}
