@@ -13,25 +13,39 @@ public class PlayerController : MonoBehaviour
     [Header("Physics")]
     [SerializeField] private bool usePhysics = true;
     
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    
+    [Header("Rotation")]
+    [SerializeField] private bool flipSprite = true;
+    [SerializeField] private float rotationSpeed = 10f;
+
+    [Header("Jump")]
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private bool isGrounded = true;
+    [SerializeField] private float groundCheckDistance = 0.2f; // Distancia para el raycast
+    [SerializeField] private LayerMask groundLayer;     
+    [SerializeField] private float fallMultiplier = 2.5f;
+    
     private Rigidbody rb;
     private Vector3 currentVelocity;
-    private Vector2 inputVector;
+    private Vector3 inputVector;
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         
-        if (rb != null)
+
+        if (animator == null)
         {
-            rb.freezeRotation = true;
-            rb.useGravity = false;
+            animator = GetComponent<Animator>();
         }
     }
     
     void Update()
     {
         // Capturar input usando el nuevo Input System
-        inputVector = Vector2.zero;
+        inputVector = Vector3.zero;
         
         Keyboard keyboard = Keyboard.current;
         if (keyboard != null)
@@ -44,35 +58,70 @@ public class PlayerController : MonoBehaviour
             
             // Vertical (W/S o flechas)
             if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
-                inputVector.y = -1f;
+                inputVector.z = -1f;
             else if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
-                inputVector.y = 1f;
+                inputVector.z = 1f;
         }
         
-        // Normalizar para movimiento diagonal consistente
         if (inputVector.magnitude > 1f)
             inputVector.Normalize();
-        
-        // Invertir horizontal como en el código original
-        inputVector.x = -inputVector.x;
+        // Kick    
+        if (keyboard != null && keyboard.jKey.wasReleasedThisFrame)
+            {
+                
+                PerformKick();
+            }
+        if (keyboard != null && keyboard.kKey.wasReleasedThisFrame)
+        {
+            
+            PerformUpPunch();
+        }
+        if (keyboard != null && keyboard.spaceKey.wasPressedThisFrame)
+        {
+            
+            PerformJump();
+        }
+    
     }
     
     void FixedUpdate()
     {
+        CheckGrounded();
         if (usePhysics && rb != null)
         {
             MoveWithPhysics();
+            ApplyExtraGravity();
         }
         else
         {
             MoveWithTransform();
         }
+        
+        
+        HandleRotation();
+        UpdateAnimator();
     }
     
+    private void CheckGrounded()
+        {
+            Ray ray = new Ray(transform.position, Vector3.down);
+            // groundCheckDistance define qué tan lejos desde el centro se chequea
+            if (Physics.Raycast(ray, groundCheckDistance, groundLayer))
+            {
+                Debug.Log(isGrounded);
+                isGrounded = true;
+            }
+            else
+            {
+                Debug.Log(isGrounded);
+                isGrounded = false;
+            }
+        }
+
     private void MoveWithPhysics()
     {
         // Convertir input 2D a movimiento 3D (X, Y, 0)
-        Vector3 inputDirection = new Vector3(inputVector.x, inputVector.y, 0f);
+        Vector3 inputDirection = new Vector3(inputVector.x, 0f, inputVector.z);
         Vector3 targetVelocity = inputDirection * moveSpeed;
         
         currentVelocity = Vector3.Lerp(
@@ -82,16 +131,23 @@ public class PlayerController : MonoBehaviour
         );
         
         currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
-        
-        // Aplica velocidad en X e Y, mantiene Z
-        rb.linearVelocity = new Vector3(currentVelocity.x, currentVelocity.y, rb.linearVelocity.z);
+
+        rb.linearVelocity = new Vector3(currentVelocity.x, rb.linearVelocity.y, currentVelocity.z);
+
     }
     
     private void MoveWithTransform()
     {
-        Vector3 inputDirection = new Vector3(inputVector.x, inputVector.y, 0f);
+        Vector3 inputDirection = new Vector3(inputVector.x, 0f, inputVector.z);
         Vector3 movement = inputDirection * moveSpeed * Time.fixedDeltaTime;
         transform.position += movement;
+    }
+    private void ApplyExtraGravity()
+    {
+        if (rb.linearVelocity.y < 0 && !isGrounded)
+        {
+            rb.AddForce(Physics.gravity * (fallMultiplier - 1f), ForceMode.Acceleration);
+        }
     }
     
     public Vector3 GetVelocity()
@@ -102,5 +158,74 @@ public class PlayerController : MonoBehaviour
     public bool IsMoving()
     {
         return currentVelocity.magnitude > 0.1f;
+    }
+    
+    private void UpdateAnimator()
+    {
+        if (animator != null)
+        {
+            // Setea xVelocity a 1 si se está moviendo, 0 si está quieto
+            float xVelocity = inputVector.magnitude > 0.01f ? 1f : 0f;
+            animator.SetFloat("xVelocity", xVelocity);
+        }
+    }
+    private void PerformKick()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Kick 0");
+        }
+    }
+    private void PerformJump()
+    {
+        if (isGrounded && rb != null)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            animator?.SetTrigger("Jump 0");
+            isGrounded = false; // Recuerda resetear esto en OnCollisionEnter, por ejemplo
+        }
+    }
+    private void PerformUpPunch()
+    {
+        if (animator != null)
+    {
+        animator.SetTrigger("Up Punch");
+    }  
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+    private void HandleRotation()
+    {
+        // Solo rotar si hay input horizontal
+        if (Mathf.Abs(inputVector.x) > 0.01f)
+        {
+            if (flipSprite)
+            {
+                // Método 1: Voltear el sprite usando escala (común en juegos 2D)
+                Vector3 localScale = transform.localScale;
+                
+                // inputVector.x es negativo cuando vas a la izquierda (después de invertir)
+                // Así que si es negativo, volteamos a la derecha (escala positiva)
+                // Si es positivo, volteamos a la izquierda (escala negativa)
+                if (inputVector.x < 0)
+                    localScale.x = -Mathf.Abs(localScale.x); // Mira a la derecha
+                else
+                    localScale.x = Mathf.Abs(localScale.x); // Mira a la izquierda
+                
+                transform.localScale = localScale;
+            }
+            else
+            {
+                // Método 2: Rotar suavemente usando Quaternion (alternativa)
+                float targetAngle = inputVector.x > 0 ? 180f : 0f;
+                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            }
+        }
     }
 }
