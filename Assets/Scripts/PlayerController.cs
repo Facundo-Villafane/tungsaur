@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody rb;
     private Vector3 currentVelocity;
-    private Vector3 inputDirection;
+    private Vector2 inputVector;
     
     void Start()
     {
@@ -29,12 +30,31 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        // Capturar input (negativo para corregir la dirección)
-        float horizontal = -Input.GetAxisRaw("Horizontal"); // Invertido
-        float vertical = Input.GetAxisRaw("Vertical");     // Invertido
+        // Capturar input usando el nuevo Input System
+        inputVector = Vector2.zero;
         
-        // Ahora usa X e Y en lugar de X y Z
-        inputDirection = new Vector3(horizontal, vertical, 0f).normalized;
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard != null)
+        {
+            // Horizontal (A/D o flechas)
+            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+                inputVector.x = -1f;
+            else if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
+                inputVector.x = 1f;
+            
+            // Vertical (W/S o flechas)
+            if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
+                inputVector.y = -1f;
+            else if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
+                inputVector.y = 1f;
+        }
+        
+        // Normalizar para movimiento diagonal consistente
+        if (inputVector.magnitude > 1f)
+            inputVector.Normalize();
+        
+        // Invertir horizontal como en el código original
+        inputVector.x = -inputVector.x;
     }
     
     void FixedUpdate()
@@ -51,22 +71,25 @@ public class PlayerController : MonoBehaviour
     
     private void MoveWithPhysics()
     {
+        // Convertir input 2D a movimiento 3D (X, Y, 0)
+        Vector3 inputDirection = new Vector3(inputVector.x, inputVector.y, 0f);
         Vector3 targetVelocity = inputDirection * moveSpeed;
         
         currentVelocity = Vector3.Lerp(
             currentVelocity, 
             targetVelocity, 
-            (inputDirection.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime
+            (inputVector.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime
         );
         
         currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
         
         // Aplica velocidad en X e Y, mantiene Z
-        rb.velocity = new Vector3(currentVelocity.x, currentVelocity.y, rb.velocity.z);
+        rb.linearVelocity = new Vector3(currentVelocity.x, currentVelocity.y, rb.linearVelocity.z);
     }
     
     private void MoveWithTransform()
     {
+        Vector3 inputDirection = new Vector3(inputVector.x, inputVector.y, 0f);
         Vector3 movement = inputDirection * moveSpeed * Time.fixedDeltaTime;
         transform.position += movement;
     }
