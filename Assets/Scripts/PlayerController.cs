@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 8f;
-
+    [SerializeField] private bool collitionWithWall = false;
     [Header("Physics")]
     [SerializeField] private bool usePhysics = true;
 
@@ -27,8 +29,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;     
     [SerializeField] private float fallMultiplier = 2.5f;
 
+    [Header("Fall Settings")]
+    [SerializeField] private float fallbackForce = 20f;
+
     private bool isMoving;
     private bool isFallen = false;
+    private bool isFalling = false;
+    private bool isBouncing = false;
+    private bool isRunning = false;
+
     private Rigidbody rb;
     private Vector3 currentVelocity;
     private Vector3 inputVector;
@@ -49,26 +58,21 @@ public class PlayerController : MonoBehaviour
         inputVector = Vector3.zero;
 
         Keyboard keyboard = Keyboard.current;
-        if (keyboard != null)
+        if (keyboard != null && !isFallen)
         {
             // Horizontal (A/D o flechas)
-            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+            if (keyboard.aKey.isPressed )
                 inputVector.x = -1f;
-            else if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
+            else if (keyboard.dKey.isPressed )
                 inputVector.x = 1f;
 
             // Vertical (W/S o flechas)
-            if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
+            if (keyboard.sKey.isPressed)
                 inputVector.z = -1f;
-            else if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
+            else if (keyboard.wKey.isPressed)
                 inputVector.z = 1f;
-        }
 
-        if (inputVector.magnitude > 1f)
-            inputVector.Normalize();
-
-        // Bloquear ataques si se está moviendo
-        if (keyboard != null && keyboard.jKey.wasReleasedThisFrame)
+        if (keyboard.jKey.wasReleasedThisFrame)
         {
             if (isGrounded  && !isMoving)
                 PerformKick();
@@ -76,18 +80,45 @@ public class PlayerController : MonoBehaviour
                 PerformJumpKick();
         }
 
-        if (keyboard != null && keyboard.kKey.wasReleasedThisFrame && isGrounded && !isMoving)
+        if (keyboard.kKey.wasReleasedThisFrame && isGrounded && !isMoving)
         {
             PerformUpPunch();
         }
 
-        if (keyboard != null && keyboard.spaceKey.wasPressedThisFrame)
+        if (keyboard.spaceKey.wasPressedThisFrame)
         {
             PerformJump();
         }
+        if (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed)
+        {
+            
+            isRunning = true;
+          
+            float xVelocity = 1f;
+            animator.SetFloat("xVelocity", xVelocity);
+        } else {
+            isRunning = false;
+        
+        }
+
+        }
+
+        if (inputVector.magnitude > 1f)
+            inputVector.Normalize();
+
+        // Bloquear ataques si se está moviendo
+
         if (keyboard != null && keyboard.pKey.wasReleasedThisFrame)
         {
             PerformFellStand();
+            
+        }
+
+        if (collitionWithWall && isFalling)
+        {
+           animator.SetTrigger("Fall");
+           ApplyFallbackForceTwo(); 
+           isFalling = false;
         }
     }
 
@@ -100,10 +131,10 @@ public class PlayerController : MonoBehaviour
             MoveWithPhysics();
             ApplyExtraGravity();
         }
-        else
-        {
-            MoveWithTransform();
-        }
+        // else
+        // {
+        //     MoveWithTransform();
+        // }
 
         HandleRotation();
         UpdateAnimator();
@@ -125,6 +156,16 @@ public class PlayerController : MonoBehaviour
     private void MoveWithPhysics()
     {
         // Convertir input 2D a movimiento 3D (X, Y, Z)
+        if (isRunning)
+        {
+            moveSpeed = 20f;
+            maxSpeed = 20f;  // ⬅ Importante
+        }
+        else
+        {
+            moveSpeed = 10f;
+            maxSpeed = 8f;   // ⬅ Valor normal
+        }
         Vector3 inputDirection = new Vector3(inputVector.x, 0f, inputVector.z);
         Vector3 targetVelocity = inputDirection * moveSpeed;
 
@@ -142,14 +183,14 @@ public class PlayerController : MonoBehaviour
         isMoving = inputDirection.magnitude > 0.1f;
     }
 
-    private void MoveWithTransform()
-    {
-        Vector3 inputDirection = new Vector3(inputVector.x, 0f, inputVector.z);
-        Vector3 movement = inputDirection * moveSpeed * Time.fixedDeltaTime;
-        transform.position += movement;
+    // private void MoveWithTransform()
+    // {
+    //     Vector3 inputDirection = new Vector3(inputVector.x, 0f, inputVector.z);
+    //     Vector3 movement = inputDirection * moveSpeed * Time.fixedDeltaTime;
+    //     transform.position += movement;
 
-        isMoving = inputDirection.magnitude > 0.1f;
-    }
+    //     isMoving = inputDirection.magnitude > 0.1f;
+    // }
 
     private void ApplyExtraGravity()
     {
@@ -173,7 +214,7 @@ public class PlayerController : MonoBehaviour
     {
         if (animator != null)
         {
-            float xVelocity = inputVector.magnitude > 0.01f ? 1f : 0f;
+            float xVelocity = inputVector.magnitude > 0.01f ? 0.5f : 0f;
             animator.SetFloat("xVelocity", xVelocity);
         }
     }
@@ -186,13 +227,20 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void PerformFellStand() {
+ 
         if (animator != null && !isFallen)
         {
+            isFalling = true;
             animator.SetTrigger("Fall");
+            isFallen = true;
         } else if (animator != null && isFallen) {
             animator.SetTrigger("StandUp");
+            isFallen = false;
+            isFalling = false;
         }
-        isFallen = !isFallen;
+
+ 
+        
     }
     private void PerformJumpKick()
     {
@@ -212,6 +260,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
     private void PerformUpPunch()
     {
         if (animator != null)
@@ -226,6 +276,12 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+        if (collision.gameObject.CompareTag("Wall")) {
+            collitionWithWall = true;
+        } else {
+            collitionWithWall = false;
+        }
+
     }
 
     private void HandleRotation()
@@ -250,4 +306,89 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    
+private IEnumerator WallBounceCoroutine(float duration)
+{
+    float elapsed = 0f;
+    float horizontalPower = 5f;
+    float verticalPower = 1f;
+    float direction = transform.localScale.x > 0 ? -1f : 1f;
+
+    while (elapsed < duration)
+    {
+        if (isBouncing) yield return new WaitForFixedUpdate();;
+        Vector3 force = new Vector3(direction * horizontalPower * Time.fixedDeltaTime, verticalPower * Time.fixedDeltaTime, 0f);
+        rb.AddForce(force, ForceMode.VelocityChange);
+        elapsed += Time.fixedDeltaTime;
+        yield return new WaitForFixedUpdate();
+    }
+}
+
+    public void ApplyFallbackForce()
+        {
+            if (rb != null)
+            {
+                StartCoroutine(SmoothFallback());
+            }
+        }
+
+        private IEnumerator SmoothFallback()
+        {
+        float direction = transform.localScale.x > 0 ? -50f : 50f;
+        float duration = 0.2f;      
+        float elapsed = 0f;
+        float totalForce = fallbackForce; 
+
+        while (elapsed < duration)
+        {
+            // Aplicar fuerza suave cada frame
+            Vector3 force = new Vector3(direction * (totalForce / duration) * Time.fixedDeltaTime, 0, 0);
+            rb.AddForce(force, ForceMode.VelocityChange);
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+        public void ApplyFallbackForceTwo()
+        {
+
+            if (rb != null)
+            {
+                StartCoroutine(SmoothFallbackTwo());
+            }
+        }
+
+private IEnumerator SmoothFallbackTwo()
+{
+    isBouncing = true;
+
+    
+    float direction = transform.localScale.x > 0 ? -1f : 1f;
+    float verticalDirection = 1f;
+    // Duración y fuerzas
+    float duration = 0.2f;
+    float elapsed = 0f;
+    float totalForce = fallbackForce;
+    float verticalForce = 5f;
+
+    // Girar el sprite para mirar hacia la nueva dirección
+    Vector3 localScale = transform.localScale;
+    localScale.x = direction < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+    transform.localScale = localScale;
+
+    while (elapsed < duration)
+    {
+        // Aplicar fuerza suave cada frame
+        Vector3 force = new Vector3(direction * (totalForce / duration) * Time.fixedDeltaTime,
+                                    verticalDirection * (verticalForce / duration) * Time.fixedDeltaTime,
+                                    0f);
+        rb.AddForce(force, ForceMode.VelocityChange);
+        elapsed += Time.fixedDeltaTime;
+        yield return new WaitForFixedUpdate();
+    }
+
+    isBouncing = false;
+}
+
 }
