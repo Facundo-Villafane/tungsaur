@@ -732,7 +732,7 @@ MonoBehaviour:
   rotationSpeed: 10
   jumpForce: 30
   isGrounded: 1
-  groundCheckDistance: 2
+  groundCheckDistance: 1.8
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -756,8 +756,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.87, y: 1.25, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.86999995, y: 1.25, z: 0.28432545}
+  m_Center: {x: 0, y: 0, z: -0.042162728}
 --- !u!54 &2123830689
 Rigidbody:
   m_ObjectHideFlags: 0
