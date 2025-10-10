@@ -24,15 +24,19 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private bool isGrounded = true;
+    // [SerializeField] private bool isGrounded = true;
     [SerializeField] private float groundCheckDistance = 0.2f; // Distancia para el raycast
     [SerializeField] private LayerMask groundLayer;     
     [SerializeField] private float fallMultiplier = 2.5f;
 
     [Header("Fall Settings")]
-    [SerializeField] private float fallbackForce = 20f;
+    [SerializeField] private float fallbackForce = 1f;
 
-    private bool isMoving;
+    // Variables públicas para que Player_Attacks pueda accederlas
+    public bool isGrounded { get; private set; } = true;
+    public bool isMoving { get; private set; }
+    public Animator Animator => animator;
+
     private bool isFallen = false;
     private bool isFalling = false;
     private bool isBouncing = false;
@@ -41,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 currentVelocity;
     private Vector3 inputVector;
+    private Player_Attacks attackController;
 
     void Start()
     {
@@ -49,6 +54,15 @@ public class PlayerController : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();
+        }
+        attackController = GetComponent<Player_Attacks>(); 
+        if (attackController == null)
+        {
+            Debug.LogWarning("Player_Attacks no encontrado en " + gameObject.name);
+        }
+        else
+        {
+            Debug.Log("Player_Attacks encontrado correctamente");
         }
     }
 
@@ -71,18 +85,16 @@ public class PlayerController : MonoBehaviour
                 inputVector.z = -1f;
             else if (keyboard.wKey.isPressed)
                 inputVector.z = 1f;
-
-        if (keyboard.jKey.wasReleasedThisFrame)
+        if (attackController != null)
         {
-            if (isGrounded  && !isMoving)
-                PerformKick();
-            else if (!isGrounded)
-                PerformJumpKick();
+            if (keyboard.jKey.wasPressedThisFrame)
+            {
+                attackController.HandleKickInput();
+            }
         }
-
-        if (keyboard.kKey.wasReleasedThisFrame && isGrounded && !isMoving)
+        if (keyboard.kKey.wasReleasedThisFrame)
         {
-            PerformUpPunch();
+            attackController.HandlePunchInput();
         }
 
         if (keyboard.spaceKey.wasPressedThisFrame)
@@ -108,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
         // Bloquear ataques si se está moviendo
 
-        if (keyboard != null && keyboard.pKey.wasReleasedThisFrame)
+        if (keyboard != null && keyboard.oKey.wasReleasedThisFrame)
         {
             PerformFellStand();
             
@@ -219,13 +231,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void PerformKick()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Kick 0");
-        }
-    }
+
     private void PerformFellStand() {
  
         if (animator != null && !isFallen)
@@ -242,13 +248,8 @@ public class PlayerController : MonoBehaviour
  
         
     }
-    private void PerformJumpKick()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Jump Kick");
-        }
-    }
+ 
+
 
     private void PerformJump()
     {
@@ -261,14 +262,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-    private void PerformUpPunch()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Up Punch");
-        }
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -311,7 +304,7 @@ public class PlayerController : MonoBehaviour
 private IEnumerator WallBounceCoroutine(float duration)
 {
     float elapsed = 0f;
-    float horizontalPower = 5f;
+    float horizontalPower = 1f;
     float verticalPower = 1f;
     float direction = transform.localScale.x > 0 ? -1f : 1f;
 
@@ -335,7 +328,7 @@ private IEnumerator WallBounceCoroutine(float duration)
 
         private IEnumerator SmoothFallback()
         {
-        float direction = transform.localScale.x > 0 ? -50f : 50f;
+        float direction = transform.localScale.x > 0 ? -5f : 5f;
         float duration = 0.2f;      
         float elapsed = 0f;
         float totalForce = fallbackForce; 
