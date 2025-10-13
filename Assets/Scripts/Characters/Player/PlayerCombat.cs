@@ -25,6 +25,7 @@ public class PlayerCombat : MonoBehaviour
         foreach (Collider enemy in hitEnemies)
         {
             enemy.GetComponent<CharacterBase>()?.TakeDamage(playerStats.BaseDamage);
+            enemy.GetComponent<CharacterBase>()?.TakeHit();
         }
     }
 

@@ -969,7 +969,7 @@ MonoBehaviour:
   - {fileID: 614645835}
   - {fileID: 943654243}
   spawnInterval: 3
-  maxEnemiesAlive: 10
+  maxEnemiesAlive: 3
   autoStart: 1
   isSpawning: 0
 --- !u!1 &1477912377
@@ -1251,9 +1251,10 @@ MonoBehaviour:
   currentHealth: 100
   energy: 50
   defense: 5
-  baseDamage: 10
+  baseDamage: 20
   moveSpeed: 5
   isStunned: 0
+  tookHit: 0
   gloria: 0
 --- !u!1001 &5441904729926929108
 PrefabInstance:
@@ -1269,7 +1270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1595936611271166302, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.96
+      value: 0.61
       objectReference: {fileID: 0}
     - target: {fileID: 1595936611271166302, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1310,6 +1311,14 @@ PrefabInstance:
     - target: {fileID: 5649645421668853736, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649645421668853736, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199823845628495346, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
+      propertyPath: enemyLayers.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6491506830920015962, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_Enabled

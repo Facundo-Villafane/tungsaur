@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Spawn Settings")]
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnInterval = 3f;
-    [SerializeField] private int maxEnemiesAlive = 10;
+    [SerializeField] private int maxEnemiesAlive = 3;
 
     [Header("Debug")]
     [SerializeField] private bool autoStart = true;

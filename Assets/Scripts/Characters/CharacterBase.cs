@@ -10,6 +10,7 @@ public class CharacterBase : MonoBehaviour
     [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private bool isStunned = false;
+    [SerializeField] private bool tookHit = false;
 
     // ----------- PROPIEDADES -----------
 
@@ -62,6 +63,12 @@ public class CharacterBase : MonoBehaviour
         get => isStunned;
         set => isStunned = value;
     }
+    public bool TookHit
+    {
+        get => tookHit;
+        set => tookHit = value;
+    }
+
     // ----------- MÉTODOS -----------
 
     protected virtual void Awake()
@@ -72,7 +79,7 @@ public class CharacterBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} murió");
-        // Podés desactivar, destruir, animar, etc.
+        
     }
 
     public virtual void TakeDamage(float damage)
@@ -82,5 +89,11 @@ public class CharacterBase : MonoBehaviour
         CurrentHealth -= finalDamage;
         Debug.Log($"{gameObject.name} recibió {finalDamage} de daño. Vida restante: {CurrentHealth}");
     }
+
+    public virtual void TakeHit()
+    {
+        Debug.Log($"{gameObject.name} fue golpeado");
+    }
+
 
 }
