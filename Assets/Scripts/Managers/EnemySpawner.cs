@@ -21,19 +21,24 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        }
+        else
+        {
+            Debug.LogWarning("EnemySpawner: GameManager.Instance es null en Start()");
+        }
+
         if (autoStart)
         {
             StartSpawning();
         }
     }
 
-    private void OnEnable()
-    {
-        GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
-    }
-
     private void OnDisable()
     {
+        // ✅ Siempre hay que desuscribirse para evitar errores si se destruye el spawner
         if (GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
@@ -93,7 +98,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (isSpawning)
         {
-            if (currentEnemiesAlive < maxEnemiesAlive && GameManager.Instance.IsPlaying())
+            if (currentEnemiesAlive < maxEnemiesAlive && GameManager.Instance != null && GameManager.Instance.IsPlaying())
             {
                 SpawnEnemy();
             }
@@ -111,7 +116,6 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
         currentEnemiesAlive++;
 
-        // Si el enemigo tiene un script que notifica al morir:
         EnemyController controller = enemy.GetComponent<EnemyController>();
         if (controller != null)
         {

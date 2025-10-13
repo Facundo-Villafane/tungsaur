@@ -1,86 +1,52 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerCombat))]
 public class Player_Attacks : MonoBehaviour
 {
     private PlayerController playerController;
     private Animator animator;
+    private PlayerCombat combat;
 
     void Start()
     {
         playerController = GetComponent<PlayerController>();
-        if (playerController == null)
-        {
-            return;
-        }
-
-        animator = playerController.Animator;
-
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        animator = playerController?.Animator ?? GetComponent<Animator>();
+        combat = GetComponent<PlayerCombat>();
     }
 
     public void HandleKickInput()
     {
-        if (playerController == null || animator == null)
-        {
-            return;
-        }
+        if (!CanAttack()) return;
 
         if (playerController.isGrounded && !playerController.isMoving)
-        {
             PerformKick();
-        }
         else if (!playerController.isGrounded)
-        {
             PerformJumpKick();
-        }
+
+        combat?.TryDealDamage();
     }
 
     public void HandlePunchInput()
     {
+        if (!CanAttack()) return;
+
         if (playerController.isGrounded && !playerController.isMoving)
-        {
             PerformUpPunch();
-        }
         else if (!playerController.isGrounded)
-        {
             PerformJumpPunch();
-        }
+
+        combat?.TryDealDamage();
     }
 
-    //------------------------------------- Ataques básicos --------------------------------------------//
-    private void PerformKick()
+    private bool CanAttack()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("Kick 0");
-        }
+        return playerController != null && animator != null;
     }
 
-    private void PerformJumpKick()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Jump Kick");
-        }
-    }
-
-    private void PerformUpPunch()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Up Punch");
-        }
-    }
-
-    private void PerformJumpPunch()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Jump Punch");
-        }
-    }
+    // --------------------- Animaciones --------------------- //
+    private void PerformKick() => animator?.SetTrigger("Kick 0");
+    private void PerformJumpKick() => animator?.SetTrigger("Jump Kick");
+    private void PerformUpPunch() => animator?.SetTrigger("Up Punch");
+    private void PerformJumpPunch() => animator?.SetTrigger("Jump Punch");
 }
