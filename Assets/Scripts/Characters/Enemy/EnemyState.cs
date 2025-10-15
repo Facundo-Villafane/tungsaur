@@ -7,8 +7,23 @@ public abstract class EnemyState
         this.enemy = enemy;
     }
 
-    public virtual void Enter() { }
-    public virtual void Update() { }
-    public virtual void FixedUpdate() {}
-    public virtual void Exit() { }
+    public virtual void Enter()
+    {
+        if (enemy.IsDead) return;
+    }
+
+    public virtual void Update()
+    {
+        if (enemy.IsDead) return;
+    }
+
+    public virtual void FixedUpdate()
+    {
+        if (enemy.IsDead) return;
+    }
+
+    public virtual void Exit()
+    {
+        if (enemy.IsDead) return;
+    }
 }

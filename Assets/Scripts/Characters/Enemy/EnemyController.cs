@@ -24,6 +24,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Animator animator;
     public Animator Animator => animator;
 
+    [Header("Patrulla")]
+    private Transform patrolZone; // Ahora siempre asignada por el spawner
+    public Transform[] patrolPoints; // Se llenará dinámicamente
+    public int currentPatrolIndex = 0;
+
     [Header("Rotation")]
     [SerializeField] private bool flipSprite = true;
     [SerializeField] private float rotationSpeed = 10f;
@@ -41,48 +46,49 @@ public class EnemyController : MonoBehaviour
     public float MoveSpeed => moveSpeed;
 
     public bool isDead = false;
+    public bool IsDead => isDead;
+
     private bool isFallen = false;
     private bool isFalling = false;
     private bool isBouncing = false;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
+    public Rigidbody Rb => rb;
     private Vector3 currentVelocity;
     private EnemyState currentState;
-
-    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
 
         if (animator == null)
-        {
             animator = GetComponent<Animator>();
-        }
 
-        // Estado inicial
-        ChangeState(new IdleState(this));
+        // No buscar patrolZone por defecto
+        if (patrolZone == null)
+        {
+            patrolPoints = new Transform[0];
+            Debug.Log("PatrolZone no asignada todavía. El spawner debe asignarla.");
+        }
     }
 
     private void Update()
     {
-        currentState?.Update();
         if (isDead) return;
+        currentState?.Update();
 
         if (isFalling)
         {
             animator.SetTrigger("Fall");
-            ApplyFallbackForceTwo();
+            ApplyFallbackForce();
             isFalling = false;
         }
-
     }
 
     private void FixedUpdate()
     {
-        currentState?.FixedUpdate();
-
         if (isDead) return;
+        currentState?.FixedUpdate();
 
         CheckGrounded();
 
@@ -94,9 +100,12 @@ public class EnemyController : MonoBehaviour
 
         HandleRotation();
         UpdateAnimator();
-
-        
     }
+    public void SetVelocity(Vector3 velocity)
+{
+    currentVelocity.x = velocity.x;
+    currentVelocity.z = velocity.z;
+}
 
     private void CheckGrounded()
     {
@@ -104,21 +113,25 @@ public class EnemyController : MonoBehaviour
         IsGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
     }
 
-    private void MoveWithPhysics()
+private void MoveWithPhysics()
+{
+    // Solo aplicar la interpolación si currentVelocity tiene magnitud
+    // Esto permite que los estados controlen el movimiento
+    if (currentVelocity.sqrMagnitude > 0.001f)
     {
-        Vector3 targetVelocity = Vector3.zero; // Por ahora no tiene input, se moverá por IA
-        currentVelocity = Vector3.Lerp(
-            currentVelocity,
-            targetVelocity,
-            (targetVelocity.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime
-        );
-
         currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
-
         rb.linearVelocity = new Vector3(currentVelocity.x, rb.linearVelocity.y, currentVelocity.z);
-
-        IsMoving = targetVelocity.magnitude > 0.1f;
+        IsMoving = currentVelocity.magnitude > 0.1f;
     }
+    else
+    {
+        // Si no hay velocidad objetivo, aplicar deceleración
+        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, deceleration * Time.fixedDeltaTime);
+        rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
+        IsMoving = horizontalVelocity.magnitude > 0.1f;
+    }
+}
 
     private void ApplyExtraGravity()
     {
@@ -159,9 +172,7 @@ public class EnemyController : MonoBehaviour
     public void TakeHit()
     {
         if (!isDead)
-        {
             animator?.SetTrigger("HitTook");
-        }
     }
 
     public void Die()
@@ -173,6 +184,11 @@ public class EnemyController : MonoBehaviour
 
         animator?.SetTrigger("Fall");
         StartCoroutine(DestroyAfterDelay(5f));
+    }
+
+    public void SetHorizontalVelocity(float x)
+    {
+        currentVelocity.x = x;
     }
 
     private IEnumerator DestroyAfterDelay(float delay)
@@ -188,16 +204,13 @@ public class EnemyController : MonoBehaviour
         currentState?.Enter();
     }
 
-    // Rebote contra paredes o golpes
-    public void ApplyFallbackForceTwo()
+    public void ApplyFallbackForce()
     {
         if (rb != null)
-        {
-            StartCoroutine(SmoothFallbackTwo());
-        }
+            StartCoroutine(SmoothFallback());
     }
 
-    private IEnumerator SmoothFallbackTwo()
+    private IEnumerator SmoothFallback()
     {
         isBouncing = true;
         float direction = transform.localScale.x > 0 ? -1f : 1f;
@@ -225,4 +238,56 @@ public class EnemyController : MonoBehaviour
 
         isBouncing = false;
     }
+
+    // =========================
+    // Método clave: siempre llamado por el spawner
+    // =========================
+public void SetPatrolZone(Transform zone)
+{
+    patrolZone = zone;
+
+    if (patrolZone == null)
+    {
+        Debug.LogWarning($"[{gameObject.name}] PatrolZone es null");
+        patrolPoints = new Transform[0];
+        return;
+    }
+
+    if (patrolZone.childCount == 0)
+    {
+        Debug.LogWarning($"[{gameObject.name}] PatrolZone '{patrolZone.name}' no tiene hijos (patrol points)");
+        patrolPoints = new Transform[0];
+        return;
+    }
+
+    // Filtrar solo los hijos que no son null y están activos
+    System.Collections.Generic.List<Transform> validPoints = new System.Collections.Generic.List<Transform>();
+    
+    for (int i = 0; i < patrolZone.childCount; i++)
+    {
+        Transform child = patrolZone.GetChild(i);
+        if (child != null)
+        {
+            validPoints.Add(child);
+            Debug.Log($"[{gameObject.name}] Point {i}: {child.name} en posición {child.position}");
+        }
+        else
+        {
+            Debug.LogWarning($"[{gameObject.name}] Hijo {i} de PatrolZone es null");
+        }
+    }
+
+    if (validPoints.Count == 0)
+    {
+        Debug.LogError($"[{gameObject.name}] No hay patrol points válidos en '{patrolZone.name}'");
+        patrolPoints = new Transform[0];
+        return;
+    }
+
+    patrolPoints = validPoints.ToArray();
+    currentPatrolIndex = 0;
+    
+    Debug.Log($"[{gameObject.name}] Patrol points asignados: {patrolPoints.Length}");
+    ChangeState(new PatrolState(this, patrolPoints));
+}
 }

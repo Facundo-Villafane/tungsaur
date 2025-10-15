@@ -12,6 +12,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 3f;
     [SerializeField] private int maxEnemiesAlive = 3;
 
+    [Header("Patrol Zone")]
+    [SerializeField] private PatrolZone patrolZone; 
+
     [Header("Debug")]
     [SerializeField] private bool autoStart = true;
     [SerializeField] private bool isSpawning = false;
@@ -38,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        // ✅ Siempre hay que desuscribirse para evitar errores si se destruye el spawner
         if (GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
@@ -120,6 +122,12 @@ public class EnemySpawner : MonoBehaviour
         if (controller != null)
         {
             controller.OnEnemyDeath += EnemyDied;
+
+            // Asignar la PatrolZone al enemigo
+            if (patrolZone != null)
+            {
+                controller.SetPatrolZone(patrolZone.transform);
+            }
         }
     }
 

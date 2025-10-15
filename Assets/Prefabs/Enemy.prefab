@@ -250,9 +250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec8276d30d88d42b3d5f84ab2ccbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 3
   acceleration: 10
-  deceleration: 10
+  deceleration: 5
   maxSpeed: 3
   usePhysics: 1
   fallMultiplier: 2.5
@@ -261,11 +261,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   animator: {fileID: 797988970933956536}
+  patrolPoints: []
+  currentPatrolIndex: 0
   flipSprite: 1
   rotationSpeed: 10
-  detectionRadius: 8
+  detectionRadius: 2
   attackRange: 1.5
   fallbackForce: 1
+  isDead: 0
+  rb: {fileID: 0}
 --- !u!114 &7254867152147967348
 MonoBehaviour:
   m_ObjectHideFlags: 0

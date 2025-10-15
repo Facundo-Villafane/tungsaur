@@ -14,7 +14,7 @@ public class ChaseState : EnemyState
             player = playerObj.transform;
         }
 
-        if (enemy.Animator != null )
+        if (enemy.Animator != null)
         {
             enemy.Animator.SetFloat("xVelocity", 0.5f);
         }
@@ -28,6 +28,7 @@ public class ChaseState : EnemyState
             return;
         }
 
+        // Calcular distancia en 3D
         float distance = Vector3.Distance(enemy.transform.position, player.position);
 
         // Si el jugador se aleja demasiado, volver a Idle
@@ -37,18 +38,27 @@ public class ChaseState : EnemyState
             return;
         }
 
-        // Si está en rango de ataque, después podemos cambiar a un AttackState
+        // Si está en rango de ataque, cambiar a AttackState
         if (distance <= enemy.AttackRange)
         {
-            // TODO: Cambiar a estado de ataque
+            enemy.ChangeState(new AttackState(enemy, player));
             return;
         }
 
-        // Movimiento hacia el jugador
-        Vector3 direction = (player.position - enemy.transform.position).normalized;
-        Vector3 move = direction * enemy.MoveSpeed * Time.deltaTime;
+        // Movimiento hacia el jugador en el plano horizontal (X, Z)
+        Vector3 targetPosition = player.position;
+        Vector3 currentPosition = enemy.transform.position;
+        
+        // Calcular dirección solo en el plano horizontal (ignorando Y)
+        Vector3 direction = new Vector3(
+            targetPosition.x - currentPosition.x,
+            0,
+            targetPosition.z - currentPosition.z
+        ).normalized;
 
-        enemy.transform.position += new Vector3(move.x, 0f, move.z);
+        // Aplicar velocidad en ambos ejes (X y Z)
+        Vector3 targetVelocity = direction * enemy.MoveSpeed;
+        enemy.SetVelocity(targetVelocity);
     }
 
     public override void Exit()
@@ -57,5 +67,8 @@ public class ChaseState : EnemyState
         {
             enemy.Animator.SetFloat("xVelocity", 0f);
         }
+        
+        // Detener movimiento al salir
+        enemy.SetVelocity(Vector3.zero);
     }
 }
