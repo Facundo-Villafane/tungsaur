@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 709659456228071990}
   - component: {fileID: -5012431544752536620}
   - component: {fileID: 7254867152147967348}
-  - component: {fileID: 6199823845628495346}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -263,6 +262,7 @@ MonoBehaviour:
   animator: {fileID: 797988970933956536}
   patrolPoints: []
   currentPatrolIndex: 0
+  AssignedSlot: -1
   flipSprite: 1
   rotationSpeed: 10
   detectionRadius: 2
@@ -291,19 +291,3 @@ MonoBehaviour:
   isStunned: 0
   tookHit: 0
   gloria: 0
---- !u!114 &6199823845628495346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5649645421668853736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37457110361d40548b44888a53275f25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 1.5
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 0

@@ -25,9 +25,10 @@ public class EnemyController : MonoBehaviour
     public Animator Animator => animator;
 
     [Header("Patrulla")]
-    private Transform patrolZone; // Ahora siempre asignada por el spawner
+    // private Transform patrolZone; // Ahora siempre asignada por el spawner
     public Transform[] patrolPoints; // Se llenará dinámicamente
     public int currentPatrolIndex = 0;
+    [HideInInspector] public int AssignedSlot = -1; // patrullaje inteligente
 
     [Header("Rotation")]
     [SerializeField] private bool flipSprite = true;
@@ -35,7 +36,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("AI Settings")]
     [SerializeField] private float detectionRadius = 8f;
-    [SerializeField] private float attackRange = 1.5f;
+    [SerializeField] private float attackRange = 2f;
 
     [Header("Fallback Settings")]
     [SerializeField] private float fallbackForce = 1f;
@@ -64,12 +65,14 @@ public class EnemyController : MonoBehaviour
         if (animator == null)
             animator = GetComponent<Animator>();
 
-        // No buscar patrolZone por defecto
-        if (patrolZone == null)
-        {
-            patrolPoints = new Transform[0];
-            Debug.Log("PatrolZone no asignada todavía. El spawner debe asignarla.");
-        }
+        
+        // if (patrolZone == null)
+        // {
+        //     patrolPoints = new Transform[0];
+        //     Debug.Log("PatrolZone no asignada todavía. El spawner debe asignarla.");
+        // }
+
+    ChangeState(new CirclePatrolState(this));
     }
 
     private void Update()
@@ -141,24 +144,27 @@ private void MoveWithPhysics()
         }
     }
 
-    private void HandleRotation()
+   public void HandleRotation()
+{
+    if (SlotManager.Instance == null || SlotManager.Instance.Player== null) return;
+
+    Vector3 playerPos = SlotManager.Instance.Player.position;
+    Vector3 direction = playerPos - transform.position;
+
+    if (flipSprite)
     {
-        if (currentVelocity.x != 0)
-        {
-            if (flipSprite)
-            {
-                Vector3 localScale = transform.localScale;
-                localScale.x = currentVelocity.x < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-                transform.localScale = localScale;
-            }
-            else
-            {
-                float targetAngle = currentVelocity.x > 0 ? 180f : 0f;
-                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
-        }
+        Vector3 localScale = transform.localScale;
+        localScale.x = direction.x < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+        transform.localScale = localScale;
     }
+    else
+    {
+        float targetAngle = direction.x > 0 ? 180f : 0f;
+        Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+    }
+}
+
 
     private void UpdateAnimator()
     {
@@ -169,11 +175,14 @@ private void MoveWithPhysics()
         }
     }
 
-    public void TakeHit()
+ public void TakeHit()
+{
+    if (!isDead)
     {
-        if (!isDead)
-            animator?.SetTrigger("HitTook");
+        ChangeState(new HitState(this));
     }
+}
+
 
     public void Die()
     {
@@ -239,55 +248,48 @@ private void MoveWithPhysics()
         isBouncing = false;
     }
 
+
+
     // =========================
     // Método clave: siempre llamado por el spawner
     // =========================
-public void SetPatrolZone(Transform zone)
-{
-    patrolZone = zone;
+// public void SetPatrolZone(Transform zone)
+// {
+//     patrolZone = zone;
 
-    if (patrolZone == null)
-    {
-        Debug.LogWarning($"[{gameObject.name}] PatrolZone es null");
-        patrolPoints = new Transform[0];
-        return;
-    }
+//     if (patrolZone == null)
+//     {
+//         patrolPoints = new Transform[0];
+//         return;
+//     }
 
-    if (patrolZone.childCount == 0)
-    {
-        Debug.LogWarning($"[{gameObject.name}] PatrolZone '{patrolZone.name}' no tiene hijos (patrol points)");
-        patrolPoints = new Transform[0];
-        return;
-    }
+//     if (patrolZone.childCount == 0)
+//     {
+//         patrolPoints = new Transform[0];
+//         return;
+//     }
 
-    // Filtrar solo los hijos que no son null y están activos
-    System.Collections.Generic.List<Transform> validPoints = new System.Collections.Generic.List<Transform>();
+//     // Filtrar solo los hijos que no son null y están activos
+//     System.Collections.Generic.List<Transform> validPoints = new System.Collections.Generic.List<Transform>();
     
-    for (int i = 0; i < patrolZone.childCount; i++)
-    {
-        Transform child = patrolZone.GetChild(i);
-        if (child != null)
-        {
-            validPoints.Add(child);
-            Debug.Log($"[{gameObject.name}] Point {i}: {child.name} en posición {child.position}");
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] Hijo {i} de PatrolZone es null");
-        }
-    }
+//     for (int i = 0; i < patrolZone.childCount; i++)
+//     {
+//         Transform child = patrolZone.GetChild(i);
+//         if (child != null)
+//         {
+//             validPoints.Add(child);
+//         }
 
-    if (validPoints.Count == 0)
-    {
-        Debug.LogError($"[{gameObject.name}] No hay patrol points válidos en '{patrolZone.name}'");
-        patrolPoints = new Transform[0];
-        return;
-    }
+//     }
 
-    patrolPoints = validPoints.ToArray();
-    currentPatrolIndex = 0;
-    
-    Debug.Log($"[{gameObject.name}] Patrol points asignados: {patrolPoints.Length}");
-    ChangeState(new PatrolState(this, patrolPoints));
-}
+//     if (validPoints.Count == 0)
+//     {
+//         patrolPoints = new Transform[0];
+//         return;
+//     }
+
+//     patrolPoints = validPoints.ToArray();
+//     currentPatrolIndex = 0;
+//     // ChangeState(new PatrolState(this, patrolPoints));
+// }
 }

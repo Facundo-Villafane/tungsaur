@@ -6,19 +6,42 @@ public class AttackState : EnemyState
     private float attackCooldown = 1.5f;
     private float timer;
 
+    [Header("Decision Settings")]
+    private float approachDistance = 4f; // distancia desde la que puede decidir acercarse
+    private float approachChance = 0.3f;  // 30% de chance de acercarse
+    private float moveSpeed;
+
     public AttackState(EnemyController enemy, Transform target) : base(enemy)
     {
         this.target = target;
+        moveSpeed = enemy.MoveSpeed;
     }
-
+    
     public override void Enter()
     {
+       
+     // Dentro de AttackState.cs
+    if (timer <= 0f)
+    {
+        // Animación de ataque
         if (enemy.Animator != null)
             enemy.Animator.SetTrigger("Up Punch");
-
+    
+        // Detectar colisión / proximidad con el jugador
+        if (Vector3.Distance(enemy.transform.position, target.position) <= enemy.AttackRange)
+        {
+            // Aquí cambiamos el estado del jugador a PlayerHitState
+            PlayerController player = SlotManager.Instance.Player.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.ChangeState(new PlayerHitState(player));
+            }
+        }
+    
         timer = attackCooldown;
     }
 
+    }
 public override void Update()
 {
     if (target == null)
@@ -29,20 +52,50 @@ public override void Update()
 
     float distance = Vector3.Distance(enemy.transform.position, target.position);
 
-    // Si el jugador se sale del rango, volver a perseguir
+    // Si el jugador está fuera del rango de ataque
     if (distance > enemy.AttackRange)
     {
-        enemy.ChangeState(new ChaseState(enemy));
-        return;
-    }
+        // Decidir aleatoriamente si acercarse
+        if (distance <= approachDistance && Random.value < approachChance * Time.deltaTime * 5f) 
+        {
+            // Moverse hacia el jugador
+            Vector3 direction = (target.position - enemy.transform.position).normalized;
+            direction.y = 0; // ignorar eje Y
+            enemy.SetVelocity(direction * moveSpeed);
 
-    // Ataque por cooldown
-    timer -= Time.deltaTime;
-    if (timer <= 0f)
+            // Rotar hacia el jugador mientras se acerca
+            enemy.HandleRotation();
+        }
+        else
+        {
+            // Si no decide acercarse, se queda patrullando / esperando
+            enemy.SetVelocity(Vector3.zero);
+            return;
+        }
+    }
+    else
     {
-        if (enemy.Animator != null)
-            enemy.Animator.SetTrigger("Up Punch"); // Repetir ataque
-        timer = attackCooldown;
+        // Está en rango -> atacar
+        enemy.SetVelocity(Vector3.zero);
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
+        {
+            // Animación de ataque
+            if (enemy.Animator != null)
+                enemy.Animator.SetTrigger("Up Punch");
+
+            // Aplicar daño al jugador
+            PlayerController player = SlotManager.Instance.Player.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.ChangeState(new PlayerHitState(player));
+            }
+
+            timer = attackCooldown;
+        }
+
+        // Rotar hacia el jugador mientras ataca
+        enemy.HandleRotation();
     }
 }
 

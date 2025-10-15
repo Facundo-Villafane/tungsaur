@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+// ----------------------  ELIMINABLE CREO -------------------------------------------------
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy Prefabs")]
@@ -124,10 +124,10 @@ public class EnemySpawner : MonoBehaviour
             controller.OnEnemyDeath += EnemyDied;
 
             // Asignar la PatrolZone al enemigo
-            if (patrolZone != null)
-            {
-                controller.SetPatrolZone(patrolZone.transform);
-            }
+            // if (patrolZone != null)
+            // {
+            //     controller.SetPatrolZone(patrolZone.transform);
+            // }
         }
     }
 

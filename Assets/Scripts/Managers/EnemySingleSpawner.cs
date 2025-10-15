@@ -103,10 +103,10 @@ private IEnumerator Start()
         {
             controller.OnEnemyDeath += EnemyDied;
 
-            if (patrolZone != null)
-            {
-                controller.SetPatrolZone(patrolZone.transform);
-            }
+            // if (patrolZone != null)
+            // {
+            //     controller.SetPatrolZone(patrolZone.transform);
+            // }
 
         }
     }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] public float moveSpeed = 10f;
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 8f;
@@ -41,12 +41,15 @@ public class PlayerController : MonoBehaviour
     private bool isFalling = false;
     private bool isBouncing = false;
     private bool isRunning = false;
+    private bool isDead = false;
+
+    public bool IsDead => isDead;
 
     private Rigidbody rb;
     private Vector3 currentVelocity;
     private Vector3 inputVector;
     private Player_Attacks attackController;
-
+    private PlayerState currentState;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -164,7 +167,12 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
     }
-
+    public void ChangeState(PlayerState newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState?.Enter();
+    }
     private void MoveWithPhysics()
     {
         // Convertir input 2D a movimiento 3D (X, Y, Z)

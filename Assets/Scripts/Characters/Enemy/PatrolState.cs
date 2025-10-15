@@ -42,7 +42,7 @@ public class PatrolState : EnemyState
         // Si el jugador está dentro del radio de detección, cambiar a Chase
         if (player != null && Vector3.Distance(enemy.transform.position, player.position) <= enemy.DetectionRadius)
         {
-            enemy.ChangeState(new ChaseState(enemy));
+            // enemy.ChangeState(new ChaseState(enemy));
             return;
         }
 
