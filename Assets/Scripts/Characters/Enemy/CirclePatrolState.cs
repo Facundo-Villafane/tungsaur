@@ -32,11 +32,13 @@ public class CirclePatrolState : EnemyState
             player = GameObject.FindWithTag("Player")?.transform;
 
         // --- NUEVO: cambio inmediato a AttackState si el jugador está dentro de AttackRange ---
-        if (player != null)
+        if (player != null )
         {
+            PlayerController playerController = player.GetComponent<PlayerController>();
             float distToPlayer = Vector3.Distance(enemy.transform.position, player.position);
-            if (distToPlayer <= enemy.AttackRange)
+            if (distToPlayer <= enemy.AttackRange && !playerController.IsDead)
             {
+                Debug.Log("asd");
                 // Cambiamos a AttackState (salimos inmediatamente de patrulla)
                 enemy.ChangeState(new AttackState(enemy, player));
                 return;

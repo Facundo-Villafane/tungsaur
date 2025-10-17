@@ -30,7 +30,7 @@ public class WaitAroundPlayerState : EnemyState
 
         if (player == null)
         {
-            Debug.Log("Ataca");
+            
             enemy.ChangeState(new CirclePatrolState(enemy));
             return;
         }
@@ -43,7 +43,6 @@ public class WaitAroundPlayerState : EnemyState
         // Si el jugador se aleja del radio de detección, vuelve a patrullar
         if (distance > enemy.DetectionRadius)
         {
-            Debug.Log("Ataca");
             enemy.ChangeState(new CirclePatrolState(enemy));
             return;
         }
@@ -54,7 +53,7 @@ public class WaitAroundPlayerState : EnemyState
         // Chance aleatoria de atacar durante la espera
         if (timer >= waitTime * 0.5f) // solo después de la mitad del tiempo
         {
-            Debug.Log("Ataca");
+            
             if (Random.value < randomAttackChance)
             {
                 enemy.ChangeState(new AttackState(enemy, player));

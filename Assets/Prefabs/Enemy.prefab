@@ -68,7 +68,6 @@ GameObject:
   - component: {fileID: 5877982584347287777}
   - component: {fileID: 709659456228071990}
   - component: {fileID: -5012431544752536620}
-  - component: {fileID: 7254867152147967348}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -232,11 +231,13 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   energy: 50
-  defense: 5
-  baseDamage: 10
+  defense: 10
+  baseDamage: 20
   moveSpeed: 1
   isStunned: 0
   tookHit: 0
+  isDead: 0
+  animator: {fileID: 0}
 --- !u!114 &-5012431544752536620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,24 +271,3 @@ MonoBehaviour:
   fallbackForce: 1
   isDead: 0
   rb: {fileID: 0}
---- !u!114 &7254867152147967348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5649645421668853736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb8621e4ee6a32c48901d63b958194c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  energy: 50
-  defense: 5
-  baseDamage: 10
-  moveSpeed: 5
-  isStunned: 0
-  tookHit: 0
-  gloria: 0

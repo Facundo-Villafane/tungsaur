@@ -10,7 +10,7 @@ public class AttackState : EnemyState
     private float approachDistance = 4f; // distancia desde la que puede decidir acercarse
     private float approachChance = 0.3f;  // 30% de chance de acercarse
     private float moveSpeed;
-
+    PlayerController player = SlotManager.Instance.Player.GetComponent<PlayerController>();
     public AttackState(EnemyController enemy, Transform target) : base(enemy)
     {
         this.target = target;
@@ -19,10 +19,12 @@ public class AttackState : EnemyState
     
     public override void Enter()
     {
-       
+      
+  
+    
      // Dentro de AttackState.cs
-    if (timer <= 0f)
-    {
+    if (timer <= 0f )
+       
         // Animación de ataque
         if (enemy.Animator != null)
             enemy.Animator.SetTrigger("Up Punch");
@@ -31,19 +33,20 @@ public class AttackState : EnemyState
         if (Vector3.Distance(enemy.transform.position, target.position) <= enemy.AttackRange)
         {
             // Aquí cambiamos el estado del jugador a PlayerHitState
-            PlayerController player = SlotManager.Instance.Player.GetComponent<PlayerController>();
-            if (player != null)
+            
+            if (player != null && player.CurrentHealth > 0f)
             {
-                player.ChangeState(new PlayerHitState(player));
+                player.ChangeState(new PlayerHitState(player, 30f));
             }
         }
     
         timer = attackCooldown;
-    }
+    
 
     }
 public override void Update()
-{
+    {
+    if (player.CurrentHealth <= 0f) return;
     if (target == null)
     {
         enemy.ChangeState(new IdleState(enemy));
@@ -88,7 +91,7 @@ public override void Update()
             PlayerController player = SlotManager.Instance.Player.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.ChangeState(new PlayerHitState(player));
+                player.ChangeState(new PlayerHitState(player, 10f));
             }
 
             timer = attackCooldown;

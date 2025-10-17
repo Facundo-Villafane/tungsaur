@@ -2,32 +2,39 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerState
 {
-    private float duration = 0.5f; // duración del golpe
-    private float timer = 0f;
+    private float damage;
+    private float duration;
+    private float timer;
+    private PlayerController playerStats;
 
-    public PlayerHitState(PlayerController player, float duration = 0.5f) : base(player)
+    public PlayerHitState(PlayerController player, float damage, float duration = 0.5f) : base(player)
     {
+        this.damage = damage;
         this.duration = duration;
     }
 
     public override void Enter()
     {
         timer = 0f;
-        player.moveSpeed = 0;
+
         if (player.Animator != null)
-        {
             player.Animator.SetTrigger("HitTook");
+
+        playerStats = player.GetComponent<PlayerController>();
+        if (playerStats != null)
+        {
+            playerStats.TakeDamage(damage);
+            Debug.Log(playerStats.CurrentHealth);
         }
     }
 
     public override void Update()
     {
-
-
-    }
-
-    public override void Exit()
-    {
-        // nada que limpiar por ahora
+        timer += Time.deltaTime;
+        if (timer >= duration)
+        {
+            // Volver al estado idle después del golpe
+            player.ChangeState(new PlayerIdleState(player));
+        }
     }
 }

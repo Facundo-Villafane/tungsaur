@@ -1103,7 +1103,6 @@ GameObject:
   - component: {fileID: 1324034943}
   - component: {fileID: 1324034942}
   - component: {fileID: 1324034944}
-  - component: {fileID: 1324034945}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1159,28 +1158,6 @@ MonoBehaviour:
   currentLevel: 1
   currentStage: 1
   currentStageState: 0
---- !u!114 &1324034945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324034941}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64762f5592895ce49918f2748009c5a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
-  spawnPoints:
-  - {fileID: 614645835}
-  - {fileID: 0}
-  spawnInterval: 3
-  maxEnemiesAlive: 3
-  patrolZone: {fileID: 0}
-  autoStart: 1
-  isSpawning: 0
 --- !u!1 &1477912377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,11 +1291,6 @@ Transform:
   - {fileID: 1314670596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1755315506 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5649645421668853736, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
-  m_PrefabInstance: {fileID: 5441904729926929108}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1947613891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,27 +1509,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 797988970933956536, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
   m_PrefabInstance: {fileID: 5441904729926929108}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2123830699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755315506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb8621e4ee6a32c48901d63b958194c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  energy: 50
-  defense: 5
-  baseDamage: 20
-  moveSpeed: 5
-  isStunned: 0
-  tookHit: 0
-  gloria: 0
 --- !u!1001 &5441904729926929108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1634,13 +1585,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
+      propertyPath: currentHealth
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5649645421668853736, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 2123830699}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

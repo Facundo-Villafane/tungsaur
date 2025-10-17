@@ -184,16 +184,7 @@ private void MoveWithPhysics()
 }
 
 
-    public void Die()
-    {
-        if (isDead) return;
 
-        OnEnemyDeath?.Invoke();
-        isDead = true;
-
-        animator?.SetTrigger("Fall");
-        StartCoroutine(DestroyAfterDelay(5f));
-    }
 
     public void SetHorizontalVelocity(float x)
     {

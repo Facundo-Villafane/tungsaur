@@ -7,7 +7,6 @@ using UnityEngine;
 public class EnemyStats : CharacterBase
 {
     private EnemyController enemyController ;
-    private Animator animator;
 
     void Start()
     {
@@ -15,12 +14,7 @@ public class EnemyStats : CharacterBase
         animator = enemyController?.Animator ?? GetComponent<Animator>();
 
     }
-    protected override void Die()
-    {
-        base.Die();
-        Debug.Log("Enemy murió.");
-        enemyController.Die();
-    }
+
     
     public override void TakeHit()
     {

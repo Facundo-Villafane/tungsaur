@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// Stats específicos del Player: solo "gloria".
-/// Hereda todos los demás stats de CharacterBase.
+/// Stats específicos del Player: gloria, experiencia, etc.
+/// NO hereda de CharacterBase, para evitar duplicación.
 /// </summary>
-public class PlayerStats : CharacterBase
+public class PlayerStats : MonoBehaviour
 {
     [Header("Propiedades del Player")]
     [SerializeField] private int gloria = 0;
@@ -12,7 +12,7 @@ public class PlayerStats : CharacterBase
     public int Gloria
     {
         get => gloria;
-        set => gloria = Mathf.Max(0, value); // nunca negativa
+        set => gloria = Mathf.Max(0, value);
     }
 
     public void AddGloria(int amount)
@@ -23,11 +23,5 @@ public class PlayerStats : CharacterBase
     public void RemoveGloria(int amount)
     {
         Gloria -= Mathf.Max(0, amount);
-    }
-
-    protected override void Die()
-    {
-        base.Die();
-        Debug.Log("Player murió. Mostrar pantalla de Game Over o reinicio.");
     }
 }
