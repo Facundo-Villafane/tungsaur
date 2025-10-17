@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CharacterBase : MonoBehaviour
 {
@@ -7,9 +8,14 @@ public class CharacterBase : MonoBehaviour
     [SerializeField] private float currentHealth = 100f;
     [SerializeField] private float energy = 50f;
     [SerializeField] private float defense = 5f;
-    [SerializeField] private float baseDamage = 10f;
+    [SerializeField] private float baseDamage = 30f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private bool isStunned = false;
+    [SerializeField] private bool tookHit = false;
+    [SerializeField] private bool isDead = false;
+
+    [Header("Componentes")]
+    [SerializeField] protected Animator animator;
 
     // ----------- PROPIEDADES -----------
 
@@ -18,7 +24,7 @@ public class CharacterBase : MonoBehaviour
         get => maxHealth;
         set
         {
-            maxHealth = Mathf.Max(1, value); // nunca menos de 1
+            maxHealth = Mathf.Max(1, value);
             currentHealth = Mathf.Min(currentHealth, maxHealth);
         }
     }
@@ -29,7 +35,11 @@ public class CharacterBase : MonoBehaviour
         set
         {
             currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-            if (currentHealth <= 0) Die();
+            if (currentHealth <= 0 && !IsDead)
+            {
+                Debug.Log("murio");
+                Die();
+            }
         }
     }
 
@@ -62,25 +72,52 @@ public class CharacterBase : MonoBehaviour
         get => isStunned;
         set => isStunned = value;
     }
+
+    public bool TookHit
+    {
+        get => tookHit;
+        set => tookHit = value;
+    }
+
+    public bool IsDead
+    {
+        get => isDead;
+        set => isDead = value;
+    }
+
     // ----------- MÉTODOS -----------
 
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
+        if (animator == null) animator = GetComponent<Animator>();
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
+        if (IsDead) return;
+
+        IsDead = true;
         Debug.Log($"{gameObject.name} murió");
-        // Podés desactivar, destruir, animar, etc.
+        
+        StartCoroutine(DestroyAfterDelay(5f));
     }
 
     public virtual void TakeDamage(float damage)
     {
-        // Reducción por defensa
         float finalDamage = Mathf.Max(0, damage - Defense);
         CurrentHealth -= finalDamage;
         Debug.Log($"{gameObject.name} recibió {finalDamage} de daño. Vida restante: {CurrentHealth}");
     }
 
+    public virtual void TakeHit()
+    {
+        Debug.Log($"{gameObject.name} fue golpeado");
+    }
+
+    public virtual IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+    }
 }
