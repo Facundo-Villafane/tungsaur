@@ -34,7 +34,24 @@ public class EnemySingleSpawner : MonoBehaviour
     private IEnumerator Start()
     {
         Debug.Log($"[Spawner: {name}] Start → esperando StageManager...");
-        yield return new WaitUntil(() => StageManager.Instance != null);
+
+        // Timeout de 10 segundos para evitar loops infinitos
+        float timeout = 10f;
+        float elapsed = 0f;
+
+        while (StageManager.Instance == null && elapsed < timeout)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+
+        if (StageManager.Instance == null)
+        {
+            Debug.LogError($"[Spawner: {name}] StageManager no se encontró después de {timeout} segundos. Deshabilitando spawner.");
+            enabled = false;
+            yield break;
+        }
+
         Debug.Log($"[Spawner: {name}] StageManager encontrado.");
 
         if (stageZone != null)
@@ -105,26 +122,35 @@ public class EnemySingleSpawner : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
-        while (isSpawning)
+        int loopCount = 0;
+        int maxLoops = 1000; // Seguridad contra loops infinitos
+
+        while (isSpawning && loopCount < maxLoops)
         {
+            loopCount++;
+
+            // Pausa si el juego no está en estado Playing
             if (GameManager.Instance != null && !GameManager.Instance.IsPlaying())
             {
                 yield return null;
                 continue;
             }
 
+            // Calcular cuántos enemigos se pueden spawnear ahora
             int canSpawnNow = Mathf.Min(
                 maxEnemiesAlive - currentEnemiesAlive,
                 totalEnemiesToSpawn - enemiesSpawned
             );
 
-            Debug.Log($"[Spawner: {name}] Intentando spawn {canSpawnNow} enemigos (Spawned={enemiesSpawned}, Alive={currentEnemiesAlive})");
+            Debug.Log($"[Spawner: {name}] Loop #{loopCount} - Intentando spawn {canSpawnNow} enemigos (Spawned={enemiesSpawned}/{totalEnemiesToSpawn}, Alive={currentEnemiesAlive}/{maxEnemiesAlive})");
 
+            // Spawnear los enemigos necesarios
             for (int i = 0; i < canSpawnNow; i++)
             {
                 SpawnEnemy();
             }
 
+            // Condición de salida: todos los enemigos spawneados y ninguno vivo
             if (enemiesSpawned >= totalEnemiesToSpawn && currentEnemiesAlive <= 0)
             {
                 Debug.Log($"[Spawner: {name}] Todos los enemigos generados y ninguno vivo. Terminando SpawnLoop.");
@@ -134,7 +160,17 @@ public class EnemySingleSpawner : MonoBehaviour
                 yield break;
             }
 
+            // Esperar el intervalo antes del próximo ciclo
             yield return new WaitForSeconds(spawnInterval);
+        }
+
+        // Advertencia si se alcanzó el límite de loops
+        if (loopCount >= maxLoops)
+        {
+            Debug.LogError($"[Spawner: {name}] SpawnLoop alcanzó el límite de {maxLoops} iteraciones. Deteniendo para evitar freeze.");
+            isSpawning = false;
+            StopSpawning();
+            enabled = false;
         }
     }
 
@@ -161,15 +197,25 @@ public class EnemySingleSpawner : MonoBehaviour
         EnemyController controller = enemy.GetComponent<EnemyController>();
         if (controller != null)
         {
-            controller.OnEnemyDeath += () =>
+            // Usar una referencia local para evitar problemas de closure
+            var spawner = this;
+
+            // Handler para el evento de muerte
+            System.Action deathHandler = null;
+            deathHandler = () =>
             {
+                // Desuscribirse del evento para evitar memory leaks
+                if (controller != null)
+                {
+                    controller.OnEnemyDeath -= deathHandler;
+                }
+
                 currentEnemiesAlive = Mathf.Max(0, currentEnemiesAlive - 1);
                 Debug.Log($"[Spawner: {name}] Enemigo murió. Enemigos vivos: {currentEnemiesAlive}");
                 onEnemyDefeatedCallback?.Invoke();
-
-                // El SpawnLoop ya maneja el respawn automáticamente,
-                // no es necesario crear coroutines adicionales aquí
             };
+
+            controller.OnEnemyDeath += deathHandler;
 
             // Configurar zona de patrullaje si existe
             // if (patrolZone != null)
