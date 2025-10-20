@@ -7,7 +7,7 @@ using System.Collections;
 public class PlayerController : CharacterBase
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 10f;
+
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 8f;
@@ -98,7 +98,7 @@ public class PlayerController : CharacterBase
     // ------------------- MOVIMIENTO -------------------
     public void MoveWithPhysics()
     {
-        float currentMoveSpeed = IsRunning ? moveSpeed * 2f : moveSpeed;
+        float currentMoveSpeed = IsRunning ? MoveSpeed * 2f : MoveSpeed;
         float currentMaxSpeed = IsRunning ? maxSpeed * 2f : maxSpeed;
 
         Vector3 inputDir = new Vector3(InputVector.x, 0f, InputVector.z);

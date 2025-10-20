@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : CharacterBase
 {
     public event Action OnEnemyDeath;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 1f;
+
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 5f;
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Animation")]
-    [SerializeField] private Animator animator;
+
     public Animator Animator => animator;
 
     [Header("Patrulla")]
@@ -44,12 +44,8 @@ public class EnemyController : MonoBehaviour
     public bool IsGrounded { get; private set; } = true;
     public bool IsMoving { get; private set; }
     public float DetectionRadius => detectionRadius;
-    public float MoveSpeed => moveSpeed;
 
-    public bool isDead = false;
-    public bool IsDead => isDead;
 
-    private bool isFallen = false;
     private bool isFalling = false;
     private bool isBouncing = false;
 
@@ -77,7 +73,13 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (isDead) return;
+
+        if (IsDead && !(currentState is EnemyDeadState))
+        {
+            Debug.Log("Cambiando a estado Dead del enemy");
+            ChangeState(new EnemyDeadState(this));
+            return;
+        }
         currentState?.Update();
 
         if (isFalling)
@@ -86,11 +88,12 @@ public class EnemyController : MonoBehaviour
             ApplyFallbackForce();
             isFalling = false;
         }
+
     }
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        if (IsDead) return;
         currentState?.FixedUpdate();
 
         CheckGrounded();
@@ -175,26 +178,25 @@ private void MoveWithPhysics()
         }
     }
 
- public void TakeHit()
-{
-    if (!isDead)
+    public override void TakeHit()
     {
-        ChangeState(new HitState(this));
+        if (!IsDead)
+        {
+            ChangeState(new HitState(this));
+        }
     }
-}
 
-
+    public override void Die()
+    {
+        if (IsDead) return;
+        base.Die(); 
+        OnEnemyDeath?.Invoke();
+    }
 
 
     public void SetHorizontalVelocity(float x)
     {
         currentVelocity.x = x;
-    }
-
-    private IEnumerator DestroyAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
     }
 
     public void ChangeState(EnemyState newState)
@@ -241,46 +243,4 @@ private void MoveWithPhysics()
 
 
 
-    // =========================
-    // Método clave: siempre llamado por el spawner
-    // =========================
-// public void SetPatrolZone(Transform zone)
-// {
-//     patrolZone = zone;
-
-//     if (patrolZone == null)
-//     {
-//         patrolPoints = new Transform[0];
-//         return;
-//     }
-
-//     if (patrolZone.childCount == 0)
-//     {
-//         patrolPoints = new Transform[0];
-//         return;
-//     }
-
-//     // Filtrar solo los hijos que no son null y están activos
-//     System.Collections.Generic.List<Transform> validPoints = new System.Collections.Generic.List<Transform>();
-    
-//     for (int i = 0; i < patrolZone.childCount; i++)
-//     {
-//         Transform child = patrolZone.GetChild(i);
-//         if (child != null)
-//         {
-//             validPoints.Add(child);
-//         }
-
-//     }
-
-//     if (validPoints.Count == 0)
-//     {
-//         patrolPoints = new Transform[0];
-//         return;
-//     }
-
-//     patrolPoints = validPoints.ToArray();
-//     currentPatrolIndex = 0;
-//     // ChangeState(new PatrolState(this, patrolPoints));
-// }
 }

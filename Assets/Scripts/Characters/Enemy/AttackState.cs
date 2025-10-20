@@ -36,7 +36,7 @@ public class AttackState : EnemyState
             
             if (player != null && player.CurrentHealth > 0f)
             {
-                player.ChangeState(new PlayerHitState(player, 30f));
+                player.ChangeState(new PlayerHitState(player, 5f));
             }
         }
     
