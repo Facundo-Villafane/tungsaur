@@ -15,8 +15,9 @@ public class StageZone : MonoBehaviour
     private int enemiesDefeated = 0;
     private bool stageActive = false;
 
-    private void Awake()
+    private void Start()
     {
+        
         Debug.Log($"[StageZone: {name}] Awake → intentando registrar en StageManager.");
         if (StageManager.Instance != null)
         {
@@ -27,6 +28,7 @@ public class StageZone : MonoBehaviour
         {
             Debug.LogWarning($"[StageZone: {name}] StageManager.Instance es null en Awake. (El manager podría estar inicializándose después)");
         }
+       
     }
 
     private void OnTriggerEnter(Collider other)

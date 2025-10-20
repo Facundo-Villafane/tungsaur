@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Header("Game State")]
-    [SerializeField] private GameState currentState = GameState.Menu;
+    [SerializeField] private GameState currentState = GameState.Playing;
     [SerializeField] private CameraState currentCameraState = CameraState.Locked;
 
     [Header("Player Stats")]
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         ResetStats();
-        ChangeGameState(GameState.Menu);
+        ChangeGameState(GameState.Playing);
     }
 
     // ==================== GAME STATE ====================
