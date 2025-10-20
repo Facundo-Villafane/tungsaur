@@ -24,8 +24,18 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.GetComponent<CharacterBase>()?.TakeDamage(playerStats.BaseDamage);
-            enemy.GetComponent<CharacterBase>()?.TakeHit();
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            if (enemyController.IsDead)
+            {
+                 Debug.Log("El enemigo ya esta muerto");
+                 return;
+            } else
+            {
+                Debug.Log("Golpeo al enemigo: " + enemy.name);
+                enemyController?.TakeDamage(playerStats.BaseDamage);
+                enemyController?.TakeHit();  
+            }
+
         }
     }
 

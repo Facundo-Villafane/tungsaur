@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraState currentCameraState = CameraState.Locked;
 
     [Header("Player Stats")]
-    [SerializeField] private int player1Lives = 3;
-    [SerializeField] private int player2Lives = 3;
+
     [SerializeField] private int player1Score = 0;
     [SerializeField] private int player2Score = 0;
 
@@ -128,27 +127,6 @@ public class GameManager : MonoBehaviour
         return player == 1 ? player1Score : player2Score;
     }
 
-    public void RemoveLife(int player)
-    {
-        if (player == 1)
-        {
-            player1Lives--;
-            OnLivesChanged?.Invoke(1, player1Lives);
-            if (player1Lives <= 0) GameOver();
-        }
-        else if (player == 2)
-        {
-            player2Lives--;
-            OnLivesChanged?.Invoke(2, player2Lives);
-            if (player2Lives <= 0) GameOver();
-        }
-    }
-
-    public int GetLives(int player)
-    {
-        return player == 1 ? player1Lives : player2Lives;
-    }
-
     // ==================== GAME FLOW ====================
 
     public void GameOver()
@@ -187,8 +165,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetStats()
     {
-        player1Lives = 3;
-        player2Lives = 3;
+
         player1Score = 0;
         player2Score = 0;
     }

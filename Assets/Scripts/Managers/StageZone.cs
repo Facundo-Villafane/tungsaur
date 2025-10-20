@@ -6,7 +6,7 @@ public class StageZone : MonoBehaviour
 {
     [Header("Stage Settings")]
     [SerializeField] private List<EnemySingleSpawner> spawners = new List<EnemySingleSpawner>();
-    [SerializeField] private bool autoStart = true; // si true, inicia cuando el jugador entra
+   
 
     public event Action OnStageCompleted;
     public event Action OnStageStarted;
@@ -34,11 +34,7 @@ public class StageZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[StageZone: {name}] OnTriggerEnter con {other.name}");
-        if (!autoStart)
-        {
-            Debug.Log($"[StageZone: {name}] autoStart está en false, no inicio automático.");
-            return;
-        }
+   
 
         if (other.CompareTag("Player"))
         {

@@ -373,7 +373,7 @@ Transform:
   m_GameObject: {fileID: 614645834}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.31, y: 0.088, z: 0.159}
+  m_LocalPosition: {x: -8.33, y: -0.095, z: 0.159}
   m_LocalScale: {x: 1.1591, y: 0.17955023, z: 0.68988615}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1034,7 +1034,7 @@ GameObject:
   - component: {fileID: 1240682937}
   - component: {fileID: 1240682936}
   m_Layer: 0
-  m_Name: StageZone
+  m_Name: StageZone_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1049,7 +1049,7 @@ Transform:
   m_GameObject: {fileID: 1240682934}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.63, z: -32.5}
+  m_LocalPosition: {x: 2.4, y: 13.63, z: -32.5}
   m_LocalScale: {x: 1, y: 10.983, z: 14.495147}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1070,7 +1070,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawners:
   - {fileID: 614645837}
-  autoStart: 1
 --- !u!65 &1240682937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1497,7 +1496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   currentStageIndex: 0
-  currentStageState: 1
+  currentStageState: 0
   stages:
   - {fileID: 1240682936}
 --- !u!4 &2123830692 stripped
@@ -1520,11 +1519,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1595936611271166302, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.42
+      value: -6.23
       objectReference: {fileID: 0}
     - target: {fileID: 1595936611271166302, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.61
+      value: -0.95
       objectReference: {fileID: 0}
     - target: {fileID: 1595936611271166302, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1588,11 +1587,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: maxHealth
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: currentHealth
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

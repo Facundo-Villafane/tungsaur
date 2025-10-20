@@ -129,6 +129,8 @@ public class EnemySingleSpawner : MonoBehaviour
             {
                 Debug.Log($"[Spawner: {name}] Todos los enemigos generados y ninguno vivo. Terminando SpawnLoop.");
                 isSpawning = false;
+                StopSpawning();
+                enabled = false;
                 yield break;
             }
 
@@ -160,15 +162,37 @@ public class EnemySingleSpawner : MonoBehaviour
         if (controller != null)
         {
             controller.OnEnemyDeath += () =>
+        {
+            currentEnemiesAlive = Mathf.Max(0, currentEnemiesAlive - 1);
+            Debug.Log($"[Spawner: {name}] Enemigo murió. Enemigos vivos: {currentEnemiesAlive}");
+            onEnemyDefeatedCallback?.Invoke();
+        
+            // 👇 Spawn inmediato del próximo si corresponde
+            if (isSpawning && enemiesSpawned < totalEnemiesToSpawn)
             {
-                currentEnemiesAlive = Mathf.Max(0, currentEnemiesAlive - 1);
-                Debug.Log($"[Spawner: {name}] Enemigo murió. Enemigos vivos: {currentEnemiesAlive}");
-                onEnemyDefeatedCallback?.Invoke();
-            };
+                StartCoroutine(SpawnNextAfterDelay());
+            }
+        };
+
 
             // Configurar zona de patrullaje si existe
             // if (patrolZone != null)
             //     controller.SetPatrolZone(patrolZone.transform);
         }
     }
+    private IEnumerator SpawnNextAfterDelay()
+{
+    yield return new WaitForSeconds(spawnInterval);
+
+    int canSpawnNow = Mathf.Min(
+        maxEnemiesAlive - currentEnemiesAlive,
+        totalEnemiesToSpawn - enemiesSpawned
+    );
+
+    for (int i = 0; i < canSpawnNow; i++)
+    {
+        SpawnEnemy();
+    }
+}
+
 }
