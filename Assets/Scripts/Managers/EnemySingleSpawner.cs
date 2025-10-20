@@ -91,19 +91,32 @@ public class EnemySingleSpawner : MonoBehaviour, IEnemySpawner
     public void StartSpawning(Action onEnemyDefeated)
     {
         Debug.Log($"[Spawner: {name}] StartSpawning llamado.");
+
+        // PROTECCIÓN CRÍTICA: Prevenir múltiples llamadas
         if (isSpawning)
         {
-            Debug.Log($"[Spawner: {name}] Ya estaba spawneando, se ignora StartSpawning.");
+            Debug.LogWarning($"[Spawner: {name}] Ya estaba spawneando, se ignora StartSpawning.");
+            return;
+        }
+
+        // PROTECCIÓN ADICIONAL: Si ya spawneó todos los enemigos
+        if (enemiesSpawned >= totalEnemiesToSpawn)
+        {
+            Debug.LogWarning($"[Spawner: {name}] Ya spawneó todos los enemigos ({enemiesSpawned}/{totalEnemiesToSpawn}). Ignorando StartSpawning.");
             return;
         }
 
         onEnemyDefeatedCallback = onEnemyDefeated;
         isSpawning = true;
-        enemiesSpawned = 0;
-        currentEnemiesAlive = 0;
+
+        // NO resetear counters si ya hay enemigos vivos (por si se llama múltiples veces)
+        if (currentEnemiesAlive == 0)
+        {
+            enemiesSpawned = 0;
+        }
 
         spawnCoroutine = StartCoroutine(SpawnLoop());
-        Debug.Log($"[Spawner: {name}] SpawnLoop iniciado.");
+        Debug.Log($"[Spawner: {name}] SpawnLoop iniciado. Estado: Spawned={enemiesSpawned}, Alive={currentEnemiesAlive}");
     }
 
     public void StopSpawning()

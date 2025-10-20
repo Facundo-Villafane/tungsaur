@@ -14,6 +14,7 @@ public class StageZone : MonoBehaviour
     private int totalEnemies = 0;
     private int enemiesDefeated = 0;
     private bool stageActive = false;
+    private bool hasTriggered = false; // Prevenir re-entrada del trigger
 
     private void Start()
     {
@@ -34,7 +35,13 @@ public class StageZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[StageZone: {name}] OnTriggerEnter con {other.name}");
-   
+
+        // Prevenir re-entrada: solo activar una vez
+        if (hasTriggered)
+        {
+            Debug.Log($"[StageZone: {name}] Stage ya fue activado previamente. Ignorando trigger.");
+            return;
+        }
 
         if (other.CompareTag("Player"))
         {
@@ -43,6 +50,9 @@ public class StageZone : MonoBehaviour
                 Debug.LogError($"[StageZone: {name}] StageManager.Instance es null al entrar el jugador.");
                 return;
             }
+
+            // Marcar como activado ANTES de iniciar para prevenir re-entrada
+            hasTriggered = true;
 
             Debug.Log($"[StageZone: {name}] Jugador entró. Preparando Stage {StageManager.Instance.CurrentStageIndex}...");
             StageManager.Instance.PrepareStage(StageManager.Instance.CurrentStageIndex);

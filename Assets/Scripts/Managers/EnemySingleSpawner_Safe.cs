@@ -71,17 +71,30 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
 
     public void StartSpawning(Action onAllEnemiesDefeated)
     {
+        // PROTECCIÓN CRÍTICA: Prevenir múltiples llamadas
         if (isActive)
         {
             Debug.LogWarning($"[SpawnerSafe: {name}] Ya está activo. Ignorando StartSpawning.");
             return;
         }
 
+        // PROTECCIÓN ADICIONAL: Si ya spawneó todos los enemigos
+        if (enemiesSpawned >= totalEnemiesToSpawn)
+        {
+            Debug.LogWarning($"[SpawnerSafe: {name}] Ya spawneó todos los enemigos ({enemiesSpawned}/{totalEnemiesToSpawn}). Ignorando StartSpawning.");
+            return;
+        }
+
         Debug.Log($"[SpawnerSafe: {name}] Iniciando spawning...");
         onAllEnemiesDefeatedCallback = onAllEnemiesDefeated;
         isActive = true;
-        enemiesSpawned = 0;
-        activeEnemies.Clear();
+
+        // NO resetear counters si ya hay enemigos activos
+        if (activeEnemies.Count == 0)
+        {
+            enemiesSpawned = 0;
+            activeEnemies.Clear();
+        }
 
         if (spawnCoroutine != null)
         {
@@ -89,6 +102,7 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
         }
 
         spawnCoroutine = StartCoroutine(SpawnRoutine());
+        Debug.Log($"[SpawnerSafe: {name}] SpawnRoutine iniciado. Estado: Spawned={enemiesSpawned}, Activos={activeEnemies.Count}");
     }
 
     public void StopSpawning()
