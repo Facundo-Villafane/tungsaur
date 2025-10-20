@@ -30,7 +30,14 @@ public class WaitAroundPlayerState : EnemyState
 
         if (player == null)
         {
-            
+            enemy.ChangeState(new CirclePatrolState(enemy));
+            return;
+        }
+
+        // Verificar que el player siga siendo válido
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        if (playerController == null || playerController.IsDead)
+        {
             enemy.ChangeState(new CirclePatrolState(enemy));
             return;
         }
@@ -53,7 +60,6 @@ public class WaitAroundPlayerState : EnemyState
         // Chance aleatoria de atacar durante la espera
         if (timer >= waitTime * 0.5f) // solo después de la mitad del tiempo
         {
-            
             if (Random.value < randomAttackChance)
             {
                 enemy.ChangeState(new AttackState(enemy, player));

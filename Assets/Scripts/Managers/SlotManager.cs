@@ -22,11 +22,27 @@ public class SlotManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            Debug.Log("[SlotManager] Player encontrado correctamente.");
+        }
+        else
+        {
+            Debug.LogError("[SlotManager] No se encontró objeto con tag 'Player'. Asegúrate de que el jugador tenga el tag correcto.");
+        }
     }
 
 public Vector3 RequestSlot(EnemyController enemy)
 {
+    // Validación: si no hay player, devolver posición actual del enemigo
+    if (player == null)
+    {
+        Debug.LogWarning("[SlotManager] Player es null. No se puede asignar slot.");
+        return enemy.transform.position;
+    }
+
     System.Collections.Generic.List<int> freeSlots = new System.Collections.Generic.List<int>();
 
     // Buscar slots libres
@@ -50,6 +66,7 @@ public Vector3 RequestSlot(EnemyController enemy)
     }
 
     // Si no hay slots libres, quedarse donde está
+    Debug.LogWarning($"[SlotManager] No hay slots libres para {enemy.name}");
     return enemy.transform.position;
 }
 
@@ -64,6 +81,13 @@ public Vector3 RequestSlot(EnemyController enemy)
 
     public Vector3 GetSlotPosition(int index)
     {
+        // Validación: si no hay player, devolver Vector3.zero
+        if (player == null)
+        {
+            Debug.LogWarning("[SlotManager] Player es null en GetSlotPosition");
+            return Vector3.zero;
+        }
+
         float angle = (360f / maxSlots) * index;
         Vector3 offset = new Vector3(
             Mathf.Cos(angle * Mathf.Deg2Rad),

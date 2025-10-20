@@ -162,37 +162,19 @@ public class EnemySingleSpawner : MonoBehaviour
         if (controller != null)
         {
             controller.OnEnemyDeath += () =>
-        {
-            currentEnemiesAlive = Mathf.Max(0, currentEnemiesAlive - 1);
-            Debug.Log($"[Spawner: {name}] Enemigo murió. Enemigos vivos: {currentEnemiesAlive}");
-            onEnemyDefeatedCallback?.Invoke();
-        
-            // 👇 Spawn inmediato del próximo si corresponde
-            if (isSpawning && enemiesSpawned < totalEnemiesToSpawn)
             {
-                StartCoroutine(SpawnNextAfterDelay());
-            }
-        };
+                currentEnemiesAlive = Mathf.Max(0, currentEnemiesAlive - 1);
+                Debug.Log($"[Spawner: {name}] Enemigo murió. Enemigos vivos: {currentEnemiesAlive}");
+                onEnemyDefeatedCallback?.Invoke();
 
+                // El SpawnLoop ya maneja el respawn automáticamente,
+                // no es necesario crear coroutines adicionales aquí
+            };
 
             // Configurar zona de patrullaje si existe
             // if (patrolZone != null)
             //     controller.SetPatrolZone(patrolZone.transform);
         }
     }
-    private IEnumerator SpawnNextAfterDelay()
-{
-    yield return new WaitForSeconds(spawnInterval);
-
-    int canSpawnNow = Mathf.Min(
-        maxEnemiesAlive - currentEnemiesAlive,
-        totalEnemiesToSpawn - enemiesSpawned
-    );
-
-    for (int i = 0; i < canSpawnNow; i++)
-    {
-        SpawnEnemy();
-    }
-}
 
 }
