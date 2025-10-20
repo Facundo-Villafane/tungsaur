@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class EnemySingleSpawner : MonoBehaviour
+public class EnemySingleSpawner : MonoBehaviour, IEnemySpawner
 {
     [Header("Enemy Settings")]
     public GameObject enemyPrefab;

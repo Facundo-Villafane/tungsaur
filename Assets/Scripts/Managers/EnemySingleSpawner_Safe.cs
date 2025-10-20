@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Versión más segura y simple del spawner que previene crashes y loops infinitos
 /// </summary>
-public class EnemySingleSpawner_Safe : MonoBehaviour
+public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
 {
     [Header("Enemy Settings")]
     public GameObject enemyPrefab;

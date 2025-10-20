@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class StageZone : MonoBehaviour
 {
     [Header("Stage Settings")]
-    [SerializeField] private List<EnemySingleSpawner> spawners = new List<EnemySingleSpawner>();
+    [SerializeField] private List<MonoBehaviour> spawners = new List<MonoBehaviour>(); // Lista de MonoBehaviour que implementan IEnemySpawner
    
 
     public event Action OnStageCompleted;
@@ -62,15 +62,22 @@ public class StageZone : MonoBehaviour
         enemiesDefeated = 0;
         totalEnemies = 0;
 
-        foreach (var spawner in spawners)
+        foreach (var spawnerObj in spawners)
         {
-            if (spawner == null)
+            if (spawnerObj == null)
             {
                 Debug.LogWarning($"[StageZone: {name}] Hay un spawner null en la lista.");
                 continue;
             }
 
-            Debug.Log($"[StageZone: {name}] Contando spawner '{spawner.name}' con {spawner.EnemiesToSpawn} enemigos.");
+            IEnemySpawner spawner = spawnerObj as IEnemySpawner;
+            if (spawner == null)
+            {
+                Debug.LogWarning($"[StageZone: {name}] El objeto '{spawnerObj.name}' no implementa IEnemySpawner.");
+                continue;
+            }
+
+            Debug.Log($"[StageZone: {name}] Contando spawner '{spawnerObj.name}' con {spawner.EnemiesToSpawn} enemigos.");
             totalEnemies += spawner.EnemiesToSpawn;
         }
 
@@ -90,15 +97,22 @@ public class StageZone : MonoBehaviour
         }
         stageActive = true;
 
-        foreach (var spawner in spawners)
+        foreach (var spawnerObj in spawners)
         {
-            if (spawner == null)
+            if (spawnerObj == null)
             {
                 Debug.LogWarning($"[StageZone: {name}] Spawner null en StartStage, se ignora.");
                 continue;
             }
 
-            Debug.Log($"[StageZone: {name}] Activando spawner '{spawner.name}'");
+            IEnemySpawner spawner = spawnerObj as IEnemySpawner;
+            if (spawner == null)
+            {
+                Debug.LogWarning($"[StageZone: {name}] El objeto '{spawnerObj.name}' no implementa IEnemySpawner.");
+                continue;
+            }
+
+            Debug.Log($"[StageZone: {name}] Activando spawner '{spawnerObj.name}'");
             spawner.StartSpawning(OnEnemyDefeated);
         }
 
@@ -143,8 +157,20 @@ public class StageZone : MonoBehaviour
     /// <summary>
     /// Permite registrar spawners por código si es necesario
     /// </summary>
-    public void RegisterSpawner(EnemySingleSpawner spawner)
+    public void RegisterSpawner(MonoBehaviour spawner)
     {
+        if (spawner == null)
+        {
+            Debug.LogWarning($"[StageZone: {name}] Intentando registrar spawner null.");
+            return;
+        }
+
+        if (!(spawner is IEnemySpawner))
+        {
+            Debug.LogWarning($"[StageZone: {name}] El objeto '{spawner.name}' no implementa IEnemySpawner.");
+            return;
+        }
+
         if (!spawners.Contains(spawner))
         {
             spawners.Add(spawner);
