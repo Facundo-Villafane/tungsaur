@@ -27,22 +27,36 @@ public class CirclePatrolState : EnemyState
     {
         if (enemy.IsDead) return;
 
-        // Si no tenemos player, intentar recuperarlo (no forzamos cambio de estado aquí)
+        // Si no tenemos player, intentar recuperarlo
         if (player == null)
-            player = GameObject.FindWithTag("Player")?.transform;
-
-        // --- NUEVO: cambio inmediato a AttackState si el jugador está dentro de AttackRange ---
-        if (player != null )
         {
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            float distToPlayer = Vector3.Distance(enemy.transform.position, player.position);
-            if (distToPlayer <= enemy.AttackRange && !playerController.IsDead)
+            player = SlotManager.Instance != null ? SlotManager.Instance.Player : GameObject.FindWithTag("Player")?.transform;
+
+            // Si aún no hay player, no podemos continuar con la patrulla
+            if (player == null)
             {
-                Debug.Log("asd");
-                // Cambiamos a AttackState (salimos inmediatamente de patrulla)
-                enemy.ChangeState(new AttackState(enemy, player));
+                enemy.SetVelocity(Vector3.zero);
                 return;
             }
+        }
+
+        // Verificar que el player siga siendo válido
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            // Si el player no tiene PlayerController, resetear la referencia
+            player = null;
+            enemy.SetVelocity(Vector3.zero);
+            return;
+        }
+
+        // Cambio inmediato a AttackState si el jugador está dentro de AttackRange
+        float distToPlayer = Vector3.Distance(enemy.transform.position, player.position);
+        if (distToPlayer <= enemy.AttackRange && !playerController.IsDead)
+        {
+            // Cambiamos a AttackState (salimos inmediatamente de patrulla)
+            enemy.ChangeState(new AttackState(enemy, player));
+            return;
         }
         // -------------------------------------------------------------------------------
 

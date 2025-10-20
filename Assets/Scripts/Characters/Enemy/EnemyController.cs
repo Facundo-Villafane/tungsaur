@@ -149,10 +149,19 @@ private void MoveWithPhysics()
 
    public void HandleRotation()
 {
-    if (SlotManager.Instance == null || SlotManager.Instance.Player== null) return;
+    // Validación mejorada
+    if (SlotManager.Instance == null || SlotManager.Instance.Player == null)
+    {
+        Debug.LogWarning($"[EnemyController: {name}] No se puede rotar: SlotManager o Player es null");
+        return;
+    }
 
     Vector3 playerPos = SlotManager.Instance.Player.position;
     Vector3 direction = playerPos - transform.position;
+
+    // Evitar rotación si la dirección es muy pequeña
+    if (direction.sqrMagnitude < 0.001f)
+        return;
 
     if (flipSprite)
     {
