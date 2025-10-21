@@ -256,7 +256,9 @@ namespace DialogueEditor
 
             // Resizer style
             resizerStyle = new GUIStyle();
-            resizerStyle.normal.background = EditorGUIUtility.Load("icons/d_AvatarBlendBackground.png") as Texture2D;
+            // Unity 6 compatibility: Create custom texture instead of loading internal icon
+            Color resizerColor = EditorGUIUtility.isProSkin ? new Color(0.3f, 0.3f, 0.3f, 1f) : new Color(0.6f, 0.6f, 0.6f, 1f);
+            resizerStyle.normal.background = DialogueEditorUtil.MakeTexture(2, 2, resizerColor);
         }
 
         private void OnDisable()
