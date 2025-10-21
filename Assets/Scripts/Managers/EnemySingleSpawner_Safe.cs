@@ -139,7 +139,7 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
 
         // Notificar que terminó
         Debug.Log($"[SpawnerSafe: {name}] Todos los enemigos derrotados.");
-        onAllEnemiesDefeatedCallback?.Invoke();
+       
         isActive = false;
         enabled = false;
     }
@@ -181,7 +181,6 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
 
     private void OnEnemyDied(EnemyController enemy)
     {
-        // Remover de la lista
         if (activeEnemies.Contains(enemy))
         {
             activeEnemies.Remove(enemy);
@@ -189,8 +188,18 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
 
         Debug.Log($"[SpawnerSafe: {name}] Enemigo murió. Activos: {activeEnemies.Count}, Spawned: {enemiesSpawned}/{totalEnemiesToSpawn}");
 
-        // El SpawnRoutine ya maneja el respawn automáticamente
+        // 🔔 Notificar al StageZone
+        stageZone?.OnEnemyDefeated();
+
+        // Si todos murieron, puede también disparar el callback
+        // if (activeEnemies.Count == 0 && enemiesSpawned >= totalEnemiesToSpawn)
+        // {
+        //     Debug.Log($"[SpawnerSafe: {name}] Todos los enemigos derrotados.");
+        //     onAllEnemiesDefeatedCallback?.Invoke();
+        //     isActive = false;
+        // }
     }
+
 
     private void OnDestroy()
     {

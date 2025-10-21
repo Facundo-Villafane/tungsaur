@@ -9,7 +9,6 @@ public class StageManager : MonoBehaviour
     [Header("Stage Info")]
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int currentStageIndex = 0; 
-    
     [SerializeField] private StageState currentStageState = StageState.Locked;
 
     [Header("Stages")]
@@ -17,11 +16,12 @@ public class StageManager : MonoBehaviour
 
     public event Action<StageState> OnStageStateChanged;
     public event Action<int, int> OnStageProgressed; 
-    public int CurrentStageIndex => currentStageIndex; 
     public event Action<StageZone> OnStageStarted;
     public event Action<StageZone> OnStageEnded;
 
-    public StageZone CurrentStage => 
+    public int CurrentStageIndex => currentStageIndex; 
+
+    public StageZone CurrentStage =>
         (currentStageIndex >= 0 && currentStageIndex < stages.Count) ? stages[currentStageIndex] : null;
 
     private void Awake()
@@ -34,6 +34,7 @@ public class StageManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         Debug.Log("[StageManager] Instancia establecida correctamente.");
     }
@@ -54,11 +55,16 @@ public class StageManager : MonoBehaviour
 
     public void RegisterStage(StageZone stageZone)
     {
+        if (stageZone == null) return;
+
         Debug.Log($"[StageManager] Registrando StageZone: {stageZone.name}");
         if (!stages.Contains(stageZone))
         {
             stages.Add(stageZone);
         }
+
+        // 🔗 Suscribir evento al completarse el stage
+        stageZone.OnStageCompleted += () => OnStageCompleted(stageZone);
     }
 
     public void PrepareStage(int index)
@@ -93,19 +99,16 @@ public class StageManager : MonoBehaviour
         OnStageStarted?.Invoke(CurrentStage);
     }
 
-    public void EndStage()
+    /// <summary>
+    /// 🔁 Ahora este método solo reacciona al fin del stage.
+    /// Ya no llama a CurrentStage.EndStage() para evitar loops.
+    /// </summary>
+    private void OnStageCompleted(StageZone completedStage)
     {
-        Debug.Log("[StageManager] EndStage llamado");
-        if (CurrentStage == null)
-        {
-            Debug.LogError("[StageManager] CurrentStage es null en EndStage");
-            return;
-        }
+        Debug.Log($"[StageManager] Stage completado: {completedStage.name}");
 
         ChangeStageState(StageState.Completed);
-        Debug.Log($"[StageManager] Finalizando Stage: {CurrentStage.name}");
-        CurrentStage.EndStage();
-        OnStageEnded?.Invoke(CurrentStage);
+        OnStageEnded?.Invoke(completedStage);
 
         AdvanceStage();
     }
@@ -123,8 +126,8 @@ public class StageManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("[StageManager] Nivel completado");
-            // Podrías avisar al GameManager para cambiar de escena
+            Debug.Log("[StageManager] Nivel completado 🎉");
+            // Aquí podrías avisar al GameManager para cargar el siguiente nivel.
         }
     }
 
