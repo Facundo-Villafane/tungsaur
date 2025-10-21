@@ -5,20 +5,19 @@ using System.Collections.Generic;
 public class StageZone : MonoBehaviour
 {
     [Header("Stage Settings")]
-    [SerializeField] private List<MonoBehaviour> spawners = new List<MonoBehaviour>(); // Lista de MonoBehaviour que implementan IEnemySpawner
-   
+    [SerializeField] private List<MonoBehaviour> spawners = new List<MonoBehaviour>(); // Spawners que implementan IEnemySpawner
 
     public event Action OnStageCompleted;
     public event Action OnStageStarted;
 
-    private int totalEnemies = 0;
-    private int enemiesDefeated = 0;
+    [SerializeField] private int totalEnemies = 0;
+    [SerializeField] private int enemiesDefeated = 0;
     private bool stageActive = false;
 
     private void Start()
     {
-        
-        Debug.Log($"[StageZone: {name}] Awake → intentando registrar en StageManager.");
+        Debug.Log($"[StageZone: {name}] Awake → Intentando registrar en StageManager...");
+
         if (StageManager.Instance != null)
         {
             StageManager.Instance.RegisterStage(this);
@@ -26,35 +25,42 @@ public class StageZone : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[StageZone: {name}] StageManager.Instance es null en Awake. (El manager podría estar inicializándose después)");
+            Debug.LogWarning($"[StageZone: {name}] StageManager.Instance es null en Awake. (Puede inicializarse después)");
         }
-       
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[StageZone: {name}] OnTriggerEnter con {other.name}");
-   
 
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
+            return;
+
+        if (StageManager.Instance == null)
         {
-            if (StageManager.Instance == null)
-            {
-                Debug.LogError($"[StageZone: {name}] StageManager.Instance es null al entrar el jugador.");
-                return;
-            }
+            Debug.LogError($"[StageZone: {name}] StageManager.Instance es null al entrar el jugador.");
+            return;
+        }
 
-            Debug.Log($"[StageZone: {name}] Jugador entró. Preparando Stage {StageManager.Instance.CurrentStageIndex}...");
-            StageManager.Instance.PrepareStage(StageManager.Instance.CurrentStageIndex);
+        // Evita reiniciar el stage si ya está activo
+        if (stageActive)
+        {
+            Debug.Log($"[StageZone: {name}] Stage ya activo, no se reinicia.");
+            return;
+        }
 
-            Debug.Log($"[StageZone: {name}] Iniciando Stage...");
-            StageManager.Instance.StartStage();
+        Debug.Log($"[StageZone: {name}] Jugador entró. Iniciando Stage...");
+        StageManager.Instance.StartStage();
+
+        // Desactivar el collider para evitar múltiples activaciones
+        Collider zoneCollider = GetComponent<Collider>();
+        if (zoneCollider != null)
+        {
+            zoneCollider.enabled = false;
+            Debug.Log($"[StageZone: {name}] Collider desactivado tras la activación.");
         }
     }
 
-    /// <summary>
-    /// Inicializa el stage (antes de empezar la oleada)
-    /// </summary>
     public void Initialize()
     {
         Debug.Log($"[StageZone: {name}] Initialize llamado.");
@@ -84,79 +90,80 @@ public class StageZone : MonoBehaviour
         Debug.Log($"[StageZone: {name}] Total de enemigos esperados: {totalEnemies}");
     }
 
-    /// <summary>
-    /// Comienza la oleada/enemigos
-    /// </summary>
     public void StartStage()
     {
-        Debug.Log($"[StageZone: {name}] StartStage llamado. stageActive={stageActive}");
+        if(GameManager.Instance.GetCameraState() != CameraState.Locked)
+        {
+             GameManager.Instance.ChangeCameraState(CameraState.Locked);
+        }
+       
         if (stageActive)
         {
-            Debug.Log($"[StageZone: {name}] Stage ya estaba activo, se ignora StartStage.");
+            Debug.Log($"[StageZone: {name}] StartStage ignorado (ya activo).");
             return;
         }
+
+        Debug.Log($"[StageZone: {name}] Iniciando Stage...");
         stageActive = true;
 
         foreach (var spawnerObj in spawners)
         {
-            if (spawnerObj == null)
-            {
-                Debug.LogWarning($"[StageZone: {name}] Spawner null en StartStage, se ignora.");
-                continue;
-            }
+            if (spawnerObj == null) continue;
 
             IEnemySpawner spawner = spawnerObj as IEnemySpawner;
             if (spawner == null)
             {
-                Debug.LogWarning($"[StageZone: {name}] El objeto '{spawnerObj.name}' no implementa IEnemySpawner.");
+                Debug.LogWarning($"[StageZone: {name}] '{spawnerObj.name}' no implementa IEnemySpawner.");
                 continue;
             }
 
-            Debug.Log($"[StageZone: {name}] Activando spawner '{spawnerObj.name}'");
+            Debug.Log($"[StageZone: {name}] Activando spawner '{spawnerObj.name}'...");
             spawner.StartSpawning(OnEnemyDefeated);
         }
 
-        Debug.Log($"[StageZone: {name}] Todos los spawners activados.");
         OnStageStarted?.Invoke();
     }
 
-    /// <summary>
-    /// Llamado por los spawners cada vez que un enemigo muere
-    /// </summary>
-    private void OnEnemyDefeated()
+    public void OnEnemyDefeated()
     {
         enemiesDefeated++;
         Debug.Log($"[StageZone: {name}] Enemigo derrotado. {enemiesDefeated}/{totalEnemies}");
 
         if (enemiesDefeated >= totalEnemies)
         {
-            Debug.Log($"[StageZone: {name}] Todos los enemigos derrotados. Terminando stage...");
+            Debug.Log($"[StageZone: {name}] Todos los enemigos derrotados.");
             EndStage();
         }
     }
 
-    /// <summary>
-    /// Termina el stage
-    /// </summary>
     public void EndStage()
     {
-        Debug.Log($"[StageZone: {name}] EndStage llamado. stageActive={stageActive}");
+        if (!stageActive)
+        {
+            Debug.Log($"[StageZone: {name}] EndStage ignorado (ya inactivo).");
+            return;
+        }
+
+        Debug.Log($"[StageZone: {name}] EndStage → marcando stage como completado.");
         stageActive = false;
         OnStageCompleted?.Invoke();
 
+        // 🔹 Solo notificamos al StageManager, no lo volvemos a llamar recursivamente
         if (StageManager.Instance != null)
         {
-            StageManager.Instance.EndStage();
+            Debug.Log($"[StageZone: {name}] Notificando a StageManager del fin del Stage.");
+
         }
         else
         {
             Debug.LogError($"[StageZone: {name}] StageManager.Instance es null en EndStage.");
         }
+        if(GameManager.Instance.GetCameraState() != CameraState.Free)
+        {
+             GameManager.Instance.ChangeCameraState(CameraState.Free);
+        }
     }
 
-    /// <summary>
-    /// Permite registrar spawners por código si es necesario
-    /// </summary>
     public void RegisterSpawner(MonoBehaviour spawner)
     {
         if (spawner == null)
@@ -174,7 +181,7 @@ public class StageZone : MonoBehaviour
         if (!spawners.Contains(spawner))
         {
             spawners.Add(spawner);
-            Debug.Log($"[StageZone: {name}] Spawner '{spawner.name}' registrado por código.");
+            Debug.Log($"[StageZone: {name}] Spawner '{spawner.name}' registrado.");
         }
     }
 }

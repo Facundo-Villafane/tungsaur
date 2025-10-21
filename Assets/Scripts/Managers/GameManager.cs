@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraState currentCameraState = CameraState.Locked;
 
     [Header("Player Stats")]
-
     [SerializeField] private int player1Score = 0;
     [SerializeField] private int player2Score = 0;
 
@@ -56,6 +55,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ==================== INIT ====================
+
     private void InitializeGame()
     {
         ResetStats();
@@ -93,18 +94,51 @@ public class GameManager : MonoBehaviour
 
     private void ToggleCameraState()
     {
-        ChangeCameraState(currentCameraState == CameraState.Locked 
-            ? CameraState.Free 
+        ChangeCameraState(currentCameraState == CameraState.Locked
+            ? CameraState.Free
             : CameraState.Locked);
     }
-    
+
     public void ChangeCameraState(CameraState newState)
     {
         if (currentCameraState == newState) return;
 
         currentCameraState = newState;
         OnCameraStateChanged?.Invoke(newState);
+        UpdateCameraState(); // 🔹 aplica el nuevo estado
         Debug.Log($"[GameManager] Estado de cámara: {newState}");
+    }
+
+    /// <summary>
+    /// Lógica que aplica el cambio de cámara (por ejemplo, activar o desactivar scripts de control)
+    /// </summary>
+    private void UpdateCameraState()
+    {
+        // Ejemplo genérico — ajusta según tu setup
+        var playerCam = Camera.main;
+
+        if (playerCam == null)
+        {
+            Debug.LogWarning("[GameManager] No se encontró la cámara principal.");
+            return;
+        }
+
+        switch (currentCameraState)
+        {
+            case CameraState.Locked:
+                // Aquí podrías bloquear la rotación o movimiento de cámara
+                // playerCam.GetComponent<FreeCameraController>()?.enabled = false;
+                // playerCam.GetComponent<FollowPlayer>()?.enabled = true;
+                Debug.Log("Cámara bloqueada al jugador.");
+                break;
+
+            case CameraState.Free:
+                // Aquí podrías habilitar un modo libre
+                // playerCam.GetComponent<FollowPlayer>()?.enabled = false;
+                // playerCam.GetComponent<FreeCameraController>()?.enabled = true;
+                Debug.Log("Cámara libre activada.");
+                break;
+        }
     }
 
     public CameraState GetCameraState() => currentCameraState;
@@ -133,7 +167,6 @@ public class GameManager : MonoBehaviour
     {
         ChangeGameState(GameState.GameOver);
         Debug.Log("[GameManager] Game Over!");
-        // Podés mostrar pantalla de fin, reinicio, etc.
     }
 
     public void RestartGame()
@@ -165,7 +198,6 @@ public class GameManager : MonoBehaviour
 
     private void ResetStats()
     {
-
         player1Score = 0;
         player2Score = 0;
     }
@@ -183,6 +215,6 @@ public enum GameState
 
 public enum CameraState
 {
-    Locked, 
-    Free   
+    Locked,
+    Free
 }
