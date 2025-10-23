@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Complete game architecture restructure with managers and ScriptableObjects\n\nImplemented a complete, scalable architecture for the beat em up 2D game:\n\n## New Systems:\n- LevelFlowManager: Controls complete level sequence (cinematics → tutorial → stages → boss)\n- CinematicsManager: Handles Timeline and dialogue-based cutscenes with skip functionality\n- UIManager: Centralized UI control (HUD, health bars, menus, objectives)\n- WaveManager: Advanced enemy spawning system with configurable waves\n- BossController: Boss system with multiple phases and special attacks\n- TutorialManager: Guided tutorial system with step-by-step instructions\n- AudioManager: Centralized audio control with crossfading\n\n## ScriptableObjects (Data-Driven):\n- LevelConfigSO: Complete level configuration\n- StageConfigSO: Individual stage setup\n- WaveConfigSO: Enemy wave configuration\n- CinematicConfigSO: Cutscene definitions\n- BossConfigSO: Boss stats and phases\n- MiniBossConfigSO: Mini-boss configuration\n- TutorialConfigSO: Tutorial steps and settings\n\n## UI Components:\n- HealthBarUI: Reusable health bar with color transitions\n- ScoreUI: Animated score display\n- ObjectiveUI: Objective text with fade animations\n- TutorialUI: Tutorial instruction display\n\n## Architecture Benefits:\n- Clean separation of concerns with manager pattern\n- Event-driven communication between systems\n- Data-driven design using ScriptableObjects\n- Easy to scale and modify without code changes\n- All systems work independently and can be tested in isolation\n\nAdded comprehensive RESTRUCTURING_GUIDE.md with setup instructions and best practices.\nEOF\n)\")",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

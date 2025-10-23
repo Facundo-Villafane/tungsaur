@@ -93,21 +93,30 @@ namespace CDG.Managers
                 SetPlayerInvulnerable(true);
             }
 
-            // Show tutorial UI
-            if (tutorialUI != null)
+            // Choose tutorial display mode
+            if (tutorialConfig.displayMode == TutorialDisplayMode.DialogueEditor)
             {
-                tutorialUI.Show();
+                // Use DialogueEditor conversation
+                yield return StartCoroutine(ShowDialogueTutorial());
             }
-            else if (UIManager.Instance != null)
+            else
             {
-                UIManager.Instance.ShowTutorial();
-            }
+                // Use simple text mode
+                if (tutorialUI != null)
+                {
+                    tutorialUI.Show();
+                }
+                else if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowTutorial();
+                }
 
-            // Run through all tutorial steps
-            for (int i = 0; i < tutorialConfig.tutorialSteps.Length; i++)
-            {
-                currentStepIndex = i;
-                yield return StartCoroutine(ShowTutorialStep(i));
+                // Run through all tutorial steps
+                for (int i = 0; i < tutorialConfig.tutorialSteps.Length; i++)
+                {
+                    currentStepIndex = i;
+                    yield return StartCoroutine(ShowTutorialStep(i));
+                }
             }
 
             // Run practice wave if configured
@@ -125,6 +134,40 @@ namespace CDG.Managers
 
             // Complete tutorial
             CompleteTutorial();
+        }
+
+        /// <summary>
+        /// Shows tutorial using DialogueEditor conversation
+        /// </summary>
+        private IEnumerator ShowDialogueTutorial()
+        {
+            if (tutorialConfig.tutorialConversation == null)
+            {
+                Debug.LogError("TutorialManager: Tutorial conversation not assigned!");
+                yield return new WaitForSeconds(3f);
+                yield break;
+            }
+
+            // Use ConversationManager to play the tutorial dialogue
+            if (ConversationManager.Instance != null)
+            {
+                Debug.Log("TutorialManager: Starting DialogueEditor tutorial");
+
+                ConversationManager.Instance.StartConversation(tutorialConfig.tutorialConversation);
+
+                // Wait until conversation finishes
+                while (ConversationManager.Instance.IsConversationActive)
+                {
+                    yield return null;
+                }
+
+                Debug.Log("TutorialManager: DialogueEditor tutorial completed");
+            }
+            else
+            {
+                Debug.LogError("TutorialManager: ConversationManager not found in scene!");
+                yield return new WaitForSeconds(3f);
+            }
         }
 
         /// <summary>
