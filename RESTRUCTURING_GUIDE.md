@@ -448,4 +448,123 @@ LevelFlowManager (Cerebro)
 
 ---
 
+## 💬 Integración con DialogueEditor
+
+### ✅ DialogueEditor - Completamente Integrado
+
+Tu **DialogueEditor** está 100% integrado en el nuevo sistema y es el medio principal para mostrar texto al jugador.
+
+### Dónde se Usa:
+
+#### 1. **Cinemáticas** (CinematicConfigSO)
+```
+Create > CDG > Cinematic Configuration
+├─ Cinematic Type: Dialogue  ← Selecciona esto
+└─ Dialogue Conversation: [Tu NPCConversation]
+```
+
+**Resultado**: Las cinemáticas usan `ConversationManager` para mostrar diálogos.
+
+#### 2. **Tutorial** (TutorialConfigSO)
+```
+Create > CDG > Tutorial Configuration
+├─ Display Mode: DialogueEditor  ← Selecciona esto
+└─ Tutorial Conversation: [Tu NPCConversation]
+```
+
+**Resultado**: El tutorial usa diálogos completos con portraits y branching.
+
+#### 3. **Boss Intro/Defeat** (BossConfigSO)
+```
+Create > CDG > Boss Configuration
+├─ Intro Cinematic: [CinematicConfig con diálogo]
+└─ Defeat Cinematic: [CinematicConfig con diálogo]
+```
+
+**Resultado**: Cinemáticas automáticas cuando el boss aparece/muere.
+
+### Flujo Completo con Diálogos:
+
+```
+[DialogueEditor: Intro] → Cinemática Intro
+    ↓
+[DialogueEditor: Tutorial] → Tutorial guiado
+    ↓
+[DialogueEditor: Post-Tutorial] → Transición
+    ↓
+Nivel 1 (Stages + Waves)
+    ↓
+[DialogueEditor: Boss Intro] → Boss aparece
+    ↓
+Boss Fight
+    ↓
+[DialogueEditor: Boss Defeat] → Victoria
+    ↓
+[DialogueEditor: Outro] → Final del nivel
+```
+
+### 📚 Documentación Detallada:
+
+Para más información sobre cómo usar DialogueEditor:
+- Ver **[DIALOGUE_INTEGRATION_GUIDE.md](DIALOGUE_INTEGRATION_GUIDE.md)**
+
+---
+
+## 🛠️ Tool de Unity Editor
+
+### Crear Estructura de Carpetas Automáticamente
+
+Incluido: **FolderStructureCreator** (Unity Editor Tool)
+
+**Ubicación:** `Tools > CDG > Create ScriptableObject Folders`
+
+**Función:**
+- Crea automáticamente toda la estructura de carpetas recomendada
+- Configurable (número de niveles)
+- No duplica carpetas existentes
+
+**Crea:**
+```
+Assets/ScriptableObjects/
+├── Levels/
+├── Stages/Level1/, Level2/, ...
+├── Waves/Easy/, Medium/, Hard/
+├── Bosses/Level1/, Level2/, ...
+├── Cinematics/Intros/, Outros/, Bosses/
+└── Tutorial/
+
+Assets/Dialogues/
+├── Cinematics/
+├── Tutorial/
+└── NPCs/
+```
+
+---
+
+## 🐛 Errores Corregidos
+
+Durante la implementación se corrigieron estos errores:
+
+1. ✅ **Missing DialogueEditor imports** - Agregado `using DialogueEditor;`
+2. ✅ **Invalid BossController overrides** - Cambiado a métodos privados
+3. ✅ **Deprecated FindObjectOfType** - Actualizado a `FindFirstObjectByType`
+4. ✅ **SetCameraState → ChangeCameraState** - Nombre de método corregido
+
+**Resultado**: Compilación sin errores ✅
+
+---
+
+## 📖 Guías Adicionales
+
+Este proyecto incluye 6 guías completas:
+
+1. **RESTRUCTURING_GUIDE.md** (este archivo) - Guía general
+2. **[BOSS_SETUP_GUIDE.md](BOSS_SETUP_GUIDE.md)** - Configurar bosses paso a paso
+3. **[ENEMY_CONFIGURATION_VISUAL.md](ENEMY_CONFIGURATION_VISUAL.md)** - Diagramas visuales
+4. **[DIALOGUE_INTEGRATION_GUIDE.md](DIALOGUE_INTEGRATION_GUIDE.md)** - DialogueEditor completo
+5. **[FOLDER_STRUCTURE_GUIDE.md](FOLDER_STRUCTURE_GUIDE.md)** - Organización de carpetas
+6. **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Resumen técnico completo
+
+---
+
 **¡Todo listo para empezar a configurar tu juego! 🚀**
