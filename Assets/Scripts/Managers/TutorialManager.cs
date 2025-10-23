@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using CDG.Data;
 using CDG.UI;
+using DialogueEditor;
 
 namespace CDG.Managers
 {

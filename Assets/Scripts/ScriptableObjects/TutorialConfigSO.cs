@@ -1,4 +1,5 @@
 using UnityEngine;
+using DialogueEditor;
 
 namespace CDG.Data
 {

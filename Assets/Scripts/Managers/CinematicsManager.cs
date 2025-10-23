@@ -3,6 +3,7 @@ using UnityEngine.Playables;
 using System;
 using System.Collections;
 using CDG.Data;
+using DialogueEditor;
 
 namespace CDG.Managers
 {
