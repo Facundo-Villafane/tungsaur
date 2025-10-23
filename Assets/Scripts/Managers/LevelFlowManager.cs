@@ -221,7 +221,7 @@ namespace CDG.Managers
             // Lock camera if needed
             if (cinematicConfig.lockCamera && GameManager.Instance != null)
             {
-                GameManager.Instance.SetCameraState(CameraState.Locked);
+                GameManager.Instance.ChangeCameraState(CameraState.Locked);
             }
 
             // TODO: Integrate with CinematicsManager

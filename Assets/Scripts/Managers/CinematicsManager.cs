@@ -113,7 +113,7 @@ namespace CDG.Managers
             // Lock camera if needed
             if (cinematicConfig.lockCamera && GameManager.Instance != null)
             {
-                GameManager.Instance.SetCameraState(CameraState.Locked);
+                GameManager.Instance.ChangeCameraState(CameraState.Locked);
             }
 
             // Enable cinematic camera if available
@@ -163,7 +163,7 @@ namespace CDG.Managers
             // Restore camera state
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.SetCameraState(CameraState.Free);
+                GameManager.Instance.ChangeCameraState(CameraState.Free);
             }
 
             // Notify completion
@@ -274,7 +274,7 @@ namespace CDG.Managers
             // Clean up
             if (skipPromptUI != null) skipPromptUI.SetActive(false);
             if (cinematicCameraObject != null) cinematicCameraObject.SetActive(false);
-            if (GameManager.Instance != null) GameManager.Instance.SetCameraState(CameraState.Free);
+            if (GameManager.Instance != null) GameManager.Instance.ChangeCameraState(CameraState.Free);
 
             isPlayingCinematic = false;
             currentCinematic = null;
