@@ -300,7 +300,7 @@ namespace CDG.Managers
         private void SetPlayerInvulnerable(bool invulnerable)
         {
             // Find player
-            PlayerController player = FindObjectOfType<PlayerController>();
+            PlayerController player = FindFirstObjectByType<PlayerController>();
             if (player != null)
             {
                 // TODO: Add invulnerability flag to CharacterBase
