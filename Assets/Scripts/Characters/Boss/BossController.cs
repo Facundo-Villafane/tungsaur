@@ -36,10 +36,8 @@ namespace CDG.Characters
         public event Action OnBossDefeated;
         public event Action OnSpecialAttackStarted;
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-
             if (bossConfig != null)
             {
                 InitializeFromConfig();
@@ -76,10 +74,8 @@ namespace CDG.Characters
             Debug.Log($"BossController: Initialized '{bossConfig.bossName}' with {MaxHealth} HP");
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
-
             // Update boss health bar
             if (showHealthBar && UIManager.Instance != null)
             {
