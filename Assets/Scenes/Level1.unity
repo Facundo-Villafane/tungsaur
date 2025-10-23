@@ -443,14 +443,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 614645834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd1150adf40c74ba104c1737b3904e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
   stageZone: {fileID: 1240682936}
   totalEnemiesToSpawn: 5
-  maxEnemiesAlive: 1
-  spawnInterval: 1
+  maxEnemiesAlive: 3
+  spawnInterval: 2
 --- !u!1 &660560763
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,13 +801,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 904404220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd1150adf40c74ba104c1737b3904e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
   stageZone: {fileID: 885280635}
-  totalEnemiesToSpawn: 3
-  maxEnemiesAlive: 1
+  totalEnemiesToSpawn: 5
+  maxEnemiesAlive: 3
   spawnInterval: 2
 --- !u!212 &904404223
 SpriteRenderer:
@@ -1103,13 +1103,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1074487052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd1150adf40c74ba104c1737b3904e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
   stageZone: {fileID: 885280635}
-  totalEnemiesToSpawn: 4
-  maxEnemiesAlive: 2
+  totalEnemiesToSpawn: 5
+  maxEnemiesAlive: 3
   spawnInterval: 2
 --- !u!212 &1074487055
 SpriteRenderer:
@@ -1346,13 +1346,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1216842435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd1150adf40c74ba104c1737b3904e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
   stageZone: {fileID: 1727930231}
-  totalEnemiesToSpawn: 4
-  maxEnemiesAlive: 2
+  totalEnemiesToSpawn: 5
+  maxEnemiesAlive: 3
   spawnInterval: 2
 --- !u!212 &1216842438
 SpriteRenderer:
@@ -1742,13 +1742,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815003988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd1150adf40c74ba104c1737b3904e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
   stageZone: {fileID: 1727930231}
-  totalEnemiesToSpawn: 3
-  maxEnemiesAlive: 1
+  totalEnemiesToSpawn: 5
+  maxEnemiesAlive: 3
   spawnInterval: 2
 --- !u!212 &1815003991
 SpriteRenderer:
