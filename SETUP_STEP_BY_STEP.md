@@ -75,11 +75,19 @@ En Unity:
 
 6. **Los nodos ya están conectados automáticamente** (aparece una flecha entre ellos)
 
-7. **Guardar:**
-   - Simplemente guarda la escena (Ctrl+S)
-   - O arrastra el GameObject a la carpeta `Assets/Dialogues/Cinematics/` para crear un prefab
+7. **Guardar como prefab:**
+   - **Arrastra el GameObject** `Intro_Cinematic_Dialogue` desde la Hierarchy
+   - **Suéltalo en** la carpeta `Assets/Dialogues/Cinematics/` en la ventana Project
+   - Unity creará un prefab (ícono de cubo azul)
+   - **IMPORTANTE:** Ahora puedes eliminar el GameObject original de la Hierarchy (el prefab está guardado)
 
-✅ **Resultado**: Conversación `Intro_Cinematic_Dialogue.asset` creada.
+✅ **Resultado**: Prefab `Intro_Cinematic_Dialogue` creado en `Assets/Dialogues/Cinematics/`
+
+**💡 Cómo Funciona:**
+- El **prefab** es un GameObject guardado con el componente `NPCConversation` que contiene toda tu conversación
+- Este prefab GameObject es lo que arrastrarás al CinematicConfigSO
+- En runtime, el manager hace `prefab.GetComponent<NPCConversation>()` para obtener la conversación
+- El `ConversationManager.StartConversation()` necesita el componente `NPCConversation`, no el GameObject
 
 ---
 
@@ -822,6 +830,141 @@ Si todo funcionó, deberías ver:
 - [ ] GameManager en escena
 - [ ] Spawn points creados
 - [ ] Testeo exitoso
+
+---
+
+## 🐛 Troubleshooting - Problemas Comunes
+
+### ❌ Error: "Type mismatch" al asignar diálogo
+
+**Problema:** No puedes arrastrar la conversación al campo `Dialogue Conversation` del CinematicConfigSO.
+
+**Causa:** Estás intentando arrastrar algo que no es un GameObject prefab.
+
+**Solución:**
+1. Asegúrate de haber creado el **prefab** del GameObject (paso 2.1, punto 7)
+2. En la ventana Project, busca el prefab en `Assets/Dialogues/Cinematics/`
+3. El prefab debe tener un **ícono de cubo azul** (no un ícono de script)
+4. Arrastra el **prefab completo** (el cubo azul), no el componente NPCConversation
+
+**Visual:**
+```
+❌ INCORRECTO: Arrastrar desde Hierarchy (objeto en escena)
+❌ INCORRECTO: Arrastrar el componente NPCConversation
+✅ CORRECTO:   Arrastrar el prefab GameObject desde Project
+```
+
+---
+
+### ❌ Error: "GameObject does not have NPCConversation component"
+
+**Problema:** Console muestra error cuando intenta reproducir el diálogo.
+
+**Causa:** El GameObject prefab no tiene el componente NPCConversation.
+
+**Solución:**
+1. En Project, selecciona el prefab que asignaste
+2. En Inspector, verifica que tenga el componente **"NPC Conversation"**
+3. Si no lo tiene:
+   - Elimina el prefab actual
+   - Vuelve a crear el GameObject en Hierarchy
+   - Agrega el componente `NPC Conversation`
+   - Diseña los diálogos en DialogueEditor
+   - Guarda como prefab nuevamente
+
+---
+
+### ❌ Diálogo no se muestra en runtime
+
+**Problema:** El diálogo no aparece cuando debería reproducirse.
+
+**Posibles causas y soluciones:**
+
+1. **ConversationManager no está en escena:**
+   - Asegúrate de tener el ConversationManager prefab en tu escena
+   - Ubicación: Busca en tus assets el prefab `ConversationManager`
+   - Debe ser hijo de un Canvas
+
+2. **CinematicType incorrecto:**
+   - En el CinematicConfigSO, verifica que `Cinematic Type = Dialogue`
+   - Si está en "Timeline" o "Custom", no usará DialogueEditor
+
+3. **Prefab no asignado:**
+   - Verifica que el campo `Dialogue Conversation` tenga el prefab asignado
+   - El campo NO debe decir "None"
+
+4. **Conversación vacía:**
+   - Abre el prefab en DialogueEditor
+   - Verifica que tenga nodos de diálogo creados
+   - Debe tener al menos 1 nodo Speech conectado al nodo raíz
+
+---
+
+### ❌ "Create Speech" no aparece al hacer click derecho
+
+**Problema:** No puedes crear nodos en DialogueEditor.
+
+**Causa:** No tienes el GameObject seleccionado en Hierarchy.
+
+**Solución:**
+1. Antes de abrir DialogueEditor:
+   - Crea un GameObject en Hierarchy
+   - Agrégale el componente `NPC Conversation`
+2. Con el GameObject **seleccionado en Hierarchy**, abre `Window > DialogueEditor`
+3. Ahora click derecho en el nodo raíz → verás "Create Speech"
+
+**IMPORTANTE:** No puedes editar prefabs directamente en DialogueEditor. Debes:
+- Instanciar el prefab en Hierarchy (arrastrarlo)
+- Editarlo con DialogueEditor
+- Hacer "Apply" a los cambios del prefab
+
+---
+
+### ❌ Cambios en diálogo no se reflejan en el juego
+
+**Problema:** Modificaste un diálogo pero en runtime sigue mostrando el texto viejo.
+
+**Causa:** Editaste el prefab pero no aplicaste los cambios.
+
+**Solución:**
+1. Si editaste un prefab en Hierarchy:
+   - Selecciona el GameObject en Hierarchy
+   - En Inspector, busca el botón **"Overrides"** (arriba)
+   - Click en "Apply All" para guardar al prefab
+2. O mejor aún:
+   - Abre el prefab en "Prefab Mode" (doble click en el prefab en Project)
+   - Edita directamente en modo prefab
+   - Los cambios se guardan automáticamente
+
+---
+
+### 💡 Flujo Completo Correcto (Resumen Visual)
+
+```
+1. CREATE GAMEOBJECT
+   Hierarchy → Create Empty → "MyDialogue"
+   Add Component → "NPC Conversation"
+
+2. EDIT DIALOGUE
+   Select GameObject in Hierarchy
+   Window > DialogueEditor
+   Right-click root → Create Speech → Edit text
+
+3. SAVE AS PREFAB
+   Drag GameObject from Hierarchy
+   Drop in Assets/Dialogues/ folder
+   Delete GameObject from Hierarchy (optional)
+
+4. ASSIGN TO CONFIG
+   Open CinematicConfigSO in Inspector
+   Drag the PREFAB (blue cube icon) to "Dialogue Conversation"
+
+5. RUNTIME FLOW
+   CinematicsManager → Gets prefab GameObject
+   → Calls prefab.GetComponent<NPCConversation>()
+   → Passes component to ConversationManager.StartConversation()
+   → Dialogue displays!
+```
 
 ---
 
