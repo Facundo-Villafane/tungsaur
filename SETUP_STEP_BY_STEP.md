@@ -39,33 +39,45 @@ En Unity:
 
 ### Paso 2.1: Crear Conversación en DialogueEditor
 
-1. Menu: `Window > Dialogue Editor`
-2. En la ventana del Dialogue Editor:
-   - Click en **"New Conversation"**
-   - Aparece un panel vacío
+**IMPORTANTE**: Este DialogueEditor funciona diferente a otros editores visuales.
+
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → `Create Empty`
+   - Renombra a: **"Intro_Cinematic_Dialogue"**
+   - Con el objeto seleccionado, en Inspector: `Add Component`
+   - Busca y agrega: **"NPC Conversation"**
+
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Asegúrate de tener seleccionado el GameObject "Intro_Cinematic_Dialogue" en Hierarchy
+   - La ventana del Dialogue Editor ahora muestra el nodo raíz (root)
 
 3. **Crear nodos de diálogo:**
-   - Click derecho en el espacio vacío → `Create Node > Speech Node`
-   - En el nodo creado:
-     - **Name:** "Intro_Node1"
-     - **Text:** "Bienvenido a Tungsaur..."
+   - **Click derecho en el nodo raíz** (el nodo rojo que dice "[Root] Speech node.")
+   - Selecciona **"Create Speech"**
+   - **Click izquierdo** en un espacio vacío para colocar el nodo
+   - Un nuevo nodo speech aparece
+
+4. **Editar el primer nodo:**
+   - **Click izquierdo** en el nuevo nodo para seleccionarlo
+   - En el panel derecho aparecen las propiedades:
+     - **Character Name:** "Narrador"
+     - **Dialogue:** "Bienvenido a Tungsaur..."
      - **Icon:** (dejar vacío por ahora)
 
-4. **Crear más nodos:**
-   - Click derecho → `Create Node > Speech Node`
-   - **Name:** "Intro_Node2"
-   - **Text:** "El mundo está en peligro..."
+5. **Crear segundo nodo:**
+   - **Click derecho** en el nodo que acabas de crear
+   - Selecciona **"Create Speech"**
+   - **Click izquierdo** para colocarlo
+   - Editar propiedades:
+     - **Character Name:** "Narrador"
+     - **Dialogue:** "El mundo está en peligro..."
 
-5. **Conectar nodos:**
-   - Click en el círculo de salida del primer nodo
-   - Arrastra hasta el círculo de entrada del segundo nodo
-   - Aparece una flecha conectándolos
+6. **Los nodos ya están conectados automáticamente** (aparece una flecha entre ellos)
 
-6. **Guardar la conversación:**
-   - En la ventana Dialogue Editor: `File > Save As...`
-   - Ubicación: `Assets/Dialogues/Cinematics/`
-   - Nombre: **"Intro_Cinematic_Dialogue"**
-   - Click **Save**
+7. **Guardar:**
+   - Simplemente guarda la escena (Ctrl+S)
+   - O arrastra el GameObject a la carpeta `Assets/Dialogues/Cinematics/` para crear un prefab
 
 ✅ **Resultado**: Conversación `Intro_Cinematic_Dialogue.asset` creada.
 
@@ -234,15 +246,24 @@ En Unity:
 
 ### Paso 3.4: Crear Cinemática Post-Tutorial
 
-1. `Window > Dialogue Editor`
-2. `File > New Conversation`
-3. Crear 2 nodos simples:
-   - **Nodo 1:** "¡Bien hecho!"
-   - **Nodo 2:** "Ahora comienza la aventura..."
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → Create Empty
+   - Renombra a: **"PostTutorial_Dialogue"**
+   - Add Component: **"NPC Conversation"**
 
-4. Conectar y guardar:
-   - Ubicación: `Assets/Dialogues/Cinematics/`
-   - Nombre: **"PostTutorial_Dialogue"**
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Seleccionar el GameObject **"PostTutorial_Dialogue"** en Hierarchy
+
+3. **Crear nodos de diálogo:**
+   - Click derecho en el nodo raíz → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Bien hecho!"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "Ahora comienza la aventura..."
+
+4. **Guardar como prefab:**
+   - Arrastrar GameObject desde Hierarchy a carpeta: `Assets/Dialogues/Cinematics/`
+   - Nombre del prefab: **"PostTutorial_Dialogue"**
 
 5. Crear CinematicConfigSO:
    - Ubicación: `Assets/ScriptableObjects/Cinematics/Outros/`
@@ -342,21 +363,47 @@ En Unity:
 
 ### Paso 5.1: Crear Diálogos del Boss
 
-1. `Window > Dialogue Editor`
-
 **Boss Intro:**
-   - `File > New Conversation`
-   - Crear 2 nodos:
-     - **Nodo 1:** "¡Así que has llegado hasta aquí!"
-     - **Nodo 2:** "¡Prepárate para la derrota!"
-   - Guardar como: `Assets/Dialogues/Cinematics/Boss_Level1_Intro_Dialogue`
+
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → Create Empty
+   - Renombra a: **"Boss_Level1_Intro_Dialogue"**
+   - Add Component: **"NPC Conversation"**
+
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Seleccionar el GameObject **"Boss_Level1_Intro_Dialogue"** en Hierarchy
+
+3. **Crear nodos de diálogo:**
+   - Click derecho en el nodo raíz → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Así que has llegado hasta aquí!"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Prepárate para la derrota!"
+
+4. **Guardar como prefab:**
+   - Arrastrar GameObject desde Hierarchy a carpeta: `Assets/Dialogues/Cinematics/`
+   - Nombre del prefab: **"Boss_Level1_Intro_Dialogue"**
 
 **Boss Defeat:**
-   - `File > New Conversation`
-   - Crear 2 nodos:
-     - **Nodo 1:** "¡Imposible...!"
-     - **Nodo 2:** "Has ganado... esta vez..."
-   - Guardar como: `Assets/Dialogues/Cinematics/Boss_Level1_Defeat_Dialogue`
+
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → Create Empty
+   - Renombra a: **"Boss_Level1_Defeat_Dialogue"**
+   - Add Component: **"NPC Conversation"**
+
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Seleccionar el GameObject **"Boss_Level1_Defeat_Dialogue"** en Hierarchy
+
+3. **Crear nodos de diálogo:**
+   - Click derecho en el nodo raíz → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Imposible...!"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "Has ganado... esta vez..."
+
+4. **Guardar como prefab:**
+   - Arrastrar GameObject desde Hierarchy a carpeta: `Assets/Dialogues/Cinematics/`
+   - Nombre del prefab: **"Boss_Level1_Defeat_Dialogue"**
 
 ✅ **Resultado**: Diálogos del boss creados.
 
@@ -442,13 +489,24 @@ En Unity:
 
 ### Paso 6.1: Crear Cinemática Outro del Nivel
 
-1. `Window > Dialogue Editor`
-2. `File > New Conversation`
-3. Crear 2 nodos:
-   - **Nodo 1:** "¡Victoria!"
-   - **Nodo 2:** "Has completado el Nivel 1"
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → Create Empty
+   - Renombra a: **"Level1_Outro_Dialogue"**
+   - Add Component: **"NPC Conversation"**
 
-4. Guardar como: `Assets/Dialogues/Cinematics/Level1_Outro_Dialogue`
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Seleccionar el GameObject **"Level1_Outro_Dialogue"** en Hierarchy
+
+3. **Crear nodos de diálogo:**
+   - Click derecho en el nodo raíz → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Victoria!"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "Has completado el Nivel 1"
+
+4. **Guardar como prefab:**
+   - Arrastrar GameObject desde Hierarchy a carpeta: `Assets/Dialogues/Cinematics/`
+   - Nombre del prefab: **"Level1_Outro_Dialogue"**
 
 5. Crear CinematicConfigSO:
    - Ubicación: `Assets/ScriptableObjects/Cinematics/Outros/`
