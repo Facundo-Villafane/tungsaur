@@ -220,10 +220,19 @@ namespace CDG.Managers
                 yield break;
             }
 
+            // Get NPCConversation component from GameObject
+            NPCConversation conversation = cinematicConfig.dialogueConversation.GetComponent<NPCConversation>();
+            if (conversation == null)
+            {
+                Debug.LogError("CinematicsManager: GameObject does not have NPCConversation component!");
+                yield return new WaitForSeconds(3f);
+                yield break;
+            }
+
             // Use existing ConversationManager to play dialogue
             if (ConversationManager.Instance != null)
             {
-                ConversationManager.Instance.StartConversation(cinematicConfig.dialogueConversation);
+                ConversationManager.Instance.StartConversation(conversation);
 
                 // Wait until dialogue finishes
                 while (ConversationManager.Instance.IsConversationActive)

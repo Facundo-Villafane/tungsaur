@@ -1,5 +1,4 @@
 using UnityEngine;
-using DialogueEditor;
 
 namespace CDG.Data
 {
@@ -23,8 +22,8 @@ namespace CDG.Data
         public string[] tutorialSteps;
 
         [Header("Dialogue Mode")]
-        [Tooltip("DialogueEditor conversation for tutorial (only if displayMode = DialogueEditor)")]
-        public NPCConversation tutorialConversation;
+        [Tooltip("GameObject with NPCConversation component (only if displayMode = DialogueEditor)")]
+        public GameObject tutorialConversation;
 
         [Header("Input Display")]
         [Tooltip("Show input prompts for each step")]

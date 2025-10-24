@@ -149,12 +149,21 @@ namespace CDG.Managers
                 yield break;
             }
 
+            // Get NPCConversation component from GameObject
+            NPCConversation conversation = tutorialConfig.tutorialConversation.GetComponent<NPCConversation>();
+            if (conversation == null)
+            {
+                Debug.LogError("TutorialManager: GameObject does not have NPCConversation component!");
+                yield return new WaitForSeconds(3f);
+                yield break;
+            }
+
             // Use ConversationManager to play the tutorial dialogue
             if (ConversationManager.Instance != null)
             {
                 Debug.Log("TutorialManager: Starting DialogueEditor tutorial");
 
-                ConversationManager.Instance.StartConversation(tutorialConfig.tutorialConversation);
+                ConversationManager.Instance.StartConversation(conversation);
 
                 // Wait until conversation finishes
                 while (ConversationManager.Instance.IsConversationActive)

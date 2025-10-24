@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Playables;
-using DialogueEditor;
 
 namespace CDG.Data
 {
@@ -23,8 +22,8 @@ namespace CDG.Data
         public PlayableAsset timelineAsset;
 
         [Header("Dialogue (for CinematicType.Dialogue)")]
-        [Tooltip("Dialogue conversation to play")]
-        public NPCConversation dialogueConversation;
+        [Tooltip("GameObject with NPCConversation component")]
+        public GameObject dialogueConversation;
 
         [Header("Camera")]
         [Tooltip("Lock camera during cinematic")]
