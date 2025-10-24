@@ -171,18 +171,28 @@ En Unity:
 
 **OPCIÓN B: Tutorial con DialogueEditor** (más completo)
 
-1. `Window > Dialogue Editor`
-2. `File > New Conversation`
-3. Crear nodos:
-   - **Nodo 1:** "¡Bienvenido al tutorial!"
-   - **Nodo 2:** "Usa WASD para moverte"
-   - **Nodo 3:** "Presiona J para atacar"
-   - **Nodo 4:** "¡Ahora derrota estos enemigos!"
+1. **Crear el GameObject de conversación:**
+   - En Hierarchy, click derecho → Create Empty
+   - Renombra a: **"Tutorial_Conversation"**
+   - Add Component: **"NPC Conversation"**
 
-4. Conectar todos los nodos en secuencia
-5. `File > Save As...`
-   - Ubicación: `Assets/Dialogues/Tutorial/`
-   - Nombre: **"Tutorial_Conversation"**
+2. **Abrir el Editor Visual:**
+   - Menu: `Window > DialogueEditor`
+   - Seleccionar el GameObject **"Tutorial_Conversation"** en Hierarchy
+
+3. **Crear nodos de diálogo:**
+   - Click derecho en el nodo raíz → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Bienvenido al tutorial!"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "Usa WASD para moverte"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "Presiona J para atacar"
+   - Click derecho en el nodo creado → **"Create Speech"**
+   - Click izquierdo para colocar → Editar texto: "¡Ahora derrota estos enemigos!"
+
+4. **Guardar como prefab:**
+   - Arrastrar GameObject desde Hierarchy a carpeta: `Assets/Dialogues/Tutorial/`
+   - Nombre del prefab: **"Tutorial_Conversation"**
 
 ✅ **Resultado**: Conversación de tutorial creada (opcional).
 
