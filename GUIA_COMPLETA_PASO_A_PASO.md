@@ -487,7 +487,7 @@ Ahora configuramos la escena con los managers.
 3. Add Component → `Wave Manager`
 4. En Inspector:
    - **Spawn Points:** (crear después)
-   - **Enemy Container:** (crear después)
+   - **Auto Start:** □ (dejar desmarcado - el TutorialManager lo iniciará)
 
 5. **Asignar al TutorialManager:**
    - Selecciona `TutorialManager` en Hierarchy
@@ -496,22 +496,11 @@ Ahora configuramos la escena con los managers.
 
 ✅ **Resultado:** WaveManager_Tutorial en escena y asignado
 
----
-
-### 9.9 - Enemy Container
-
-1. Hierarchy → Create Empty
-2. Renombra: `EnemyContainer`
-3. **Asignar al WaveManager:**
-   - Selecciona `WaveManager_Tutorial`
-   - En Inspector, campo **Enemy Container**
-   - Arrastra `EnemyContainer` desde Hierarchy
-
-✅ **Resultado:** EnemyContainer en escena y asignado
+**💡 Nota:** WaveManager crea los enemigos automáticamente usando `Instantiate()` y los trackea internamente. No necesita un "Enemy Container" externo.
 
 ---
 
-### 9.10 - Spawn Points
+### 9.9 - Spawn Points
 
 1. Hierarchy → Create Empty
 2. Renombra: `SpawnPoint_1`
@@ -538,11 +527,10 @@ Hierarchy:
 ├── GameManager
 ├── LevelFlowManager         ← Tiene Level1_Config asignado
 ├── CinematicsManager
-├── TutorialManager          ← Tiene GameTutorial asignado
+├── TutorialManager          ← Tiene GameTutorial y WaveManager_Tutorial asignados
 ├── UIManager
 ├── AudioManager
-├── WaveManager_Tutorial     ← Tiene spawn points y container asignados
-├── EnemyContainer
+├── WaveManager_Tutorial     ← Tiene spawn points asignados
 ├── SpawnPoint_1
 ├── SpawnPoint_2
 └── SpawnPoint_3
@@ -612,13 +600,12 @@ Antes de dar Play, verifica que tienes:
 - [ ] GameManager
 - [ ] LevelFlowManager (con Level1_Config asignado)
 - [ ] CinematicsManager
-- [ ] TutorialManager (con GameTutorial asignado)
+- [ ] TutorialManager (con GameTutorial y WaveManager_Tutorial asignados)
 - [ ] UIManager
 - [ ] AudioManager
 - [ ] Canvas > ConversationManager
-- [ ] WaveManager_Tutorial (con spawn points asignados)
-- [ ] EnemyContainer
-- [ ] 3 SpawnPoints
+- [ ] WaveManager_Tutorial (con 3 spawn points asignados)
+- [ ] 3 SpawnPoints (con posiciones configuradas)
 
 ---
 
