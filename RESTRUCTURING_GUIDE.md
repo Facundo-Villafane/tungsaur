@@ -123,8 +123,8 @@ En Unity, crea los siguientes assets:
 2. Crea: `IntroCinematic`, `TutorialCinematic`, `BossCinematic`, etc.
 3. Configura:
    - Cinematic Type: `Dialogue` o `Timeline`
-   - Dialogue Conversation: (si usas diálogos)
-   - Timeline Asset: (si usas Timeline)
+   - Dialogue Conversation: Arrastra el **prefab GameObject** con NPCConversation desde `Assets/Dialogues/`
+   - Timeline Asset: (si usas Timeline en vez de Dialogue)
    - Can Skip: ✓
 
 #### 📁 Tutorial
@@ -460,7 +460,7 @@ Tu **DialogueEditor** está 100% integrado en el nuevo sistema y es el medio pri
 ```
 Create > CDG > Cinematic Configuration
 ├─ Cinematic Type: Dialogue  ← Selecciona esto
-└─ Dialogue Conversation: [Tu NPCConversation]
+└─ Dialogue Conversation: Arrastra el prefab GameObject desde Assets/Dialogues/
 ```
 
 **Resultado**: Las cinemáticas usan `ConversationManager` para mostrar diálogos.
@@ -469,7 +469,7 @@ Create > CDG > Cinematic Configuration
 ```
 Create > CDG > Tutorial Configuration
 ├─ Display Mode: DialogueEditor  ← Selecciona esto
-└─ Tutorial Conversation: [Tu NPCConversation]
+└─ Tutorial Conversation: Arrastra el prefab GameObject desde Assets/Dialogues/Tutorial/
 ```
 
 **Resultado**: El tutorial usa diálogos completos con portraits y branching.

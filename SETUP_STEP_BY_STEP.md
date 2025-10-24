@@ -119,9 +119,10 @@ En Unity:
    ```
 
 5. **Asignar el diálogo:**
-   - Click en el círculo al lado de "Dialogue Conversation"
-   - Busca y selecciona: `Intro_Cinematic_Dialogue`
-   - O arrastra directamente desde Project
+   - **IMPORTANTE:** Debes asignar el **prefab GameObject** (no un asset)
+   - Desde Project, navega a: `Assets/Dialogues/Cinematics/`
+   - Arrastra el prefab `Intro_Cinematic_Dialogue` (con ícono de cubo azul) al campo "Dialogue Conversation"
+   - O click en el círculo → filtrar por "Intro_Cinematic_Dialogue" → seleccionar el prefab GameObject
 
 ✅ **Resultado**: Cinemática inicial configurada.
 
@@ -245,7 +246,7 @@ En Unity:
 **O Configurar (Opción B - DialogueEditor):**
    ```
    Display Mode: DialogueEditor
-   Tutorial Conversation: [Tutorial_Conversation]  ← Si lo creaste
+   Tutorial Conversation: Arrastra el prefab GameObject "Tutorial_Conversation" desde Assets/Dialogues/Tutorial/
    Practice Wave: [Wave_Tutorial_Practice]
    Player Invulnerable: ✓
    ```
@@ -279,7 +280,7 @@ En Unity:
    - Ubicación: `Assets/ScriptableObjects/Cinematics/Outros/`
    - Nombre: **"Tutorial_Complete_Cinematic"**
    - Cinematic Type: **Dialogue**
-   - Dialogue Conversation: **[PostTutorial_Dialogue]**
+   - Dialogue Conversation: Arrastra el **prefab GameObject** `PostTutorial_Dialogue` desde `Assets/Dialogues/Cinematics/`
    - Can Skip: ✓
 
 ✅ **Resultado**: Cinemática post-tutorial lista.
@@ -427,7 +428,7 @@ En Unity:
 3. Nombre: **"Boss_Level1_Intro_Cinematic"**
 4. Configurar:
    - Cinematic Type: **Dialogue**
-   - Dialogue Conversation: **[Boss_Level1_Intro_Dialogue]**
+   - Dialogue Conversation: Arrastra el **prefab GameObject** `Boss_Level1_Intro_Dialogue` desde `Assets/Dialogues/Cinematics/`
    - Lock Camera: ✓
    - Can Skip: ✓
 
@@ -437,7 +438,7 @@ En Unity:
 3. Nombre: **"Boss_Level1_Defeat_Cinematic"**
 4. Configurar:
    - Cinematic Type: **Dialogue**
-   - Dialogue Conversation: **[Boss_Level1_Defeat_Dialogue]**
+   - Dialogue Conversation: Arrastra el **prefab GameObject** `Boss_Level1_Defeat_Dialogue` desde `Assets/Dialogues/Cinematics/`
 
 ✅ **Resultado**: Cinemáticas del boss listas.
 
@@ -522,7 +523,7 @@ En Unity:
    - Ubicación: `Assets/ScriptableObjects/Cinematics/Outros/`
    - Nombre: **"Level1_Outro_Cinematic"**
    - Cinematic Type: **Dialogue**
-   - Dialogue Conversation: **[Level1_Outro_Dialogue]**
+   - Dialogue Conversation: Arrastra el **prefab GameObject** `Level1_Outro_Dialogue` desde `Assets/Dialogues/Cinematics/`
 
 ✅ **Resultado**: Cinemática final lista.
 

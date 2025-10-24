@@ -229,7 +229,7 @@ private void SpecialAttackFinal()
    Cinematic Name: "Boss Intro"
    Cinematic Type: Dialogue (o Timeline)
 
-   Dialogue Conversation: [Conversación de diálogo del boss]
+   Dialogue Conversation: Arrastra el prefab GameObject con NPCConversation desde Assets/Dialogues/
    Lock Camera: ✓
    Can Skip: ✓
    Skip Key: Space

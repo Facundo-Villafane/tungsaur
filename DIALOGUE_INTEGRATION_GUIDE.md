@@ -14,13 +14,24 @@ El **DialogueEditor** ya está **completamente integrado** en el nuevo sistema d
 
 ### Paso 1: Crear Conversación en DialogueEditor
 
-1. En Unity: `Window > Dialogue Editor`
-2. Click en "New Conversation"
-3. Diseña tu diálogo:
-   ```
-   [Start] → [Node 1: "Welcome!"] → [Node 2: "Let's begin..."] → [End]
-   ```
-4. Guarda como: `IntroCinematic_Dialogue.asset`
+1. **Crear GameObject con NPCConversation:**
+   - En Hierarchy: Click derecho → Create Empty
+   - Nombra: `IntroCinematic_Dialogue`
+   - Add Component: `NPC Conversation`
+
+2. **Abrir DialogueEditor:**
+   - En Unity: `Window > Dialogue Editor`
+   - Selecciona el GameObject `IntroCinematic_Dialogue` en Hierarchy
+
+3. **Diseña tu diálogo:**
+   - Click derecho en el nodo raíz → `Create Speech`
+   - Click izquierdo para colocar → Editar texto: "Welcome!"
+   - Click derecho en el nodo creado → `Create Speech`
+   - Click izquierdo para colocar → Editar texto: "Let's begin..."
+
+4. **Guardar como prefab:**
+   - Arrastra el GameObject desde Hierarchy a `Assets/Dialogues/Cinematics/`
+   - Nombre del prefab: `IntroCinematic_Dialogue`
 
 ### Paso 2: Crear CinematicConfigSO
 
@@ -37,7 +48,8 @@ El **DialogueEditor** ya está **completamente integrado** en el nuevo sistema d
    │ Timeline Asset: [Vacío]                │
    │                                        │
    │ Dialogue Conversation:                 │
-   │   [IntroCinematic_Dialogue]  ← Aquí   │
+   │   Arrastra el prefab GameObject        │
+   │   IntroCinematic_Dialogue aquí  ←      │
    │                                        │
    │ Lock Camera: ✓                         │
    │ Can Skip: ✓                            │
@@ -217,10 +229,11 @@ CinematicsManager.PlayCinematic(config)
 // En CinematicsManager.cs
 private IEnumerator PlayDialogueCinematic(CinematicConfigSO cinematicConfig)
 {
+    // Obtener NPCConversation del GameObject prefab
+    NPCConversation conversation = cinematicConfig.dialogueConversation.GetComponent<NPCConversation>();
+
     // Usa tu ConversationManager existente
-    ConversationManager.Instance.StartConversation(
-        cinematicConfig.dialogueConversation
-    );
+    ConversationManager.Instance.StartConversation(conversation);
 
     // Espera a que termine
     while (ConversationManager.Instance.IsConversationActive)
@@ -304,10 +317,10 @@ Tu `ConversationManager` ya tiene estas features:
 ```
 Assets/
 ├── Dialogues/
-│   ├── Level1_Intro.asset           (NPCConversation)
-│   ├── Tutorial_Dialogue.asset      (NPCConversation)
-│   ├── Boss_Intro.asset             (NPCConversation)
-│   └── Boss_Defeat.asset            (NPCConversation)
+│   ├── Level1_Intro.prefab          (GameObject con NPCConversation)
+│   ├── Tutorial_Dialogue.prefab     (GameObject con NPCConversation)
+│   ├── Boss_Intro.prefab            (GameObject con NPCConversation)
+│   └── Boss_Defeat.prefab           (GameObject con NPCConversation)
 │
 └── Configs/
     ├── Cinematics/
@@ -329,13 +342,13 @@ Assets/
 ### Conexiones:
 
 ```
-Level1_Intro.asset (Dialogue)
+Level1_Intro.prefab (GameObject con NPCConversation)
     ↓
-Level1_Intro_Cinematic.asset
+Level1_Intro_Cinematic.asset (CinematicConfigSO)
     Type: Dialogue
-    Conversation: [Level1_Intro]
+    Conversation: [Level1_Intro prefab]  ← Arrastra el prefab GameObject
     ↓
-Level1_Config.asset
+Level1_Config.asset (LevelConfigSO)
     Intro Cinematic: [Level1_Intro_Cinematic]
 ```
 

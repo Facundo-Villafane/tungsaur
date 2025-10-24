@@ -125,7 +125,7 @@ Reestructurar completamente el juego beat em up 2D con una arquitectura escalabl
 - **Menu:** `Create > CDG > Cinematic Configuration`
 - **Contiene:**
   - Tipo (Timeline/Dialogue/Custom)
-  - Timeline asset o NPCConversation
+  - Timeline asset o GameObject con NPCConversation (prefab)
   - Lock camera
   - Skip settings
   - Background music
@@ -153,7 +153,7 @@ Reestructurar completamente el juego beat em up 2D con una arquitectura escalabl
 - **Menu:** `Create > CDG > Tutorial Configuration`
 - **Contiene:**
   - Display mode (SimpleText/DialogueEditor)
-  - Tutorial steps o NPCConversation
+  - Tutorial steps o GameObject con NPCConversation (prefab)
   - Input prompts
   - Practice wave
   - Player invulnerable
@@ -203,9 +203,11 @@ Reestructurar completamente el juego beat em up 2D con una arquitectura escalabl
 2. **TutorialManager** → `TutorialDisplayMode.DialogueEditor`
 3. **Ambos usan** → `ConversationManager.Instance`
 
-### 📝 NPCConversation
-- Usado en `CinematicConfigSO`
-- Usado en `TutorialConfigSO`
+### 📝 NPCConversation (GameObject Prefabs)
+- **Importante:** Las conversaciones se almacenan como **prefabs de GameObject** con el componente `NPCConversation`
+- Usado en `CinematicConfigSO.dialogueConversation` (GameObject)
+- Usado en `TutorialConfigSO.tutorialConversation` (GameObject)
+- Los managers obtienen el componente NPCConversation en runtime con `GetComponent<NPCConversation>()`
 - Namespace: `DialogueEditor`
 
 ---
