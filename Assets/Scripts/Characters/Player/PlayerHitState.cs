@@ -2,30 +2,25 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerState
 {
-    private float damage;
     private float duration;
     private float timer;
-    private PlayerController playerStats;
 
-    public PlayerHitState(PlayerController player, float damage, float duration = 0.5f) : base(player)
+    public PlayerHitState(PlayerController player, float duration = 0.5f) : base(player)
     {
-        this.damage = damage;
         this.duration = duration;
     }
 
     public override void Enter()
     {
+        if (player.IsDead) return;
+
         timer = 0f;
 
         if (player.Animator != null)
             player.Animator.SetTrigger("HitTook");
 
-        playerStats = player.GetComponent<PlayerController>();
-        if (playerStats != null)
-        {
-            playerStats.TakeDamage(damage);
-            Debug.Log(playerStats.CurrentHealth);
-        }
+        // ❌ Quitar la línea que aplicaba daño
+        // player.TakeDamage(damage);
     }
 
     public override void Update()
@@ -33,8 +28,11 @@ public class PlayerHitState : PlayerState
         timer += Time.deltaTime;
         if (timer >= duration)
         {
-            // Volver al estado idle después del golpe
-            player.ChangeState(new PlayerIdleState(player));
+            // Si el jugador murió durante el golpe, no volver al Idle
+            if (player.IsDead)
+                player.ChangeState(new PlayerDeadState(player));
+            else
+                player.ChangeState(new PlayerIdleState(player));
         }
     }
 }
