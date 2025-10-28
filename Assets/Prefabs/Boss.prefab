@@ -66,7 +66,6 @@ GameObject:
   - component: {fileID: 797988970933956536}
   - component: {fileID: 8524706201083517459}
   - component: {fileID: 5877982584347287777}
-  - component: {fileID: -5012431544752536620}
   - component: {fileID: -1150230059442858785}
   m_Layer: 6
   m_Name: Boss
@@ -216,46 +215,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9120935, y: 1.25, z: 0.83299094}
   m_Center: {x: -0.021047555, y: 0, z: -0.058297157}
---- !u!114 &-5012431544752536620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5649645421668853736}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33ec8276d30d88d42b3d5f84ab2ccbf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
-  energy: 50
-  defense: 5
-  baseDamage: 5
-  moveSpeed: 3
-  isStunned: 0
-  tookHit: 0
-  isDead: 0
-  animator: {fileID: 797988970933956536}
-  acceleration: 10
-  deceleration: 5
-  maxSpeed: 3
-  usePhysics: 1
-  fallMultiplier: 2.5
-  groundCheckDistance: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  patrolPoints: []
-  currentPatrolIndex: 0
-  AssignedSlot: -1
-  flipSprite: 1
-  rotationSpeed: 10
-  detectionRadius: 2
-  attackRange: 1.5
-  fallbackForce: 1
-  rb: {fileID: 0}
 --- !u!114 &-1150230059442858785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,10 +236,12 @@ MonoBehaviour:
   isStunned: 0
   tookHit: 0
   isDead: 0
-  animator: {fileID: 0}
+  animator: {fileID: 797988970933956536}
   attackRange: 5
   attackCooldown: 2
   dashCooldown: 6
   dashForce: 20
   dashDuration: 1
   attackDamage: 20
+  minBounds: {x: -10, y: -5}
+  maxBounds: {x: 10, y: 5}
