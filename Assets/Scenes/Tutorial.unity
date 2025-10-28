@@ -1885,7 +1885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1330268b445ae09468d420d7b3d526b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 1
+  currentState: 0
   currentCameraState: 1
   player1Score: 0
   player2Score: 0
