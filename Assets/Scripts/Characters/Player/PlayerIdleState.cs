@@ -6,7 +6,7 @@ public class PlayerIdleState : PlayerState
     public PlayerIdleState(PlayerController player) : base(player) { }
     public override void Enter()
     {
-        // Reiniciamos triggers si es necesario
+        
     }
 
     public override void Update()

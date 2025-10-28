@@ -8,6 +8,6 @@ public abstract class PlayerState : CharacterState<PlayerController>
     {
         this.player = player;
     }
-
-
+    
+    
 }

@@ -7,7 +7,6 @@ using System.Collections;
 public class PlayerController : CharacterBase
 {
     [Header("Movement Settings")]
-
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 8f;
@@ -28,7 +27,10 @@ public class PlayerController : CharacterBase
     [Header("Fall Settings")]
     [SerializeField] private float fallbackForce = 1f;
 
-    // Estado actual
+    [Header("UI Controller")]
+    [SerializeField] private UIController uiController; // Arrastrar UIController en inspector
+
+    // Estados
     private PlayerState currentState;
 
     // Rigidbody
@@ -53,28 +55,39 @@ public class PlayerController : CharacterBase
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
-        animator = animator ?? GetComponent<Animator>();
         Combat = GetComponent<PlayerCombat>();
     }
 
     private void Start()
     {
         ChangeState(new PlayerIdleState(this));
+
+        // Inicializar UI
+        if (uiController != null)
+        {
+            uiController.UpdateHealth(CurrentHealth, MaxHealth);
+            uiController.UpdateEnergy(Energy, 100f); // Asumiendo maxEnergy 100
+        }
     }
 
     private void Update()
     {
         currentState?.Update();
 
-        // Si muere, cambia automáticamente al estado Dead
+        // Actualizar UI cada frame
+        if (uiController != null)
+        {
+            uiController.UpdateHealth(CurrentHealth, MaxHealth);
+            uiController.UpdateEnergy(Energy, 100f);
+        }
+
         if (IsDead && !(currentState is PlayerDeadState))
         {
-            Debug.Log("Cambiando a estado Dead");
             ChangeState(new PlayerDeadState(this));
             return;
         }
 
-        // Detección de salto global: evita duplicar código en cada estado
+        // Salto
         if (Keyboard.current?.spaceKey.wasPressedThisFrame == true && isGrounded)
         {
             PerformJump();
@@ -90,12 +103,15 @@ public class PlayerController : CharacterBase
 
     public void ChangeState(PlayerState newState)
     {
+        if (IsDead && !(newState is PlayerDeadState))
+            return; // No permitir cambiar de estado si está muerto
+    
         currentState?.Exit();
         currentState = newState;
-        currentState?.Enter();
+        currentState.Enter();
     }
 
-    // ------------------- MOVIMIENTO -------------------
+    // ---------------- MOVIMIENTO ----------------
     public void MoveWithPhysics()
     {
         float currentMoveSpeed = IsRunning ? MoveSpeed * 2f : MoveSpeed;
@@ -104,11 +120,8 @@ public class PlayerController : CharacterBase
         Vector3 inputDir = new Vector3(InputVector.x, 0f, InputVector.z);
         Vector3 targetVelocity = inputDir * currentMoveSpeed;
 
-        currentVelocity = Vector3.Lerp(
-            currentVelocity,
-            targetVelocity,
-            (inputDir.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime
-        );
+        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity,
+            (inputDir.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime);
 
         currentVelocity = Vector3.ClampMagnitude(currentVelocity, currentMaxSpeed);
         rb.linearVelocity = new Vector3(currentVelocity.x, rb.linearVelocity.y, currentVelocity.z);
@@ -127,11 +140,9 @@ public class PlayerController : CharacterBase
         else
         {
             float targetAngle = InputVector.x > 0 ? 180f : 0f;
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
+            transform.rotation = Quaternion.Lerp(transform.rotation,
                 Quaternion.Euler(0, targetAngle, 0),
-                rotationSpeed * Time.fixedDeltaTime
-            );
+                rotationSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -141,7 +152,6 @@ public class PlayerController : CharacterBase
             rb.AddForce(Physics.gravity * (fallMultiplier - 1f), ForceMode.Acceleration);
     }
 
-    // ------------------- JUMP -------------------
     public void PerformJump()
     {
         if (!isGrounded) return;
@@ -150,7 +160,63 @@ public class PlayerController : CharacterBase
         isGrounded = false;
     }
 
-    // ------------------- FALLBACK FORCE -------------------
+    private void CheckGrounded()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
+    }
+
+    // ---------------- HEALTH & ENERGY ----------------
+public override void TakeDamage(float damage)
+{
+    if (IsDead) return;
+
+    base.TakeDamage(damage); // Aplica el daño real
+
+    if (!IsDead)
+    {
+        // Solo animación y knockback
+        ChangeState(new PlayerHitState(this));
+    }
+    else
+    {
+        // Si murió, ir directo al estado Dead
+        ChangeState(new PlayerDeadState(this));
+    }
+}
+
+
+    public void Heal(float amount)
+    {
+        CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealth(CurrentHealth, MaxHealth);
+            uiController.ShowHealthPickupIndicator();
+        }
+    }
+
+    public void UseEnergy(float amount)
+    {
+        Energy = Mathf.Max(0f, Energy - amount);
+
+        if (uiController != null)
+            uiController.UpdateEnergy(Energy, 100f);
+    }
+
+    public void GainEnergy(float amount)
+    {
+        Energy = Mathf.Min(100f, Energy + amount);
+
+        if (uiController != null)
+        {
+            uiController.UpdateEnergy(Energy, 100f);
+            uiController.ShowEnergyPickupIndicator();
+        }
+    }
+
+    // ---------------- FALLBACK FORCE ----------------
     public void ApplyFallbackForceTwo()
     {
         if (rb != null) StartCoroutine(SmoothFallbackTwo());
@@ -185,18 +251,10 @@ public class PlayerController : CharacterBase
         isBouncing = false;
     }
 
-    // ------------------- CHECK GROUND -------------------
-    private void CheckGrounded()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
-    }
-
-    // ------------------- FALL STATE -------------------
+    // ---------------- FALL STATE ----------------
     public void StartFall()
     {
-       
-        if (!isFallen )
+        if (!isFallen)
         {
             ChangeState(new PlayerFallState(this));
         }
