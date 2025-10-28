@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
+  enemyPrefab: {fileID: 5649645421668853736, guid: f4b6f154bb65eb7499417ece3a640984, type: 3}
   stageZone: {fileID: 1726290835}
   totalEnemiesToSpawn: 1
   maxEnemiesAlive: 1

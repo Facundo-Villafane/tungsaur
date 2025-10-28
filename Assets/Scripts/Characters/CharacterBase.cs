@@ -9,7 +9,7 @@ public class CharacterBase : MonoBehaviour
     [SerializeField] private float energy = 50f;
     [SerializeField] private float defense = 5f;
     [SerializeField] private float baseDamage = 30f;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] public float moveSpeed = 5f;
     [SerializeField] private bool isStunned = false;
     [SerializeField] private bool tookHit = false;
     [SerializeField] private bool isDead = false;
