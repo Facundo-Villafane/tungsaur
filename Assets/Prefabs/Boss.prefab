@@ -232,14 +232,14 @@ MonoBehaviour:
   energy: 50
   defense: 5
   baseDamage: 30
-  moveSpeed: 5
+  moveSpeed: 6
   isStunned: 0
   tookHit: 0
   isDead: 0
   animator: {fileID: 797988970933956536}
   attackRange: 5
   attackCooldown: 2
-  dashCooldown: 6
+  dashCooldown: 4
   dashForce: 20
   dashDuration: 1
   attackDamage: 20
