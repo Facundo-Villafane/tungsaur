@@ -53,12 +53,12 @@ public class StageZone : MonoBehaviour
         StageManager.Instance.StartStage();
 
         // Desactivar el collider para evitar múltiples activaciones
-        Collider zoneCollider = GetComponent<Collider>();
-        if (zoneCollider != null)
-        {
-            zoneCollider.enabled = false;
-            Debug.Log($"[StageZone: {name}] Collider desactivado tras la activación.");
-        }
+        // Collider zoneCollider = GetComponent<Collider>();
+        // if (zoneCollider != null)
+        // {
+        //     zoneCollider.enabled = false;
+        //     Debug.Log($"[StageZone: {name}] Collider desactivado tras la activación.");
+        // }
     }
 
     public void Initialize()
