@@ -9,6 +9,9 @@ public class AttackState : EnemyState
     private float approachDistance = 4f;
     private float approachChance = 0.3f;
     private float moveSpeed;
+    private AudioManager audioManager => enemy.AudioManager;
+
+
 
     public AttackState(EnemyController enemy, Transform target) : base(enemy)
     {
@@ -63,11 +66,19 @@ public class AttackState : EnemyState
                 if (enemy.Animator != null)
                     enemy.Animator.SetTrigger("Up Punch");
 
+
                 // ⚔️ Aplicar daño, pero el Player decide qué hacer con él
                 player.TakeDamage(40f);
 
+
+
                 timer = attackCooldown;
-            }
+                if (audioManager != null)
+
+                    audioManager.SonidoAtaqueEspada1(enemy.AudioSource);
+                else
+                    Debug.LogWarning("AttackState: AudioManager no asignado.");
+             }
 
             enemy.HandleRotation();
         }

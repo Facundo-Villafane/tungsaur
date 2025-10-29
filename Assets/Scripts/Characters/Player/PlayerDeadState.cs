@@ -5,7 +5,7 @@ public class PlayerDeadState : PlayerState
     public PlayerDeadState(PlayerController player) : base(player) { }
 
 public override void Enter()
-{
+ {
     player.IsDead = true;
 
     player.Animator.ResetTrigger("Jump 0");
@@ -14,6 +14,7 @@ public override void Enter()
     player.Animator.ResetTrigger("Fall");
 
     player.Animator.SetTrigger("Fall"); // animación de muerte
-    Debug.Log("Jugador en estado muerto");
-}
+       Debug.Log("Jugador en estado muerto");
+    
+ } 
 }

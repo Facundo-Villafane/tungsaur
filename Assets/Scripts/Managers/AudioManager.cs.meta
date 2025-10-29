@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5f005a3325f2cf046b1515790a62af35
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - AtaqueEspada1: {fileID: 8300000, guid: 93cb2f9fb8d11724195e62f5ea8f284c, type: 3}
+  - AtaqueEspada2: {fileID: 8300000, guid: 1ae9cdae56ba6434d9bd1725f74340da, type: 3}
+  - Desenvaine1: {fileID: 8300000, guid: daa5a94727dd0564a9393b2222bd9b47, type: 3}
+  - MissAttack: {fileID: 8300000, guid: 2af828c0f78c26c44a0e92d3405517c4, type: 3}
+  - "Da\xF1oEnemigo1": {fileID: 8300000, guid: e6f5a7f16dd583349aec43cc09596503, type: 3}
+  - "Da\xF1oEnemigo2": {fileID: 8300000, guid: 805ae76aad0027741a267c680b2f0df7, type: 3}
+  - "Da\xF1oPlayer": {fileID: 8300000, guid: fc155a6375166a24e92e43a54ca91644, type: 3}
+  - Salto1: {fileID: 8300000, guid: 899a0ca1eebd5b94cbebc72fe7a23f1a, type: 3}
+  - Salto2: {fileID: 8300000, guid: 019ee57744fed1d458f8fe602e3005f4, type: 3}
+  - Salto3: {fileID: 8300000, guid: a5ce003b80bf0f04eb644926b14950a6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

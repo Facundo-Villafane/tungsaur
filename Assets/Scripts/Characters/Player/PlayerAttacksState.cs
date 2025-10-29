@@ -3,39 +3,46 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttacksState : PlayerState
 {
+    private float attackDuration = 0.4f; // Duración estimada del ataque
+    private float attackTimer;
+
     public PlayerAttacksState(PlayerController player) : base(player) { }
 
     public override void Enter()
     {
-        // Reiniciar triggers si quieres
+        attackTimer = attackDuration;
+
+        // Elegir animación según estado
+        if (player.isGrounded && !player.IsMoving)
+            player.Animator.SetTrigger("Up Punch");
+        else
+            player.Animator.SetTrigger("Jump Punch");
+
+        // Sonido aleatorio
+        int r = Random.Range(0, 2);
+        if (r == 0)
+            AudioManager.Instance.SonidoAtaqueEspada1();
+        else
+            AudioManager.Instance.SonidoAtaqueEspada2();
+
+        player.Combat?.TryDealDamage();
     }
 
     public override void Update()
     {
-        if (Keyboard.current == null) return;
-        var kb = Keyboard.current;
+        attackTimer -= Time.deltaTime;
 
-        // Kick
-        if (kb.jKey.wasPressedThisFrame)
+        // Si el jugador se mueve, pasar a movimiento
+        if (player.InputVector.magnitude > 0.1f)
         {
-         
-            if (player.isGrounded && !player.IsMoving)
-                player.Animator.SetTrigger("Kick 0");
-            else
-                player.Animator.SetTrigger("Jump Kick");
-
-            player.Combat?.TryDealDamage();
+            player.ChangeState(new PlayerWalkState(player));
+            return;
         }
 
-        // Punch
-        if (kb.kKey.wasPressedThisFrame)
+        // Si terminó el ataque, volver a Idle
+        if (attackTimer <= 0f)
         {
-            if (player.isGrounded && !player.IsMoving)
-                player.Animator.SetTrigger("Up Punch");
-            else
-                player.Animator.SetTrigger("Jump Punch");
-
-            player.Combat?.TryDealDamage();
+            player.ChangeState(new PlayerIdleState(player));
         }
     }
 }
