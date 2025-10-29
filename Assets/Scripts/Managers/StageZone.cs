@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class StageZone : MonoBehaviour
 {
     [Header("Stage Settings")]
-    [SerializeField] private List<MonoBehaviour> spawners = new List<MonoBehaviour>(); // Spawners que implementan IEnemySpawner
+    [SerializeField] private List<MonoBehaviour> spawners = new List<MonoBehaviour>();
 
     public event Action OnStageCompleted;
     public event Action OnStageStarted;
@@ -14,20 +14,8 @@ public class StageZone : MonoBehaviour
     [SerializeField] private int enemiesDefeated = 0;
     private bool stageActive = false;
 
-    private void Start()
-    {
-        Debug.Log($"[StageZone: {name}] Awake → Intentando registrar en StageManager...");
-
-        if (StageManager.Instance != null)
-        {
-            StageManager.Instance.RegisterStage(this);
-            Debug.Log($"[StageZone: {name}] Registrado correctamente en StageManager.");
-        }
-        else
-        {
-            Debug.LogWarning($"[StageZone: {name}] StageManager.Instance es null en Awake. (Puede inicializarse después)");
-        }
-    }
+    // ❌ ELIMINADO: Ya no se registra en Start()
+    // El StageManager carga todos los stages automáticamente desde la jerarquía
 
     private void OnTriggerEnter(Collider other)
     {
@@ -51,14 +39,6 @@ public class StageZone : MonoBehaviour
 
         Debug.Log($"[StageZone: {name}] Jugador entró. Iniciando Stage...");
         StageManager.Instance.StartStage();
-
-        // Desactivar el collider para evitar múltiples activaciones
-        // Collider zoneCollider = GetComponent<Collider>();
-        // if (zoneCollider != null)
-        // {
-        //     zoneCollider.enabled = false;
-        //     Debug.Log($"[StageZone: {name}] Collider desactivado tras la activación.");
-        // }
     }
 
     public void Initialize()
@@ -92,9 +72,9 @@ public class StageZone : MonoBehaviour
 
     public void StartStage()
     {
-        if(GameManager.Instance.GetCameraState() != CameraState.Locked)
+        if (GameManager.Instance.GetCameraState() != CameraState.Locked)
         {
-             GameManager.Instance.ChangeCameraState(CameraState.Locked);
+            GameManager.Instance.ChangeCameraState(CameraState.Locked);
         }
        
         if (stageActive)
@@ -148,19 +128,9 @@ public class StageZone : MonoBehaviour
         stageActive = false;
         OnStageCompleted?.Invoke();
 
-        // 🔹 Solo notificamos al StageManager, no lo volvemos a llamar recursivamente
-        if (StageManager.Instance != null)
+        if (GameManager.Instance.GetCameraState() != CameraState.Free)
         {
-            Debug.Log($"[StageZone: {name}] Notificando a StageManager del fin del Stage.");
-
-        }
-        else
-        {
-            Debug.LogError($"[StageZone: {name}] StageManager.Instance es null en EndStage.");
-        }
-        if(GameManager.Instance.GetCameraState() != CameraState.Free)
-        {
-             GameManager.Instance.ChangeCameraState(CameraState.Free);
+            GameManager.Instance.ChangeCameraState(CameraState.Free);
         }
     }
 
