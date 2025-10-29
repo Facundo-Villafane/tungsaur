@@ -228,7 +228,7 @@ public class BossController : CharacterBase
         Debug.Log("Boss ha muerto");
 
         // Disparar evento global
-        BossEvents.TriggerBossDeath(transform);
+        // BossEvents.TriggerBossDeath(transform);
      }
 
 
