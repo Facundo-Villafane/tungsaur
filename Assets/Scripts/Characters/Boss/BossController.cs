@@ -22,6 +22,13 @@ public class BossController : CharacterBase
     [SerializeField] private Vector2 minBounds = new Vector2(-10f, -5f);
     [SerializeField] private Vector2 maxBounds = new Vector2(10f, 5f);
 
+    [Header("Audio")]
+    [SerializeField] private AudioManager audioManager;
+    public AudioManager AudioManager => audioManager;
+
+    [SerializeField] private AudioSource audioSource;
+    public AudioSource AudioSource => audioSource;
+
     private Rigidbody rb;
     private Vector3 currentVelocity;
     private bool IsMoving;
@@ -32,6 +39,19 @@ public class BossController : CharacterBase
     {
         rb = GetComponent<Rigidbody>();
         if (animator == null) animator = GetComponent<Animator>();
+
+        if (audioManager == null)
+            Debug.LogWarning("BossController: AudioManager no asignado desde el Inspector.");
+        else
+            Debug.Log("BossController: AudioManager asignado correctamente: " + audioManager.gameObject.name);
+
+        if (audioSource == null)
+            Debug.LogWarning("BossController: AudioSource no asignado desde el Inspector.");
+        else if (!audioSource.enabled)
+            Debug.LogWarning("BossController: AudioSource está desactivado.");
+        else
+            Debug.Log("BossController: AudioSource asignado correctamente: " + audioSource.gameObject.name);
+
         StartCoroutine(SecuenciaDeComportamiento());
     }
 
@@ -62,7 +82,7 @@ public class BossController : CharacterBase
         {
             isVulnerable = true;
             animator.SetTrigger("Iddle");
-            Debug.Log("Boss vulnerable");
+            Debug.Log("Boss entra en estado vulnerable.");
         }
 
         yield return new WaitForSeconds(duration);
@@ -70,7 +90,7 @@ public class BossController : CharacterBase
         if (vulnerable)
         {
             isVulnerable = false;
-            Debug.Log("Boss sale de vulnerabilidad");
+            Debug.Log("Boss sale de estado vulnerable.");
         }
     }
 
@@ -95,9 +115,12 @@ public class BossController : CharacterBase
         if (SlotManager.Instance?.Player == null) yield break;
 
         float distancia = Vector3.Distance(transform.position, SlotManager.Instance.Player.position);
+        Debug.Log($"Boss detecta distancia al jugador: {distancia}");
+
         if (distancia < attackRange)
         {
             animator.SetTrigger("PrepareAttack");
+            Debug.Log("Boss prepara ataque.");
             yield return new WaitForSeconds(0.5f);
 
             if (!isVulnerable && Vector3.Distance(transform.position, SlotManager.Instance.Player.position) < 1.5f)
@@ -111,8 +134,26 @@ public class BossController : CharacterBase
     {
         if (isVulnerable) return;
 
-        SlotManager.Instance.Player.GetComponent<CharacterBase>()?.TakeDamage(attackDamage);
-        Debug.Log("Boss golpeó al jugador");
+        var target = SlotManager.Instance.Player.GetComponent<CharacterBase>();
+        if (target != null)
+        {
+            target.TakeDamage(attackDamage);
+            Debug.Log($"Boss golpea al jugador e inflige {attackDamage} de daño.");
+
+            if (audioManager != null && audioSource != null && audioSource.enabled)
+            {
+                audioManager.SonidoAtaqueEspada1(audioSource);
+                Debug.Log("Boss reproduce sonido de ataque.");
+            }
+            else
+            {
+                Debug.LogWarning("BossController: AudioManager o AudioSource no asignado o desactivado.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("BossController: No se encontró CharacterBase en el jugador.");
+        }
     }
 
     private IEnumerator Dash()
@@ -123,6 +164,8 @@ public class BossController : CharacterBase
         Vector3 direction = (SlotManager.Instance.Player.position - transform.position).normalized;
         rb.useGravity = false;
         rb.linearVelocity = direction * dashForce;
+
+        Debug.Log("Boss inicia dash.");
 
         float elapsed = 0f;
         while (elapsed < dashDuration)
@@ -138,7 +181,7 @@ public class BossController : CharacterBase
             {
                 Golpear();
                 hasHitDuringDash = true;
-                Debug.Log("Golpe durante el dash");
+                Debug.Log("Boss golpea durante el dash.");
             }
 
             elapsed += Time.deltaTime;
@@ -147,6 +190,8 @@ public class BossController : CharacterBase
 
         rb.linearVelocity = Vector3.zero;
         rb.useGravity = true;
+
+        Debug.Log("Boss termina dash.");
     }
 
     private void SetVelocity(Vector3 velocity)
@@ -206,39 +251,34 @@ public class BossController : CharacterBase
     {
         if (IsDead) return;
 
-        base.TakeDamage(amount); // aplica daño real
-
-        Debug.Log($"Boss recibió {amount} de daño");
-
-        // Podés agregar animaciones o efectos acá si querés
-        // animator.SetTrigger("Hit");
+        base.TakeDamage(amount);
+        Debug.Log($"Boss recibió {amount} de daño.");
     }
 
     public override void Die()
-     {
+    {
         if (IsDead) return;
 
-        base.Die(); // marca como muerto y detiene lógica base
+        base.Die();
 
         StopAllCoroutines();
         rb.linearVelocity = Vector3.zero;
         rb.useGravity = true;
 
         animator.SetTrigger("Fall");
-        Debug.Log("Boss ha muerto");
+        Debug.Log("Boss ha muerto.");
 
-        // Disparar evento global
-        BossEvents.TriggerBossDeath(transform);
-     }
-
+        //BossEvents.TriggerBossDeath(transform);
+    }
 
     private void ActivarCinematicaFinal()
     {
-        // Conectá tu sistema de cutscenes, Timeline o transición acá
-        // Ejemplo: CutsceneManager.Instance.Play("FinalBossCinematic");
-
-        Debug.Log("Cinemática final activada");
+        Debug.Log("Cinemática final activada.");
     }
-
+    public void ApplyFallbackForce()
+    {
+        Debug.Log("BossController: ApplyFallbackForce fue llamado desde la animación.");
+        // Podés agregar lógica de retroceso, rebote o efectos acá
+    }
 
 }
