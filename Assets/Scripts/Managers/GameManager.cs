@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameState currentState = GameState.Playing;
     [SerializeField] private CameraState currentCameraState = CameraState.Locked;
 
+    [Header("Scene Management")]
+    [SerializeField] private SceneData[] scenes; // Array de escenas configurables
+    [SerializeField] private int currentSceneIndex = 0;
+
     [Header("Player Stats")]
     [SerializeField] private int player1Score = 0;
     [SerializeField] private int player2Score = 0;
@@ -19,12 +24,13 @@ public class GameManager : MonoBehaviour
     // ==================== EVENTS ====================
     public event Action<GameState> OnGameStateChanged;
     public event Action<CameraState> OnCameraStateChanged;
-    public event Action<int, int> OnLivesChanged; // player, newLives
-    public event Action<int, int> OnScoreChanged; // player, newScore
+    public event Action<int, int> OnLivesChanged;
+    public event Action<int, int> OnScoreChanged;
+    public event Action<string> OnSceneLoaded; // Nueva: cuando se carga una escena
 
     private void Awake()
     {
-        // Singleton
+        // Singleton persistente
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -33,6 +39,15 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Suscribirse al evento de carga de escenas
+        SceneManager.sceneLoaded += OnSceneLoadedCallback;
+    }
+
+    private void OnDestroy()
+    {
+        // Desuscribirse para evitar memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoadedCallback;
     }
 
     private void Start()
@@ -53,6 +68,12 @@ public class GameManager : MonoBehaviour
         {
             ToggleCameraState();
         }
+
+        // Debug: Cargar siguiente nivel
+        if (keyboard != null && keyboard.nKey.wasPressedThisFrame)
+        {
+            LoadNextScene();
+        }
     }
 
     // ==================== INIT ====================
@@ -61,6 +82,134 @@ public class GameManager : MonoBehaviour
     {
         ResetStats();
         ChangeGameState(GameState.Playing);
+        Debug.Log("[GameManager] Juego inicializado.");
+    }
+
+    // ==================== SCENE MANAGEMENT ====================
+
+    /// <summary>
+    /// Callback que se ejecuta cuando se carga una nueva escena
+    /// </summary>
+    private void OnSceneLoadedCallback(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[GameManager] ═══════════════════════════════════════");
+        Debug.Log($"[GameManager] Escena cargada: {scene.name}");
+        Debug.Log($"[GameManager] ═══════════════════════════════════════");
+
+        // Esperar a que el StageManager cargue sus stages
+        StartCoroutine(VerifySceneSetup());
+
+        OnSceneLoaded?.Invoke(scene.name);
+    }
+
+    /// <summary>
+    /// Verifica que la escena se haya cargado correctamente
+    /// </summary>
+    private IEnumerator VerifySceneSetup()
+    {
+        // Esperar 2 frames para que Start() se ejecute en todos los objetos
+        yield return null;
+        yield return null;
+
+        if (StageManager.Instance != null)
+        {
+            if (StageManager.Instance.HasStages)
+            {
+                Debug.Log($"[GameManager] ✅ Escena con stages lista. Total: {StageManager.Instance.CurrentStageIndex}");
+            }
+            else
+            {
+                Debug.Log($"[GameManager] ℹ️ Escena sin stages (menú/cutscene)");
+            }
+        }
+        else
+        {
+            Debug.Log("[GameManager] ℹ️ No hay StageManager en esta escena");
+        }
+    }
+
+    /// <summary>
+    /// Cargar escena por nombre
+    /// </summary>
+    public void LoadScene(string sceneName)
+    {
+        Debug.Log($"[GameManager] Cargando escena: {sceneName}");
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    /// <summary>
+    /// Cargar escena por índice del array
+    /// </summary>
+    public void LoadScene(int sceneIndex)
+    {
+        if (sceneIndex < 0 || sceneIndex >= scenes.Length)
+        {
+            Debug.LogError($"[GameManager] Índice de escena inválido: {sceneIndex}");
+            return;
+        }
+
+        currentSceneIndex = sceneIndex;
+        SceneData sceneData = scenes[sceneIndex];
+        LoadScene(sceneData.sceneName);
+    }
+
+    /// <summary>
+    /// Cargar la siguiente escena en el array
+    /// </summary>
+    public void LoadNextScene()
+    {
+        int nextIndex = currentSceneIndex + 1;
+
+        if (nextIndex >= scenes.Length)
+        {
+            Debug.Log("[GameManager] No hay más escenas. Volviendo al menú.");
+            LoadScene(0); // Volver al inicio
+            return;
+        }
+
+        LoadScene(nextIndex);
+    }
+
+    /// <summary>
+    /// Cargar escena de forma asíncrona (con loading screen si quieres)
+    /// </summary>
+    private IEnumerator LoadSceneAsync(string sceneName)
+    {
+        // Opcional: Mostrar pantalla de carga
+        ChangeGameState(GameState.Loading);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // Esperar mientras carga
+        while (!asyncLoad.isDone)
+        {
+            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            Debug.Log($"[GameManager] Cargando escena: {progress * 100}%");
+            yield return null;
+        }
+
+        Debug.Log($"[GameManager] Escena '{sceneName}' cargada completamente.");
+        ChangeGameState(GameState.Playing);
+    }
+
+    /// <summary>
+    /// Obtener información de la escena actual
+    /// </summary>
+    public SceneData GetCurrentSceneData()
+    {
+        if (currentSceneIndex >= 0 && currentSceneIndex < scenes.Length)
+            return scenes[currentSceneIndex];
+
+        return null;
+    }
+
+    /// <summary>
+    /// Recargar la escena actual
+    /// </summary>
+    public void ReloadCurrentScene()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        LoadScene(currentScene);
     }
 
     // ==================== GAME STATE ====================
@@ -80,6 +229,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Paused:
             case GameState.GameOver:
+            case GameState.Loading:
                 Time.timeScale = 0f;
                 break;
         }
@@ -105,16 +255,12 @@ public class GameManager : MonoBehaviour
 
         currentCameraState = newState;
         OnCameraStateChanged?.Invoke(newState);
-        UpdateCameraState(); // 🔹 aplica el nuevo estado
+        UpdateCameraState();
         Debug.Log($"[GameManager] Estado de cámara: {newState}");
     }
 
-    /// <summary>
-    /// Lógica que aplica el cambio de cámara (por ejemplo, activar o desactivar scripts de control)
-    /// </summary>
     private void UpdateCameraState()
     {
-        // Ejemplo genérico — ajusta según tu setup
         var playerCam = Camera.main;
 
         if (playerCam == null)
@@ -126,16 +272,10 @@ public class GameManager : MonoBehaviour
         switch (currentCameraState)
         {
             case CameraState.Locked:
-                // Aquí podrías bloquear la rotación o movimiento de cámara
-                // playerCam.GetComponent<FreeCameraController>()?.enabled = false;
-                // playerCam.GetComponent<FollowPlayer>()?.enabled = true;
                 Debug.Log("Cámara bloqueada al jugador.");
                 break;
 
             case CameraState.Free:
-                // Aquí podrías habilitar un modo libre
-                // playerCam.GetComponent<FollowPlayer>()?.enabled = false;
-                // playerCam.GetComponent<FreeCameraController>()?.enabled = true;
                 Debug.Log("Cámara libre activada.");
                 break;
         }
@@ -172,13 +312,8 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         ResetStats();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ReloadCurrentScene();
         ChangeGameState(GameState.Playing);
-    }
-
-    public void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
     }
 
     // ==================== PAUSE ====================
@@ -203,6 +338,25 @@ public class GameManager : MonoBehaviour
     }
 }
 
+// ==================== SCENE DATA CLASS ====================
+
+[System.Serializable]
+public class SceneData
+{
+    public string sceneName;      // Nombre de la escena en Build Settings
+    public string displayName;    // Nombre para mostrar ("Tutorial", "Nivel 1")
+    public SceneType sceneType;   // Tipo de escena
+    public bool hasStages;        // Si esta escena tiene stages
+
+    public SceneData(string sceneName, string displayName, SceneType type, bool hasStages = false)
+    {
+        this.sceneName = sceneName;
+        this.displayName = displayName;
+        this.sceneType = type;
+        this.hasStages = hasStages;
+    }
+}
+
 // ==================== ENUMS ====================
 
 public enum GameState
@@ -210,11 +364,21 @@ public enum GameState
     Menu,
     Playing,
     Paused,
-    GameOver
+    GameOver,
+    Loading // Nuevo estado
 }
 
 public enum CameraState
 {
     Locked,
     Free
+}
+
+public enum SceneType
+{
+    Menu,
+    Tutorial,
+    Level,
+    Boss,
+    Cutscene
 }
