@@ -136,7 +136,7 @@ public class BossController : CharacterBase
             }
         }
     }
-
+    
     private void Golpear()
     {
         if (isVulnerable) return;
@@ -256,11 +256,13 @@ public class BossController : CharacterBase
 
     public override void TakeDamage(float amount)
     {
-        if (IsDead) return;
-
         base.TakeDamage(amount);
         audioManager.SonidoDañoEnemigo2(audioSource);
         Debug.Log($"Boss recibió {amount} de daño.");
+        if (!IsDead)
+        {
+            TakeHit();
+        }
     }
 
     public override void Die()

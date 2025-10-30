@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttacksState : PlayerState
 {
-    private float attackDuration = 0.4f; // Duración estimada del ataque
+    private float attackDuration = 0.5f; // Duración estimada del ataque
     private float attackTimer;
 
     public PlayerAttacksState(PlayerController player) : base(player) { }
@@ -11,12 +11,14 @@ public class PlayerAttacksState : PlayerState
     public override void Enter()
     {
         attackTimer = attackDuration;
+        if (player.IsMoving) return;
 
-        // Elegir animación según estado
         if (player.isGrounded && !player.IsMoving)
             player.Animator.SetTrigger("Up Punch");
-        else
+        else if (!player.isGrounded) {
             player.Animator.SetTrigger("Jump Punch");
+        }
+            
 
         // Sonido aleatorio
         int r = Random.Range(0, 2);

@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 30
+  currentHealth: 100
   energy: 50
   defense: 6
   baseDamage: 5

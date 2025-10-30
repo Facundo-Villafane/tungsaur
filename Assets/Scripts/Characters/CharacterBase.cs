@@ -105,6 +105,7 @@ public class CharacterBase : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
+        if (IsDead) return;
         float finalDamage = Mathf.Max(0, damage - Defense);
         CurrentHealth -= finalDamage;
         Debug.Log($"{gameObject.name} recibió {finalDamage} de daño. Vida restante: {CurrentHealth}");
