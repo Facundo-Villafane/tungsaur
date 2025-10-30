@@ -192,12 +192,12 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
         stageZone?.OnEnemyDefeated();
 
         // Si todos murieron, puede también disparar el callback
-        // if (activeEnemies.Count == 0 && enemiesSpawned >= totalEnemiesToSpawn)
-        // {
-        //     Debug.Log($"[SpawnerSafe: {name}] Todos los enemigos derrotados.");
-        //     onAllEnemiesDefeatedCallback?.Invoke();
-        //     isActive = false;
-        // }
+        if (activeEnemies.Count == 0 && enemiesSpawned >= totalEnemiesToSpawn)
+        {
+             Debug.Log($"[SpawnerSafe: {name}] Todos los enemigos derrotados.");
+             onAllEnemiesDefeatedCallback?.Invoke();
+             isActive = false;
+        }
     }
 
 

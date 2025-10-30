@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
@@ -8,17 +9,17 @@ public class StageManager : MonoBehaviour
 
     [Header("Stage Info")]
     [SerializeField] private int currentLevel = 1;
-    [SerializeField] private int currentStageIndex = 0; 
+    [SerializeField] private int currentStageIndex = 0;
     [SerializeField] private StageState currentStageState = StageState.Locked;
 
     [Header("Stages (Auto-populated)")]
     [SerializeField] private List<StageZone> stages = new List<StageZone>();
-    
+
     private Transform stageZonesParent;
     private bool hasStages = false;
 
     public event Action<StageState> OnStageStateChanged;
-    public event Action<int, int> OnStageProgressed; 
+    public event Action<int, int> OnStageProgressed;
     public event Action<StageZone> OnStageStarted;
     public event Action<StageZone> OnStageEnded;
 
@@ -66,7 +67,7 @@ public class StageManager : MonoBehaviour
     {
         // Opción 1: Buscar por nombre (más simple y confiable)
         GameObject stageZonesObject = GameObject.Find("StageZones");
-        
+
         if (stageZonesObject != null)
         {
             stageZonesParent = stageZonesObject.transform;
@@ -76,7 +77,7 @@ public class StageManager : MonoBehaviour
 
         // Opción 2: Buscar hijo directo de este objeto
         stageZonesParent = transform.Find("StageZones");
-        
+
         if (stageZonesParent != null)
         {
             Debug.Log($"[StageManager] StageZones encontrado como hijo: {stageZonesParent.name}");
@@ -87,7 +88,7 @@ public class StageManager : MonoBehaviour
         try
         {
             stageZonesObject = GameObject.FindGameObjectWithTag("StageZones");
-            
+
             if (stageZonesObject != null)
             {
                 stageZonesParent = stageZonesObject.transform;
@@ -127,7 +128,7 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < stageZonesParent.childCount; i++)
         {
             Transform child = stageZonesParent.GetChild(i);
-            
+
             // Ignorar hijos inactivos
             if (!child.gameObject.activeInHierarchy)
             {
@@ -140,10 +141,10 @@ public class StageManager : MonoBehaviour
             if (stageZone != null)
             {
                 stages.Add(stageZone);
-                
+
                 // Suscribir evento al completarse el stage
                 stageZone.OnStageCompleted += () => OnStageCompleted(stageZone);
-                
+
                 Debug.Log($"[StageManager] Stage {stages.Count - 1} cargado: {stageZone.name}");
             }
             else
@@ -299,7 +300,7 @@ public class StageManager : MonoBehaviour
     private void OnLevelCompleted()
     {
         Debug.Log("[StageManager] Nivel completado. Notificando al GameManager...");
-        
+
         // Notificar al GameManager para que cargue la siguiente escena
         if (GameManager.Instance != null)
         {
@@ -319,8 +320,8 @@ public class StageManager : MonoBehaviour
     {
         Debug.Log($"[StageManager] Cargando siguiente escena en {delay} segundos...");
         yield return new WaitForSeconds(delay);
-        
-        GameManager.Instance.LoadNextScene();
+
+        LoadNextScene();
     }
 
     private void ChangeStageState(StageState newState)
@@ -357,10 +358,24 @@ public class StageManager : MonoBehaviour
     {
         Debug.Log("[StageManager] Recargando stages manualmente...");
         LoadStagesInOrder();
-        
+
         if (hasStages && stages.Count > 0)
         {
             PrepareStage(0);
+        }
+    }
+    public void LoadNextScene()
+    {
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextIndex = currentIndex + 1;
+
+        if (nextIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextIndex);
+        }
+        else
+        {
+            Debug.LogWarning("No hay más escenas en el Build Settings.");
         }
     }
 }
