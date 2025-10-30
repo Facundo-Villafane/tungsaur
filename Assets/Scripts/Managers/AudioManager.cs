@@ -19,11 +19,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip DañoPlayer;
     public AudioClip EnemigoMuriendo;
     public AudioClip RisaMalvada;
+    public AudioClip BossMuriendo;
 
     [Header("Movimiento del personaje")]
     public AudioClip Salto1;
     public AudioClip Salto2;
     public AudioClip Salto3;
+    
 
     void Awake()
     {
@@ -83,5 +85,6 @@ public class AudioManager : MonoBehaviour
     public void SonidoSalto3(AudioSource source = null) => Reproducir(Salto3, source ?? audioSource);
     public void SonidoEnemigoMuriendo(AudioSource source = null) => Reproducir(EnemigoMuriendo, source ?? audioSource);
     public void SonidoRisaMalvada(AudioSource source = null) => Reproducir(RisaMalvada, source ?? audioSource);
+    public void SonidoBossMuriendo(AudioSource source = null) => Reproducir(BossMuriendo, source ?? audioSource);
 
 }

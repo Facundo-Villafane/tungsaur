@@ -63,18 +63,22 @@ public class EnemyController : CharacterBase
         if (animator == null)
             animator = GetComponent<Animator>();
 
-        if (audioSource == null)
-        {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-                audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
         if (audioManager == null)
         {
             audioManager = AudioManager.Instance;
-            if (audioManager == null)
-                Debug.LogWarning("EnemyController: AudioManager.Instance no está inicializado.");
+            Debug.Log(audioManager != null
+            ? "BossController: AudioManager asignado automáticamente desde instancia."
+            : "BossController: AudioManager no encontrado en escena.");
+        }
+
+    
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+            Debug.Log("BossController: AudioSource asignado automáticamente.");
         }
 
         ChangeState(new CirclePatrolState(this));

@@ -29,7 +29,6 @@ public class PlayerController : CharacterBase
 
     [Header("UI Controller")]
     [SerializeField] private UIController uiController;
-    [SerializeField] private AudioManager audioManager;
 
     private PlayerState currentState;
 
@@ -44,6 +43,12 @@ public class PlayerController : CharacterBase
 
     public PlayerCombat Combat { get; private set; }
     public Animator Animator => animator;
+    [SerializeField] private AudioManager audioManager;
+    public AudioManager AudioManager => audioManager;
+
+    [SerializeField] private AudioSource audioSource;
+    public AudioSource AudioSource => audioSource;
+
 
     protected override void Awake()
     {
@@ -60,6 +65,24 @@ public class PlayerController : CharacterBase
         {
             uiController.UpdateHealth(CurrentHealth, MaxHealth);
             uiController.UpdateEnergy(Energy, 100f);
+        }
+
+        if (audioManager == null)
+        {
+            audioManager = AudioManager.Instance;
+            Debug.Log(audioManager != null
+            ? "BossController: AudioManager asignado automáticamente desde instancia."
+            : "BossController: AudioManager no encontrado en escena.");
+        }
+
+    
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+            Debug.Log("BossController: AudioSource asignado automáticamente.");
         }
     }
 
