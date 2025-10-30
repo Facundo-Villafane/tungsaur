@@ -248,3 +248,4 @@ MonoBehaviour:
   maxSpeed: 6
   minBounds: {x: -10, y: -5}
   maxBounds: {x: 10, y: 5}
+  audioManager: {fileID: 1979007589127747306, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}

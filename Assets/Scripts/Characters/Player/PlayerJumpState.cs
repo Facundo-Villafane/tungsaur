@@ -8,8 +8,12 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        // Ya se llamó a PerformJump antes de cambiar de estado
+
+        // Animación de salto
         player.Animator?.SetTrigger("Jump 0");
+
+        // 🔊 Sonido de salto (Salto2)
+        AudioManager.Instance.SonidoSalto2();
     }
 
     public override void Update()
@@ -19,7 +23,6 @@ public class PlayerJumpState : PlayerState
         if (Keyboard.current == null) return;
         var kb = Keyboard.current;
         HandleAirMovement(kb);
-
 
         // Si aterrizó antes de caer → Idle / Walk / Run
         if (player.isGrounded)

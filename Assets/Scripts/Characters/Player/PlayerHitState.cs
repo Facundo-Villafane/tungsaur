@@ -16,23 +16,36 @@ public class PlayerHitState : PlayerState
 
         timer = 0f;
 
+        // Animación de daño
         if (player.Animator != null)
             player.Animator.SetTrigger("HitTook");
 
-        // ❌ Quitar la línea que aplicaba daño
-        // player.TakeDamage(damage);
+        // Sonido de daño
+        AudioManager.Instance.SonidoDañoPlayer();
     }
 
     public override void Update()
     {
         timer += Time.deltaTime;
+
+        // Si el jugador murió durante el golpe, ir a Dead
+        if (player.IsDead)
+        {
+            player.ChangeState(new PlayerDeadState(player));
+            return;
+        }
+
+        // Si se mueve, ir a movimiento
+        if (player.InputVector.magnitude > 0.1f)
+        {
+            player.ChangeState(new PlayerWalkState(player));
+            return;
+        }
+
+        // Si terminó el tiempo de reacción, volver a Idle
         if (timer >= duration)
         {
-            // Si el jugador murió durante el golpe, no volver al Idle
-            if (player.IsDead)
-                player.ChangeState(new PlayerDeadState(player));
-            else
-                player.ChangeState(new PlayerIdleState(player));
+            player.ChangeState(new PlayerIdleState(player));
         }
     }
 }

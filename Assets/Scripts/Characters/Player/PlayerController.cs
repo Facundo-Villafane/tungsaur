@@ -28,26 +28,20 @@ public class PlayerController : CharacterBase
     [SerializeField] private float fallbackForce = 1f;
 
     [Header("UI Controller")]
-    [SerializeField] private UIController uiController; // Arrastrar UIController en inspector
+    [SerializeField] private UIController uiController;
+    [SerializeField] private AudioManager audioManager;
 
-    // Estados
     private PlayerState currentState;
 
-    // Rigidbody
     public Rigidbody rb { get; private set; }
-
-    // Movimiento
     private Vector3 currentVelocity;
     public Vector3 InputVector { get; set; }
     public bool IsMoving => currentVelocity.magnitude > 0.1f;
-
-    // Flags
     public bool IsRunning { get; set; } = false;
     public bool isGrounded { get; private set; } = true;
     private bool isFallen = false;
     private bool isBouncing = false;
 
-    // Componentes
     public PlayerCombat Combat { get; private set; }
     public Animator Animator => animator;
 
@@ -62,11 +56,10 @@ public class PlayerController : CharacterBase
     {
         ChangeState(new PlayerIdleState(this));
 
-        // Inicializar UI
         if (uiController != null)
         {
             uiController.UpdateHealth(CurrentHealth, MaxHealth);
-            uiController.UpdateEnergy(Energy, 100f); // Asumiendo maxEnergy 100
+            uiController.UpdateEnergy(Energy, 100f);
         }
     }
 
@@ -74,7 +67,6 @@ public class PlayerController : CharacterBase
     {
         currentState?.Update();
 
-        // Actualizar UI cada frame
         if (uiController != null)
         {
             uiController.UpdateHealth(CurrentHealth, MaxHealth);
@@ -85,6 +77,12 @@ public class PlayerController : CharacterBase
         {
             ChangeState(new PlayerDeadState(this));
             return;
+        }
+
+        // Activar estado de ataque con tecla K
+        if (Keyboard.current?.kKey.wasPressedThisFrame == true)
+        {
+            ChangeState(new PlayerAttacksState(this));
         }
 
         // Salto
@@ -104,14 +102,13 @@ public class PlayerController : CharacterBase
     public void ChangeState(PlayerState newState)
     {
         if (IsDead && !(newState is PlayerDeadState))
-            return; // No permitir cambiar de estado si está muerto
-    
+            return;
+
         currentState?.Exit();
         currentState = newState;
         currentState.Enter();
     }
 
-    // ---------------- MOVIMIENTO ----------------
     public void MoveWithPhysics()
     {
         float currentMoveSpeed = IsRunning ? MoveSpeed * 2f : MoveSpeed;
@@ -157,6 +154,7 @@ public class PlayerController : CharacterBase
         if (!isGrounded) return;
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         animator?.SetTrigger("Jump 0");
+        AudioManager.Instance.SonidoSalto2();
         isGrounded = false;
     }
 
@@ -166,25 +164,21 @@ public class PlayerController : CharacterBase
         isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
     }
 
-    // ---------------- HEALTH & ENERGY ----------------
-public override void TakeDamage(float damage)
-{
-    if (IsDead) return;
-
-    base.TakeDamage(damage); // Aplica el daño real
-
-    if (!IsDead)
+    public override void TakeDamage(float damage)
     {
-        // Solo animación y knockback
-        ChangeState(new PlayerHitState(this));
-    }
-    else
-    {
-        // Si murió, ir directo al estado Dead
-        ChangeState(new PlayerDeadState(this));
-    }
-}
+        if (IsDead) return;
 
+        base.TakeDamage(damage);
+
+        if (!IsDead)
+        {
+            ChangeState(new PlayerHitState(this));
+        }
+        else
+        {
+            ChangeState(new PlayerDeadState(this));
+        }
+    }
 
     public void Heal(float amount)
     {
@@ -216,7 +210,6 @@ public override void TakeDamage(float damage)
         }
     }
 
-    // ---------------- FALLBACK FORCE ----------------
     public void ApplyFallbackForceTwo()
     {
         if (rb != null) StartCoroutine(SmoothFallbackTwo());
@@ -251,7 +244,6 @@ public override void TakeDamage(float damage)
         isBouncing = false;
     }
 
-    // ---------------- FALL STATE ----------------
     public void StartFall()
     {
         if (!isFallen)

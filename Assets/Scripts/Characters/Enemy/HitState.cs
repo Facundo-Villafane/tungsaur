@@ -13,11 +13,19 @@ public class HitState : EnemyState
     public override void Enter()
     {
         timer = 0f;
-        enemy.SetVelocity(Vector3.zero); // detiene al enemigo
+
+        // Detener movimiento
+        enemy.SetVelocity(Vector3.zero);
+
+        // Animación de daño
         if (enemy.Animator != null)
         {
             enemy.Animator.SetTrigger("HitTook");
+            
         }
+
+        
+        
     }
 
     public override void Update()

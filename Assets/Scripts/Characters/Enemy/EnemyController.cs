@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class EnemyController : CharacterBase
 {
     public event Action OnEnemyDeath;
 
     [Header("Movement Settings")]
-
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 10f;
     [SerializeField] private float maxSpeed = 5f;
@@ -21,14 +21,12 @@ public class EnemyController : CharacterBase
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Animation")]
-
     public Animator Animator => animator;
 
     [Header("Patrulla")]
-    // private Transform patrolZone; // Ahora siempre asignada por el spawner
-    public Transform[] patrolPoints; // Se llenará dinámicamente
+    public Transform[] patrolPoints;
     public int currentPatrolIndex = 0;
-    [HideInInspector] public int AssignedSlot = -1; // patrullaje inteligente
+    [HideInInspector] public int AssignedSlot = -1;
 
     [Header("Rotation")]
     [SerializeField] private bool flipSprite = true;
@@ -41,10 +39,15 @@ public class EnemyController : CharacterBase
     [Header("Fallback Settings")]
     [SerializeField] private float fallbackForce = 1f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioManager audioManager;
+    public AudioManager AudioManager => audioManager;
+    [SerializeField] private AudioSource audioSource;
+    public AudioSource AudioSource => audioSource;
+
     public bool IsGrounded { get; private set; } = true;
     public bool IsMoving { get; private set; }
     public float DetectionRadius => detectionRadius;
-
 
     private bool isFalling = false;
     private bool isBouncing = false;
@@ -57,29 +60,35 @@ public class EnemyController : CharacterBase
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-
         if (animator == null)
             animator = GetComponent<Animator>();
 
-        
-        // if (patrolZone == null)
-        // {
-        //     patrolPoints = new Transform[0];
-        //     Debug.Log("PatrolZone no asignada todavía. El spawner debe asignarla.");
-        // }
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
-    ChangeState(new CirclePatrolState(this));
+        if (audioManager == null)
+        {
+            audioManager = AudioManager.Instance;
+            if (audioManager == null)
+                Debug.LogWarning("EnemyController: AudioManager.Instance no está inicializado.");
+        }
+
+        ChangeState(new CirclePatrolState(this));
     }
 
     private void Update()
     {
-
         if (IsDead && !(currentState is EnemyDeadState))
         {
             Debug.Log("Cambiando a estado Dead del enemy");
             ChangeState(new EnemyDeadState(this));
             return;
         }
+
         currentState?.Update();
 
         if (isFalling)
@@ -88,7 +97,6 @@ public class EnemyController : CharacterBase
             ApplyFallbackForce();
             isFalling = false;
         }
-
     }
 
     private void FixedUpdate()
@@ -107,11 +115,12 @@ public class EnemyController : CharacterBase
         HandleRotation();
         UpdateAnimator();
     }
+
     public void SetVelocity(Vector3 velocity)
-{
-    currentVelocity.x = velocity.x;
-    currentVelocity.z = velocity.z;
-}
+    {
+        currentVelocity.x = velocity.x;
+        currentVelocity.z = velocity.z;
+    }
 
     private void CheckGrounded()
     {
@@ -119,25 +128,22 @@ public class EnemyController : CharacterBase
         IsGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
     }
 
-private void MoveWithPhysics()
-{
-    // Solo aplicar la interpolación si currentVelocity tiene magnitud
-    // Esto permite que los estados controlen el movimiento
-    if (currentVelocity.sqrMagnitude > 0.001f)
+    private void MoveWithPhysics()
     {
-        currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
-        rb.linearVelocity = new Vector3(currentVelocity.x, rb.linearVelocity.y, currentVelocity.z);
-        IsMoving = currentVelocity.magnitude > 0.1f;
+        if (currentVelocity.sqrMagnitude > 0.001f)
+        {
+            currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
+            rb.linearVelocity = new Vector3(currentVelocity.x, rb.linearVelocity.y, currentVelocity.z);
+            IsMoving = currentVelocity.magnitude > 0.1f;
+        }
+        else
+        {
+            Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, deceleration * Time.fixedDeltaTime);
+            rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
+            IsMoving = horizontalVelocity.magnitude > 0.1f;
+        }
     }
-    else
-    {
-        // Si no hay velocidad objetivo, aplicar deceleración
-        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-        horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, deceleration * Time.fixedDeltaTime);
-        rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
-        IsMoving = horizontalVelocity.magnitude > 0.1f;
-    }
-}
 
     private void ApplyExtraGravity()
     {
@@ -147,36 +153,33 @@ private void MoveWithPhysics()
         }
     }
 
-   public void HandleRotation()
-{
-    // Validación mejorada
-    if (SlotManager.Instance == null || SlotManager.Instance.Player == null)
+    public void HandleRotation()
     {
-        Debug.LogWarning($"[EnemyController: {name}] No se puede rotar: SlotManager o Player es null");
-        return;
+        if (SlotManager.Instance == null || SlotManager.Instance.Player == null)
+        {
+            Debug.LogWarning($"[EnemyController: {name}] No se puede rotar: SlotManager o Player es null");
+            return;
+        }
+
+        Vector3 playerPos = SlotManager.Instance.Player.position;
+        Vector3 direction = playerPos - transform.position;
+
+        if (direction.sqrMagnitude < 0.001f)
+            return;
+
+        if (flipSprite)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = direction.x < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+            transform.localScale = localScale;
+        }
+        else
+        {
+            float targetAngle = direction.x > 0 ? 180f : 0f;
+            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
     }
-
-    Vector3 playerPos = SlotManager.Instance.Player.position;
-    Vector3 direction = playerPos - transform.position;
-
-    // Evitar rotación si la dirección es muy pequeña
-    if (direction.sqrMagnitude < 0.001f)
-        return;
-
-    if (flipSprite)
-    {
-        Vector3 localScale = transform.localScale;
-        localScale.x = direction.x < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-        transform.localScale = localScale;
-    }
-    else
-    {
-        float targetAngle = direction.x > 0 ? 180f : 0f;
-        Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-    }
-}
-
 
     private void UpdateAnimator()
     {
@@ -189,19 +192,35 @@ private void MoveWithPhysics()
 
     public override void TakeHit()
     {
+        Debug.Log("EnemyController.TakeHit() fue llamado");
+
         if (!IsDead)
         {
             ChangeState(new HitState(this));
+
+            if (audioManager != null && audioSource != null && audioSource.enabled)
+            {
+                audioManager.SonidoDañoEnemigo1(audioSource);
+                Debug.Log("AudioManager asignado: " + audioManager.gameObject.name);
+                Debug.Log("Clip asignado: " + audioManager.DañoEnemigo1?.name);
+            }
+            else
+            {
+                Debug.LogWarning("EnemyController: AudioManager o AudioSource no asignado o desactivado.");
+            }
         }
     }
 
     public override void Die()
     {
         if (IsDead) return;
-        base.Die(); 
+        base.Die();
+
+        if (audioManager != null && audioSource != null && audioSource.enabled)
+            audioManager.SonidoEnemigoMuriendo(audioSource);
+
         OnEnemyDeath?.Invoke();
     }
-
 
     public void SetHorizontalVelocity(float x)
     {
@@ -249,7 +268,4 @@ private void MoveWithPhysics()
 
         isBouncing = false;
     }
-
-
-
 }
