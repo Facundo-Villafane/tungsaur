@@ -36,6 +36,7 @@ public class HitState : EnemyState
             // Volver al estado anterior o patrulla
             enemy.ChangeState(new CirclePatrolState(enemy));
         }
+
     }
 
     public override void Exit()

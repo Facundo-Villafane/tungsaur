@@ -27,6 +27,12 @@ public class PlayerController : CharacterBase
     [Header("Fall Settings")]
     [SerializeField] private float fallbackForce = 1f;
 
+    [Header("Attack Cooldown")]
+    [SerializeField] private float attackCooldown = 1f; // tiempo entre ataques
+    private float lastAttackTime = -999f;
+    public float AttackCooldown => attackCooldown;
+    public float LastAttackTime => lastAttackTime;
+
     [Header("UI Controller")]
     [SerializeField] private UIController uiController;
 
@@ -49,7 +55,6 @@ public class PlayerController : CharacterBase
     [SerializeField] private AudioSource audioSource;
     public AudioSource AudioSource => audioSource;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -71,18 +76,17 @@ public class PlayerController : CharacterBase
         {
             audioManager = AudioManager.Instance;
             Debug.Log(audioManager != null
-            ? "BossController: AudioManager asignado automáticamente desde instancia."
-            : "BossController: AudioManager no encontrado en escena.");
+                ? "PlayerController: AudioManager asignado automáticamente desde instancia."
+                : "PlayerController: AudioManager no encontrado en escena.");
         }
 
-    
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
 
-            Debug.Log("BossController: AudioSource asignado automáticamente.");
+            Debug.Log("PlayerController: AudioSource asignado automáticamente.");
         }
     }
 
@@ -102,9 +106,10 @@ public class PlayerController : CharacterBase
             return;
         }
 
-        // Activar estado de ataque con tecla K
-        if (Keyboard.current?.kKey.wasPressedThisFrame == true)
+        // Ataque (solo si pasó el cooldown)
+        if (Keyboard.current?.kKey.wasPressedThisFrame == true && CanAttack())
         {
+            RegisterAttack();
             ChangeState(new PlayerAttacksState(this));
         }
 
@@ -130,6 +135,16 @@ public class PlayerController : CharacterBase
         currentState?.Exit();
         currentState = newState;
         currentState.Enter();
+    }
+
+    public bool CanAttack()
+    {
+        return Time.time >= lastAttackTime + attackCooldown;
+    }
+
+    public void RegisterAttack()
+    {
+        lastAttackTime = Time.time;
     }
 
     public void MoveWithPhysics()
@@ -194,43 +209,29 @@ public class PlayerController : CharacterBase
         base.TakeDamage(damage);
 
         if (!IsDead)
-        {
             ChangeState(new PlayerHitState(this));
-        }
         else
-        {
             ChangeState(new PlayerDeadState(this));
-        }
     }
 
     public void Heal(float amount)
     {
         CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
-
-        if (uiController != null)
-        {
-            uiController.UpdateHealth(CurrentHealth, MaxHealth);
-            uiController.ShowHealthPickupIndicator();
-        }
+        uiController?.UpdateHealth(CurrentHealth, MaxHealth);
+        uiController?.ShowHealthPickupIndicator();
     }
 
     public void UseEnergy(float amount)
     {
         Energy = Mathf.Max(0f, Energy - amount);
-
-        if (uiController != null)
-            uiController.UpdateEnergy(Energy, 100f);
+        uiController?.UpdateEnergy(Energy, 100f);
     }
 
     public void GainEnergy(float amount)
     {
         Energy = Mathf.Min(100f, Energy + amount);
-
-        if (uiController != null)
-        {
-            uiController.UpdateEnergy(Energy, 100f);
-            uiController.ShowEnergyPickupIndicator();
-        }
+        uiController?.UpdateEnergy(Energy, 100f);
+        uiController?.ShowEnergyPickupIndicator();
     }
 
     public void ApplyFallbackForceTwo()
@@ -270,8 +271,6 @@ public class PlayerController : CharacterBase
     public void StartFall()
     {
         if (!isFallen)
-        {
             ChangeState(new PlayerFallState(this));
-        }
     }
 }

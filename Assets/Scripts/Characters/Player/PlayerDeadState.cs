@@ -6,8 +6,8 @@ public class PlayerDeadState : PlayerState
 
 public override void Enter()
  {
-    player.IsDead = true;
-
+    
+    
     player.Animator.ResetTrigger("Jump 0");
     player.Animator.ResetTrigger("Kick 0");
     player.Animator.ResetTrigger("Up Punch");
