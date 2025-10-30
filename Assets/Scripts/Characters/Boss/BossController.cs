@@ -41,16 +41,22 @@ public class BossController : CharacterBase
         if (animator == null) animator = GetComponent<Animator>();
 
         if (audioManager == null)
-            Debug.LogWarning("BossController: AudioManager no asignado desde el Inspector.");
-        else
-            Debug.Log("BossController: AudioManager asignado correctamente: " + audioManager.gameObject.name);
+        {
+            audioManager = AudioManager.Instance;
+            Debug.Log(audioManager != null
+            ? "BossController: AudioManager asignado automáticamente desde instancia."
+            : "BossController: AudioManager no encontrado en escena.");
+        }   
 
+    // Asignación automática si falta AudioSource
         if (audioSource == null)
-            Debug.LogWarning("BossController: AudioSource no asignado desde el Inspector.");
-        else if (!audioSource.enabled)
-            Debug.LogWarning("BossController: AudioSource está desactivado.");
-        else
-            Debug.Log("BossController: AudioSource asignado correctamente: " + audioSource.gameObject.name);
+        {
+            audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+            Debug.Log("BossController: AudioSource asignado automáticamente.");
+        }
 
         StartCoroutine(SecuenciaDeComportamiento());
     }
@@ -119,7 +125,8 @@ public class BossController : CharacterBase
 
         if (distancia < attackRange)
         {
-            animator.SetTrigger("PrepareAttack");
+            animator.SetTrigger("Up Punch");
+            audioManager.SonidoDesenvaine(audioSource);
             Debug.Log("Boss prepara ataque.");
             yield return new WaitForSeconds(0.5f);
 
@@ -142,7 +149,7 @@ public class BossController : CharacterBase
 
             if (audioManager != null && audioSource != null && audioSource.enabled)
             {
-                audioManager.SonidoAtaqueEspada1(audioSource);
+                audioManager.SonidoAtaqueEspada2(audioSource);
                 Debug.Log("Boss reproduce sonido de ataque.");
             }
             else
@@ -252,6 +259,7 @@ public class BossController : CharacterBase
         if (IsDead) return;
 
         base.TakeDamage(amount);
+        audioManager.SonidoDañoEnemigo2(audioSource);
         Debug.Log($"Boss recibió {amount} de daño.");
     }
 
@@ -260,6 +268,7 @@ public class BossController : CharacterBase
         if (IsDead) return;
 
         base.Die();
+        audioManager.SonidoBossMuriendo(audioSource);
 
         StopAllCoroutines();
         rb.linearVelocity = Vector3.zero;
