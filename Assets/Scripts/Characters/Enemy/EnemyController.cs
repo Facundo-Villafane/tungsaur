@@ -196,8 +196,6 @@ public class EnemyController : CharacterBase
 
     public override void TakeHit()
     {
-        Debug.Log("EnemyController.TakeHit() fue llamado");
-
         if (!IsDead)
         {
             ChangeState(new HitState(this));
@@ -214,7 +212,16 @@ public class EnemyController : CharacterBase
             }
         }
     }
-
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        Debug.Log($"Enemy recibió {amount} de daño.");
+        if (!IsDead)
+        {
+            TakeHit();
+        }
+    }
+ 
     public override void Die()
     {
         if (IsDead) return;
@@ -225,6 +232,7 @@ public class EnemyController : CharacterBase
 
         OnEnemyDeath?.Invoke();
     }
+
 
     public void SetHorizontalVelocity(float x)
     {

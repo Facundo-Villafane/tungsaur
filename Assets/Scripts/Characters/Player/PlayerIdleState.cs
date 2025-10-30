@@ -91,10 +91,7 @@ public class PlayerIdleState : PlayerState
         // Punch
         if (kb.kKey.wasPressedThisFrame)
         {
-            if (player.isGrounded && !player.IsMoving)
-                player.Animator.SetTrigger("Up Punch");
-            else if (!player.isGrounded)
-                player.Animator.SetTrigger("Jump Punch");
+          
 
             player.Combat.TryDealDamage();
         }

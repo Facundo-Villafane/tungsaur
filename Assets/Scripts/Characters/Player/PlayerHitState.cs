@@ -28,12 +28,6 @@ public class PlayerHitState : PlayerState
     {
         timer += Time.deltaTime;
 
-        // Si el jugador murió durante el golpe, ir a Dead
-        if (player.IsDead)
-        {
-            player.ChangeState(new PlayerDeadState(player));
-            return;
-        }
 
         // Si se mueve, ir a movimiento
         if (player.InputVector.magnitude > 0.1f)
