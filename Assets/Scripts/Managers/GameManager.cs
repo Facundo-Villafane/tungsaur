@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
 
         if (nextIndex >= scenes.Length)
         {
-            Debug.Log("[GameManager] No hay más escenas. Volviendo al menú.");
+            Debug.Log("[GameManager] No hay más escenas. ir al menu.");
             LoadScene(0); // Volver al inicio
             return;
         }

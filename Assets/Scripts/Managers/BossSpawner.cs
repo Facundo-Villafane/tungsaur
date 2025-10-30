@@ -3,10 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-/// Versión segura del BossSpawner: controla el spawn, 
-/// evita crashes y detecta muertes usando CharacterBase.IsDead.
-/// </summary>
+
 public class BossSpawner : MonoBehaviour, IEnemySpawner
 {
     [Header("Enemy Settings")]
@@ -17,10 +14,10 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     [Header("Spawn Settings")]
     [Tooltip("Cantidad total de enemigos que este spawner generará durante el stage")]
-    public int totalEnemiesToSpawn = 5;
+    public int totalEnemiesToSpawn = 1;
 
     [Tooltip("Máximo de enemigos vivos simultáneamente")]
-    public int maxEnemiesAlive = 3;
+    public int maxEnemiesAlive = 1;
 
     [Tooltip("Segundos entre intentos de spawn")]
     public float spawnInterval = 2f;
@@ -30,6 +27,7 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
     private int enemiesSpawned = 0;
     private List<BossController> activeEnemies = new List<BossController>();
     private Coroutine spawnCoroutine;
+    private Action onAllEnemiesDefeatedCallback;
 
     public int EnemiesToSpawn => totalEnemiesToSpawn;
 
@@ -42,7 +40,6 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
     {
         Debug.Log($"[BossSpawner: {name}] Inicializando...");
 
-        // Esperar a que el StageManager exista
         float timeout = 5f;
         float elapsed = 0f;
 
@@ -59,7 +56,6 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
             yield break;
         }
 
-        // Registrar en StageZone
         if (stageZone != null)
         {
             stageZone.RegisterSpawner(this);
@@ -81,6 +77,7 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
         isActive = true;
         enemiesSpawned = 0;
         activeEnemies.Clear();
+        onAllEnemiesDefeatedCallback = onAllEnemiesDefeated;
 
         if (spawnCoroutine != null)
             StopCoroutine(spawnCoroutine);
@@ -102,13 +99,10 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     private IEnumerator SpawnRoutine()
     {
-        // Etapa 1: Spawnear enemigos hasta llegar al total
         while (isActive && enemiesSpawned < totalEnemiesToSpawn)
         {
-            // Limpiar referencias nulas o muertas
             activeEnemies.RemoveAll(e => e == null || e.IsDead);
 
-            // Verificar cuántos podemos spawnear
             int canSpawn = Mathf.Min(
                 maxEnemiesAlive - activeEnemies.Count,
                 totalEnemiesToSpawn - enemiesSpawned
@@ -125,16 +119,21 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
         Debug.Log($"[BossSpawner: {name}] Todos spawneados. Esperando que mueran...");
 
-        // Etapa 2: Esperar hasta que no quede ninguno vivo
         while (activeEnemies.Exists(e => e != null && !e.IsDead))
         {
             activeEnemies.RemoveAll(e => e == null || e.IsDead);
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Etapa 3: Todos muertos
         Debug.Log($"[BossSpawner: {name}] ✅ Todos los enemigos derrotados.");
-        stageZone?.OnEnemyDefeated(); // Notifica al stage si es necesario
+
+
+        stageZone?.OnEnemyDefeated();
+
+
+        onAllEnemiesDefeatedCallback?.Invoke();
+
+
 
         isActive = false;
         enabled = false;
@@ -154,7 +153,6 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
             return;
         }
 
-        // Instanciar enemigo
         GameObject enemyObj = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         BossController controller = enemyObj.GetComponent<BossController>();
 
