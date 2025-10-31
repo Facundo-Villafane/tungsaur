@@ -5449,7 +5449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: maxHealth
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: audioSource

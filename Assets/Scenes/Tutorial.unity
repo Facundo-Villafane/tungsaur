@@ -2692,8 +2692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6868677486855684647, guid: c782a00869b3f3541acd083b4f955ffa, type: 3}
   stageZone: {fileID: 1041077409}
-  totalEnemiesToSpawn: 5
-  maxEnemiesAlive: 2
+  totalEnemiesToSpawn: 2
+  maxEnemiesAlive: 1
   spawnInterval: 2
 --- !u!1 &1305284085
 GameObject:
@@ -4052,7 +4052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6868677486855684647, guid: c782a00869b3f3541acd083b4f955ffa, type: 3}
   stageZone: {fileID: 969659100}
-  totalEnemiesToSpawn: 5
+  totalEnemiesToSpawn: 3
   maxEnemiesAlive: 2
   spawnInterval: 2
 --- !u!1 &1914736310
@@ -5341,7 +5341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: maxHealth
-      value: 500
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: audioSource
@@ -5357,7 +5357,7 @@ PrefabInstance:
       objectReference: {fileID: 1899548884}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: currentHealth
-      value: 500
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: attackCooldown
