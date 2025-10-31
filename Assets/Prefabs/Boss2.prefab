@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 4654314120264644699}
   - component: {fileID: 111801980464593013}
   m_Layer: 6
-  m_Name: Boss 2
+  m_Name: Boss2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,10 +247,10 @@ MonoBehaviour:
   acceleration: 10
   deceleration: 10
   maxSpeed: 6
-  minBounds: {x: -10, y: -5}
-  maxBounds: {x: 10, y: 5}
-  audioManager: {fileID: 1979007589127747306, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
-  audioSource: {fileID: 3974560593955486961, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
+  minBounds: {x: 100.51, y: -5}
+  maxBounds: {x: 115.98, y: 5}
+  audioManager: {fileID: 7633493125674303814, guid: 762a1acd734272f489e75aafcb63b822, type: 3}
+  audioSource: {fileID: 0}
 --- !u!82 &111801980464593013
 AudioSource:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 1241510600084265425, guid: 6cb2f410931f8c6c99e364177a79488f, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.563
   m_Pitch: 1
   Loop: 0

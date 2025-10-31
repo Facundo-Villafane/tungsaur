@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7028111670435585977
+--- !u!1 &5100849420032894082
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8241603880499798890}
-  - component: {fileID: 1979007589127747306}
-  - component: {fileID: 3974560593955486961}
+  - component: {fileID: 4798767655101294533}
+  - component: {fileID: 7633493125674303814}
+  - component: {fileID: 4613096469358676294}
   m_Layer: 0
-  m_Name: AudioPosta
+  m_Name: AudioPosta 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8241603880499798890
+--- !u!4 &4798767655101294533
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7028111670435585977}
+  m_GameObject: {fileID: 5100849420032894082}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.3487711, y: -1.7025131, z: -9.195654}
@@ -33,19 +33,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1979007589127747306
+--- !u!114 &7633493125674303814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7028111670435585977}
+  m_GameObject: {fileID: 5100849420032894082}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f005a3325f2cf046b1515790a62af35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 3974560593955486961}
+  audioSource: {fileID: 4613096469358676294}
   AtaqueEspada1: {fileID: 8300000, guid: 34dd4e8eed4afdaea955cca9e99a1ee4, type: 3}
   AtaqueEspada2: {fileID: 8300000, guid: fbd816b0c390d11c38cf494c19a244eb, type: 3}
   Desenvaine1: {fileID: 8300000, guid: daa5a94727dd0564a9393b2222bd9b47, type: 3}
@@ -59,20 +59,20 @@ MonoBehaviour:
   Salto1: {fileID: 8300000, guid: 899a0ca1eebd5b94cbebc72fe7a23f1a, type: 3}
   Salto2: {fileID: 8300000, guid: 019ee57744fed1d458f8fe602e3005f4, type: 3}
   Salto3: {fileID: 8300000, guid: a5ce003b80bf0f04eb644926b14950a6, type: 3}
---- !u!82 &3974560593955486961
+--- !u!82 &4613096469358676294
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7028111670435585977}
+  m_GameObject: {fileID: 5100849420032894082}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1241510600084265425, guid: 6cb2f410931f8c6c99e364177a79488f, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.537
   m_Pitch: 1.1
   Loop: 0
   Mute: 0

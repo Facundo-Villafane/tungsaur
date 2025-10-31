@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec8276d30d88d42b3d5f84ab2ccbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
-  currentHealth: 30
+  maxHealth: 20
+  currentHealth: 20
   energy: 50
   defense: 6
   baseDamage: 5
@@ -256,7 +256,7 @@ MonoBehaviour:
   attackRange: 1.5
   fallbackForce: 1
   audioManager: {fileID: 1979007589127747306, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
-  audioSource: {fileID: 3974560593955486961, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
+  audioSource: {fileID: 0}
   rb: {fileID: 1828051758657282530}
 --- !u!82 &523825560880726620
 AudioSource:
