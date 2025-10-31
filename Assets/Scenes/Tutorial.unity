@@ -449,20 +449,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":431,\"yPos\":178},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFC\xF3mo
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":365,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFC\xF3mo
     llegaron los ingleses a este lugar?\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
-    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0.1,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":444,\"yPos\":394},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Cuidado!
+    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0.1,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":378,\"yPos\":238},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Cuidado!
     Son solo aut\xF3matas, seres sin alma que sirven de ejemplo para lo que se debe
-    enfrentar.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
+    enfrentar.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 512130538}
   - {fileID: 512130537}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []
@@ -516,30 +516,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 8
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":662,\"yPos\":166},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"General,
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":333,\"yPos\":-131},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"General,
     detect\xE9 una grave alteraci\xF3n en julio de 1807. La segunda invasi\xF3n inglesa\u2026
     algo no est\xE1 bien. Robert Craufurd ha cambiado su l\xEDnea temporal de alguna
-    manera y se volvi\xF3 Teniente General.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":661,\"yPos\":355},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"A
+    manera y se volvi\xF3 Teniente General.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":332,\"yPos\":59},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"A
     causa de las fallas de Whitelock y gracias a la bravura del pueblo hemos salido
     victoriosos... Si los ingleses hubieran atacado inmediatamente no conocer\xEDamos
     nuestro verdadero poder.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
-    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":7}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":662,\"yPos\":503},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Y
+    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":7}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":333,\"yPos\":207},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Y
     Argentina nunca habr\xEDa existido. Deber\xE1 asegurarse de que la historia vuelva
     a su curso. Los crueles personajes del pasado se volver\xE1n sobrenaturales y
-    encontrar\xE1 aliados inesperados en la defensa de la patria.\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":666,\"yPos\":645},\"ID\":7,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Marchar\xE9
+    encontrar\xE1 aliados inesperados en la defensa de la patria.\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":336,\"yPos\":349},\"ID\":7,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Marchar\xE9
     inmediatamente! \xA1Seremos coronados de gloria!\",\"parentUIDs\":[6],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
     MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 1914736315}
   - {fileID: 1914736314}
   - {fileID: 1914736313}
   - {fileID: 1914736312}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []
@@ -694,7 +694,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1e00ece802214a846bf4d372bb7d1da0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b7b4d46f06c1534cbd2af75b9db39aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -714,7 +714,7 @@ Transform:
   m_GameObject: {fileID: 488530535}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.48, y: 0.84, z: -0.9647807}
+  m_LocalPosition: {x: 51.4, y: 3.8, z: -0.9647807}
   m_LocalScale: {x: 2.8874016, y: 3.2573707, z: 2.4628198}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -788,8 +788,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  Icon: {fileID: 0}
+  TMPFont: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!82 &643258620 stripped
 AudioSource:
@@ -1207,14 +1207,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.57861626, g: 0.53349817, b: 0.39120278, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1268,7 +1268,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 297.5, y: 85.02319}
-  m_SizeDelta: {x: 73.6427, y: 53.9536}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &735574680
 MonoBehaviour:
@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1369352364, guid: 6dabe86e4f940b8418d0d83b5582b203, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1316,6 +1316,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2113720802}
     m_Modifications:
+    - target: {fileID: 553785668297315319, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+    - target: {fileID: 553785668297315319, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8276067575643054156, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+    - target: {fileID: 553785668297315319, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 553785668996466499, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
       propertyPath: m_Name
       value: ConversationManager
@@ -1402,6 +1414,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 553785669130188761, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300747830335900519, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+    - target: {fileID: 7300747830335900519, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8276067575643054156, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+    - target: {fileID: 7300747830335900519, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2265,20 +2289,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":156,\"yPos\":188},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1La
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":359,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1La
     Plaza de la Victoria!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
-    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":169,\"yPos\":404},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mu\xE9vase
+    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":372,\"yPos\":238},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mu\xE9vase
     con libertad, General. Este campo de batalla es una demostraci\xF3n de lo que
-    encontrar\xE1 en su viaje.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
+    encontrar\xE1 en su viaje.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 2078856230}
   - {fileID: 2078856229}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []
@@ -2369,7 +2393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.908, y: -0.0743}
+  m_AnchoredPosition: {x: 1.908, y: 17.1}
   m_SizeDelta: {x: 61.4867, y: 50.1488}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1213193148
@@ -2392,17 +2416,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "K - Pu\xF1o"
+  m_text: Espada
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  m_sharedMaterial: {fileID: -8276067575643054156, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4292465603
+  m_fontColor: {r: 0.76470596, g: 0.82745105, b: 0.85098046, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2426,7 +2450,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2743,7 +2767,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
 --- !u!1 &1324034941
@@ -3314,16 +3338,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
-  json: '{"Options":[],"Parameters":[],"SpeechNodes":[{"Connections":[],"EditorInfo":{"isRoot":true,"xPos":157,"yPos":102},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Los
-    viajeros en el tiempo deben ser detenidos bajo la estocada de su sable.","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"PATAGONIA","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: '{"Options":[],"Parameters":[],"SpeechNodes":[{"Connections":[],"EditorInfo":{"isRoot":true,"xPos":366,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Los
+    viajeros en el tiempo deben ser detenidos bajo la estocada de su sable.","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"P.A.T.A.G.O.N.I.A","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 1305284087}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []
@@ -3375,8 +3399,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  Icon: {fileID: 0}
+  TMPFont: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!1 &1636547282
 GameObject:
@@ -3487,7 +3511,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9080048, y: -0.07431793}
+  m_AnchoredPosition: {x: 1.9080048, y: 17.1}
   m_SizeDelta: {x: 61.4867, y: 50.1488}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1709828664
@@ -3510,17 +3534,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: J - Patada
+  m_text: Patada
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  m_sharedMaterial: {fileID: -8276067575643054156, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4292465603
+  m_fontColor: {r: 0.76470596, g: 0.82745105, b: 0.85098046, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3544,7 +3568,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4107,7 +4131,7 @@ MonoBehaviour:
       m_Calls: []
   NodeID: 7
   TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!114 &1914736313
 MonoBehaviour:
@@ -4145,7 +4169,7 @@ MonoBehaviour:
       m_Calls: []
   NodeID: 1
   TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!114 &1914736315
 MonoBehaviour:
@@ -4163,7 +4187,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
 --- !u!1 &1947613891
@@ -4255,7 +4279,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 210.62433, y: 85.02319}
-  m_SizeDelta: {x: 73.6427, y: 53.9536}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1952771723
 MonoBehaviour:
@@ -4277,7 +4301,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 474829381, guid: 6dabe86e4f940b8418d0d83b5582b203, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4346,7 +4370,7 @@ MonoBehaviour:
       m_Calls: []
   NodeID: 1
   TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!114 &1955078160
 MonoBehaviour:
@@ -4364,7 +4388,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
 --- !u!114 &1955078161
@@ -4448,7 +4472,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1159656818, guid: 69ef77fdc3fa32246b8fc32f30a99fa2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4456,7 +4480,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1958452052
@@ -4958,23 +4982,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":-65,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"General
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":365,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"General
     San Mart\xEDn, soy Patagonia. \xA1Lo he tra\xEDdo a este tiempo porque la historia
-    de nuestra patria est\xE1 en peligro!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-50,\"yPos\":185},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFQu\xE9
+    de nuestra patria est\xE1 en peligro!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":402,\"yPos\":171},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFQu\xE9
     es lo que acontece? \xBFD\xF3nde se encuentran mis hombres?\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
-    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":62,\"yPos\":373},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"No
+    MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":342,\"yPos\":370},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"No
     hay tiempo para explicaciones. Las fuerzas inglesas buscan eliminar los momentos
-    cruciales de nuestra independencia. Necesita aprender a luchar contra estas anomal\xEDas.\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
+    cruciales de nuestra independencia. Necesita aprender a luchar contra estas anomal\xEDas.\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"P.A.T.A.G.O.N.I.A\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 1955078160}
   - {fileID: 1955078159}
   - {fileID: 1955078161}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []
@@ -5046,8 +5070,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NodeID: 0
-  TMPFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  Icon: {fileID: 0}
+  TMPFont: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 8ab1671e76bf63b43bd6243c89b4412e, type: 3}
   Audio: {fileID: 0}
 --- !u!1 &2102716057
 GameObject:
@@ -5239,17 +5263,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[],\"EditorInfo\":{\"isRoot\":true,\"xPos\":747,\"yPos\":322},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Por
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[],\"EditorInfo\":{\"isRoot\":true,\"xPos\":365,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xA1Por
     la Patria! \xA1No me doblegar\xE1n estas infamias!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
     MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0.1,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
-  DefaultFont: {fileID: 0}
+  DefaultFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   NodeSerializedDataList:
   - {fileID: 1622477842}
-  ContinueFont: {fileID: 0}
-  EndConversationFont: {fileID: 0}
+  ContinueFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
+  EndConversationFont: {fileID: 11400000, guid: 6a718ed38d64b9448b84e572de136192, type: 2}
   Event:
     m_PersistentCalls:
       m_Calls: []

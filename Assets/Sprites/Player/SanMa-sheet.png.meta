@@ -1,0 +1,922 @@
+fileFormatVersion: 2
+guid: f2089c701fff4244ea737c18965697af
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SanMa-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1372
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2082bdeea5391547aaeb4c725cbb3b6
+      internalID: 1817951713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1372
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cced770240181c04793e0c9072fc3946
+      internalID: 1765278084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 1372
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24f56b7295f228748b0d4eccbd09034a
+      internalID: 1583311560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 1372
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fccf4df5d8100e142bd99cf5197b1b9a
+      internalID: 1979734565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cdf4198f61c1fe479a370e544d4048e
+      internalID: 1268030240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf8570a82c3990844aee2d8d2fe0850f
+      internalID: -1878244072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be95f7ba84eb42a4d9adf2159c55f210
+      internalID: 236965991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c265400121a2604b878dfdae9629d1b
+      internalID: -673739371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad0bad8d2d2ecb448e47381d0406ad2
+      internalID: 224549981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1176
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57568de1808d9d54abe089f14271b2a2
+      internalID: -1845447625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69d35a791cbd29c4bb69c7b43d2125c1
+      internalID: 696970267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ade533c9695ca5b43ba6177e08107aa6
+      internalID: 844606555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30f6340a46236294fa8bd99dc27eacd4
+      internalID: 1262876164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 752c738080d5d864abc52c46b7e73939
+      internalID: 16283746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24682a1862d45784a90a47d62e6ed0da
+      internalID: 1792813628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 980
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 886f19ce527fe664783f253e4cebae46
+      internalID: 203212626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 784
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6accfbf95ec3cc4a80491a6755872e7
+      internalID: 1915701158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_17
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 784
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 981328b84a64e274c8bfbcbf21216ea6
+      internalID: -1506249009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_18
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 784
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a550bee32038f1a4db526bab3c3a1775
+      internalID: 1436068170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_19
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 784
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9f5b9bbdbd06e74b97ea12a7898872a
+      internalID: -1725859676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 588
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 271afd42f6b03da438f655b254606841
+      internalID: -959109185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_21
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 588
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2221e3d7d1dd3854ebe425986d668d33
+      internalID: 927629527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_22
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 588
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6a3100daaba11d4fac3f4e9a1e0dbc8
+      internalID: -1136373044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_23
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 588
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ace3752c30652849995021776406ec6
+      internalID: 693761299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_24
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 588
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ecb7136e1d578c4dbd0625177e18d1c
+      internalID: 1190775792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 392
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c859531cfcb6454fa2eaa9791eccdc6
+      internalID: -188454681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_26
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 392
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d0ca196c0a29754c854813ac756832d
+      internalID: -1044494948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_27
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 392
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99a330c2062e40947aaa086792290c70
+      internalID: 1116657959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_28
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 392
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 739456d3e3dad2243b81f5ea432868b4
+      internalID: 891598574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 196
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2fef618f745a84797ea06f0393b1b2
+      internalID: 1832568602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_30
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 196
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3ef510322565304e99f6da0065b35ea
+      internalID: 1710857922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_31
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 196
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbecd8451bcc3df40a37234de45bea3f
+      internalID: -386949306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_32
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 196
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62f469856a8e4df49aa5bd6ed68fd127
+      internalID: 1304079328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_33
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd51e53a367439342851fdf7f843495e
+      internalID: 439267039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SanMa-sheet_34
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 176
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05282d92f819c05499627aea3a21d939
+      internalID: -1648588767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2bbf42c69d07b8649a9ad5ee70e0385e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SanMa-sheet_0: 1817951713
+      SanMa-sheet_1: 1765278084
+      SanMa-sheet_10: 696970267
+      SanMa-sheet_11: 844606555
+      SanMa-sheet_12: 1262876164
+      SanMa-sheet_13: 16283746
+      SanMa-sheet_14: 1792813628
+      SanMa-sheet_15: 203212626
+      SanMa-sheet_16: 1915701158
+      SanMa-sheet_17: -1506249009
+      SanMa-sheet_18: 1436068170
+      SanMa-sheet_19: -1725859676
+      SanMa-sheet_2: 1583311560
+      SanMa-sheet_20: -959109185
+      SanMa-sheet_21: 927629527
+      SanMa-sheet_22: -1136373044
+      SanMa-sheet_23: 693761299
+      SanMa-sheet_24: 1190775792
+      SanMa-sheet_25: -188454681
+      SanMa-sheet_26: -1044494948
+      SanMa-sheet_27: 1116657959
+      SanMa-sheet_28: 891598574
+      SanMa-sheet_29: 1832568602
+      SanMa-sheet_3: 1979734565
+      SanMa-sheet_30: 1710857922
+      SanMa-sheet_31: -386949306
+      SanMa-sheet_32: 1304079328
+      SanMa-sheet_33: 439267039
+      SanMa-sheet_34: -1648588767
+      SanMa-sheet_4: 1268030240
+      SanMa-sheet_5: -1878244072
+      SanMa-sheet_6: 236965991
+      SanMa-sheet_7: -673739371
+      SanMa-sheet_8: 224549981
+      SanMa-sheet_9: -1845447625
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
