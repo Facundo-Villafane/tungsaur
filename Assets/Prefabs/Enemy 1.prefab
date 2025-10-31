@@ -255,8 +255,8 @@ MonoBehaviour:
   detectionRadius: 2
   attackRange: 1.5
   fallbackForce: 1
-  audioManager: {fileID: 0}
-  audioSource: {fileID: 0}
+  audioManager: {fileID: 1979007589127747306, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
+  audioSource: {fileID: 3974560593955486961, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
   rb: {fileID: 1828051758657282530}
 --- !u!82 &523825560880726620
 AudioSource:

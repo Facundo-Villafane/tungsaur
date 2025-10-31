@@ -28,7 +28,7 @@ public class PlayerController : CharacterBase
     [SerializeField] private float fallbackForce = 1f;
 
     [Header("Attack Cooldown")]
-    [SerializeField] private float attackCooldown = 1f; // tiempo entre ataques
+    [SerializeField] private float attackCooldown = 0.7f; // tiempo entre ataques
     private float lastAttackTime = -999f;
     public float AttackCooldown => attackCooldown;
     public float LastAttackTime => lastAttackTime;

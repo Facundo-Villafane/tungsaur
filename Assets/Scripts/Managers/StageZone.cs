@@ -39,6 +39,8 @@ public class StageZone : MonoBehaviour
 
         Debug.Log($"[StageZone: {name}] Jugador entró. Iniciando Stage...");
         StageManager.Instance.StartStage();
+        Collider trigger = GetComponent<Collider>();
+        trigger.enabled = false; // Desactiva el trigger para evitar múltiples activaciones
     }
 
     public void Initialize()

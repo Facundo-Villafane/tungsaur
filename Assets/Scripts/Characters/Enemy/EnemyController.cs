@@ -57,6 +57,8 @@ public class EnemyController : CharacterBase
     private Vector3 currentVelocity;
     private EnemyState currentState;
 
+    private bool deathInvoked = false; // ✅ Para asegurar que el evento solo se invoque una vez
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -109,7 +111,6 @@ public class EnemyController : CharacterBase
     {
         if (IsDead && !(currentState is EnemyDeadState))
         {
-            Debug.Log("Cambiando a estado Dead del enemy");
             ChangeState(new EnemyDeadState(this));
             return;
         }
@@ -181,10 +182,7 @@ public class EnemyController : CharacterBase
     public void HandleRotation()
     {
         if (SlotManager.Instance == null || SlotManager.Instance.Player == null)
-        {
-            Debug.LogWarning($"[EnemyController: {name}] No se puede rotar: SlotManager o Player es null");
             return;
-        }
 
         Vector3 playerPos = SlotManager.Instance.Player.position;
         Vector3 direction = playerPos - transform.position;
@@ -215,25 +213,6 @@ public class EnemyController : CharacterBase
         }
     }
 
-    public override void TakeHit()
-    {
-        if (!IsDead)
-        {
-            ChangeState(new HitState(this));
-
-            if (audioManager != null && audioSource != null && audioSource.enabled)
-            {
-                audioManager.SonidoDañoEnemigo1(audioSource);
-                Debug.Log("AudioManager asignado: " + audioManager.gameObject.name);
-                Debug.Log("Clip asignado: " + audioManager.DañoEnemigo1?.name);
-            }
-            else
-            {
-                Debug.LogWarning("EnemyController: AudioManager o AudioSource no asignado o desactivado.");
-            }
-        }
-    }
-
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
@@ -244,20 +223,25 @@ public class EnemyController : CharacterBase
         }
     }
 
-    public override void Die()
+    public override void TakeHit()
     {
-        if (IsDead) return;
-        base.Die();
-
-        if (audioManager != null && audioSource != null && audioSource.enabled)
-            audioManager.SonidoEnemigoMuriendo(audioSource);
-
-        OnEnemyDeath?.Invoke();
+        if (!IsDead)
+        {
+            ChangeState(new HitState(this));
+            audioManager?.SonidoDañoEnemigo1(audioSource);
+        }
     }
 
-    public void SetHorizontalVelocity(float x)
+    public override void Die()
     {
-        currentVelocity.x = x;
+        if (deathInvoked) return; // ✅ evita múltiples invocaciones
+        deathInvoked = true;
+
+        base.Die();
+        audioManager?.SonidoEnemigoMuriendo(audioSource);
+
+        OnEnemyDeath?.Invoke();
+        OnEnemyDeath = null; // ✅ limpiar referencias
     }
 
     public void ChangeState(EnemyState newState)
@@ -282,10 +266,6 @@ public class EnemyController : CharacterBase
         float elapsed = 0f;
         float totalForce = fallbackForce;
         float verticalForce = 5f;
-
-        Vector3 localScale = transform.localScale;
-        localScale.x = direction < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-        transform.localScale = localScale;
 
         while (elapsed < duration)
         {
