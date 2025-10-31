@@ -144,75 +144,57 @@ public class EnemySingleSpawner_Safe : MonoBehaviour, IEnemySpawner
         enabled = false;
     }
 
-    private void SpawnSingleEnemy()
+private void SpawnSingleEnemy()
+{
+    if (enemyPrefab == null || enemiesSpawned >= totalEnemiesToSpawn) return;
+
+    GameObject enemyObj = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+    EnemyController controller = enemyObj.GetComponent<EnemyController>();
+
+    if (controller != null)
     {
-        if (enemyPrefab == null)
+        activeEnemies.Add(controller);
+        enemiesSpawned++;
+
+        Debug.Log($"[SpawnerSafe: {name}] Enemigo #{enemiesSpawned} spawneado. Activos: {activeEnemies.Count}");
+
+        // ✅ Suscripción segura
+        Action deathHandler = null;
+        deathHandler = () =>
         {
-            Debug.LogError($"[SpawnerSafe: {name}] EnemyPrefab es null!");
-            return;
-        }
+            controller.OnEnemyDeath -= deathHandler; // desuscribirse inmediatamente
+            OnEnemyDied(controller);
+        };
 
-        if (enemiesSpawned >= totalEnemiesToSpawn)
-        {
-            Debug.LogWarning($"[SpawnerSafe: {name}] Ya se spawnearon todos los enemigos.");
-            return;
-        }
-
-        // Instanciar enemigo
-        GameObject enemyObj = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        EnemyController controller = enemyObj.GetComponent<EnemyController>();
-
-        if (controller != null)
-        {
-            activeEnemies.Add(controller);
-            enemiesSpawned++;
-
-            Debug.Log($"[SpawnerSafe: {name}] Enemigo #{enemiesSpawned} spawneado. Activos: {activeEnemies.Count}");
-
-            // Suscribirse a muerte (sin callback recursivo)
-            controller.OnEnemyDeath += () => OnEnemyDied(controller);
-        }
-        else
-        {
-            Debug.LogError($"[SpawnerSafe: {name}] El prefab no tiene EnemyController!");
-            Destroy(enemyObj);
-        }
+        controller.OnEnemyDeath += deathHandler;
     }
-
-    private void OnEnemyDied(EnemyController enemy)
+    else
     {
-        if (activeEnemies.Contains(enemy))
-        {
-            activeEnemies.Remove(enemy);
-        }
-
-        Debug.Log($"[SpawnerSafe: {name}] Enemigo murió. Activos: {activeEnemies.Count}, Spawned: {enemiesSpawned}/{totalEnemiesToSpawn}");
-
-        // 🔔 Notificar al StageZone
-        stageZone?.OnEnemyDefeated();
-
-        // Si todos murieron, puede también disparar el callback
-        if (activeEnemies.Count == 0 && enemiesSpawned >= totalEnemiesToSpawn)
-        {
-             Debug.Log($"[SpawnerSafe: {name}] Todos los enemigos derrotados.");
-             onAllEnemiesDefeatedCallback?.Invoke();
-             isActive = false;
-        }
+        Destroy(enemyObj);
     }
+}
+
+private void OnEnemyDied(EnemyController enemy)
+{
+    if (enemy == null) return;
+
+    // Limpiar de la lista de activos
+    activeEnemies.Remove(enemy);
+    Debug.Log($"[SpawnerSafe: {name}] Enemigo murió. Activos: {activeEnemies.Count}, Spawned: {enemiesSpawned}/{totalEnemiesToSpawn}");
+
+    // Notificar al StageZone
+    stageZone?.OnEnemyDefeated();
+
+    // 🔹 NO usar activeEnemies.Count para disparar callback del spawner
+}
 
 
-    private void OnDestroy()
-    {
-        // Limpiar suscripciones
-        foreach (var enemy in activeEnemies)
-        {
-            if (enemy != null)
-            {
-                enemy.OnEnemyDeath -= () => OnEnemyDied(enemy);
-            }
-        }
-        activeEnemies.Clear();
-    }
+
+
+private void OnDestroy()
+{
+    activeEnemies.Clear();
+}
 
     private void OnDisable()
     {

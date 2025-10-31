@@ -50,6 +50,17 @@ public class StageTwoManager : MonoBehaviour
         if (index == 0)
         {
             stageZone.EndStage();
+            
+            Collider trigger = stageZone.GetComponent<Collider>();
+            if (trigger != null)
+            {
+                trigger.enabled = false;
+                Debug.Log("[StageTwoManager] 🔒 Trigger desactivado al finalizar la conversación.");
+            }
+            else
+            {
+                Debug.LogWarning("[StageTwoManager] No se encontró ningún Collider en el StageZone para desactivar.");
+            }
 
             string currentScene = SceneManager.GetActiveScene().name;
 
