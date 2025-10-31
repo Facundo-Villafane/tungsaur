@@ -429,14 +429,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 442065358418330616, guid: 5236f5720c269864b987944c51f63427, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -359
+      value: -38.2
       objectReference: {fileID: 0}
     - target: {fileID: 442065358418330616, guid: 5236f5720c269864b987944c51f63427, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -180
+      value: -124.7
       objectReference: {fileID: 0}
     - target: {fileID: 706422140988796403, guid: 5236f5720c269864b987944c51f63427, type: 3}
       propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 880087117899192671, guid: 5236f5720c269864b987944c51f63427, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 901432088046635390, guid: 5236f5720c269864b987944c51f63427, type: 3}
@@ -525,7 +529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2024341102610505773, guid: 5236f5720c269864b987944c51f63427, type: 3}
       propertyPath: m_text
-      value: CONTINUARA..........
+      value: CONTINUARA...
       objectReference: {fileID: 0}
     - target: {fileID: 2024341102610505773, guid: 5236f5720c269864b987944c51f63427, type: 3}
       propertyPath: m_fontSize
