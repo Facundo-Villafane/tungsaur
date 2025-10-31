@@ -38,7 +38,7 @@ public class PlayerIdleState : PlayerState
         }
 
         // ----------------- ATAQUES -----------------
-        HandleAttacks(kb);
+            HandleAttacks(kb);
 
         // ----------------- FALL / STAND -----------------
         if (kb.oKey.wasPressedThisFrame)
