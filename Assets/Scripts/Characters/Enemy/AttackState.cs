@@ -3,7 +3,7 @@ using UnityEngine;
 public class AttackState : EnemyState
 {
     private Transform target;
-    private float attackCooldown = 1.2f;
+    private float attackCooldown = 2f;
     private float timer;
 
     private float approachDistance = 4f;
