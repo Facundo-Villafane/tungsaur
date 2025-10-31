@@ -77,18 +77,11 @@ public class PlayerIdleState : PlayerState
     {
         if (player.Combat == null || player.Animator == null) return;
 
-        // // Kick
-        // if (kb.jKey.wasPressedThisFrame)
-        // {
-        //     if (player.isGrounded && !player.IsMoving)
-        //         player.Animator.SetTrigger("Kick 0");
-        //     else if (!player.isGrounded)
-        //         player.Animator.SetTrigger("Jump Kick");
-
-        //     player.Combat.TryDealDamage();
-        // }
-
-        // Punch
+    
+        if (kb.jKey.wasPressedThisFrame)
+        {
+            player.Combat.TryDealDamage();
+        }
         if (kb.kKey.wasPressedThisFrame)
         {
             player.Combat.TryDealDamage();
