@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerCombat))]
@@ -271,7 +272,17 @@ public class PlayerController : CharacterBase
 
         isBouncing = false;
     }
+public override void Die()
+{
+    // StartCoroutine(WaitAndLoadScene());
+    SceneManager.LoadScene("EndGame");
+}
 
+private IEnumerator WaitAndLoadScene()
+{
+    yield return new WaitForSeconds(5f);
+    SceneManager.LoadScene("EndGame");
+}
     public void StartFall()
     {
         if (!isFallen)
