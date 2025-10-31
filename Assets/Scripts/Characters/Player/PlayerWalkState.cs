@@ -15,7 +15,7 @@ public class PlayerWalkState : PlayerState
     {
         base.Update();
 
-        // 🟡 Recalcular input cada frame
+        // Recalcular input cada frame
         if (Keyboard.current != null)
             HandleMovement(Keyboard.current);
 

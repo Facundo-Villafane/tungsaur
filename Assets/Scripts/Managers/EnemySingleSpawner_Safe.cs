@@ -185,7 +185,6 @@ private void OnEnemyDied(EnemyController enemy)
     // Notificar al StageZone
     stageZone?.OnEnemyDefeated();
 
-    // 🔹 NO usar activeEnemies.Count para disparar callback del spawner
 }
 
 

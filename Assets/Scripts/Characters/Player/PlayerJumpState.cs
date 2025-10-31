@@ -12,7 +12,7 @@ public class PlayerJumpState : PlayerState
         // Animación de salto
         player.Animator?.SetTrigger("Jump 0");
 
-        // 🔊 Sonido de salto (Salto2)
+        // Sonido de salto (Salto2)
         AudioManager.Instance.SonidoSalto2();
     }
 

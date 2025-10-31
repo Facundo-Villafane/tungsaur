@@ -324,7 +324,7 @@ public class BossController : CharacterBase
     public void ApplyFallbackForce()
     {
         Debug.Log("BossController: ApplyFallbackForce fue llamado desde la animación.");
-        // Podés agregar lógica de retroceso, rebote o efectos acá
+        
     }
 
 }

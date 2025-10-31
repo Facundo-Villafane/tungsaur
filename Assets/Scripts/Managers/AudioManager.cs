@@ -46,14 +46,13 @@ public class AudioManager : MonoBehaviour
         if (audioSource == null)
             Debug.LogError("AudioSource no encontrado en AudioManager.");
     }
-
-    // 🔊 Reproduce desde el AudioSource interno
+    // Reproduce desde el AudioSource interno
     private void Reproducir(AudioClip clip)
     {
         Reproducir(clip, audioSource);
     }
 
-    // 🔊 Reproduce desde cualquier AudioSource externo
+    // Reproduce desde cualquier AudioSource externo
     public void Reproducir(AudioClip clip, AudioSource source)
     {
         if (clip == null)

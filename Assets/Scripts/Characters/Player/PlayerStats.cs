@@ -10,7 +10,7 @@ public class PlayerStats : CharacterBase
     [Header("Animation")]
     [SerializeField] private Animator playerAnimator;
 
-    // --- 🔔 EVENTOS para UIController ---
+    // --- EVENTOS para UIController ---
     public static event Action<float, float> OnHealthChanged;
     public static event Action<float, float> OnEnergyChanged;
     public static event Action OnHealthPickUp;

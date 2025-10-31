@@ -65,9 +65,6 @@ public class AttackState : EnemyState
             {
                 if (enemy.Animator != null)
                     enemy.Animator.SetTrigger("Up Punch");
-
-
-                // ⚔️ Aplicar daño, pero el Player decide qué hacer con él
                 player.TakeDamage(40f);
 
 
