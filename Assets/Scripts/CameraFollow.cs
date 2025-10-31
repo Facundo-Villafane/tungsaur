@@ -3,31 +3,39 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public float offset;
+    public float offset = 0f;
     public float smoothSpeed = 5f;
+
     private GameManager gameManager;
+    private float maxX; // 👈 Guarda la posición máxima en X alcanzada por el target
 
     void Start()
     {
-        // Buscar automáticamente el GameManager en la escena (opcional: podés asignarlo manualmente también)
         gameManager = FindFirstObjectByType<GameManager>();
         if (gameManager == null)
         {
             Debug.LogError("[CameraFollow] No se encontró un GameManager en la escena.");
         }
+
+        if (target != null)
+            maxX = target.position.x; // Inicializa el límite con la posición inicial del jugador
     }
 
     void Update()
     {
-        if (!target) return;
-        if (gameManager == null) return;
+        if (!target || gameManager == null) return;
 
-        // Solo mover la cámara si el estado es "Free"
         if (gameManager.CanCameraMove())
         {
-            Vector3 desiredPosition = new Vector3(offset + target.position.x, 3.68f, -9.76f);
+            // Solo actualizar si el jugador avanza hacia la derecha
+            if (target.position.x > maxX)
+            {
+                maxX = target.position.x;
+            }
+
+            // La cámara solo sigue hasta maxX
+            Vector3 desiredPosition = new Vector3(maxX + offset, 3.68f, -9.76f);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         }
-        // Si no es Free, la cámara queda fija donde estaba
     }
 }
