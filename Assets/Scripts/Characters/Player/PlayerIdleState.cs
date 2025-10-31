@@ -43,7 +43,7 @@ public class PlayerIdleState : PlayerState
         // ----------------- FALL / STAND -----------------
         if (kb.oKey.wasPressedThisFrame)
         {
-            // Cambiamos de estado a PlayerFallState
+
             player.ChangeState(new PlayerFallState(player));
         }
 

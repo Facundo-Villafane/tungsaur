@@ -90,8 +90,7 @@ public class CirclePatrolState : EnemyState
         float distance = Vector3.Distance(enemy.transform.position, targetSlotPosition);
         if (distance < 0.5f)
         {
-            // Por ahora no hacemos nada más cuando llega; si luego querés atacar al llegar,
-            // el chequeo al comienzo del Update() lo realizará (si el player está dentro de AttackRange).
+
         }
     }
 

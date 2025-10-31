@@ -16,13 +16,13 @@ public class ConversationController : MonoBehaviour
     {
         if (index < 0 || index >= conversations.Length)
         {
-            Debug.LogWarning($"⚠️ Invalid conversation index: {index}");
+            Debug.LogWarning($" Invalid conversation index: {index}");
             return;
         }
 
         currentIndex = index;
         ConversationManager.Instance.StartConversation(conversations[index]);
-        Debug.Log($"💬 Starting conversation {index}: {conversations[index].name}");
+        Debug.Log($" Starting conversation {index}: {conversations[index].name}");
     }
 
     // Starts the next one (if available)
