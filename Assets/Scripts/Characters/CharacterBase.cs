@@ -4,8 +4,8 @@ using System.Collections;
 public class CharacterBase : MonoBehaviour
 {
     [Header("Stats Generales")]
-    [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float currentHealth = 100f;
+    [SerializeField] private float maxHealth = 50f;
+    [SerializeField] private float currentHealth = 50f;
     [SerializeField] private float energy = 50f;
     [SerializeField] private float defense = 5f;
     [SerializeField] private float baseDamage = 30f;

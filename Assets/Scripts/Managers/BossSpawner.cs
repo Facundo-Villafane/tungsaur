@@ -176,20 +176,20 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     private void ValidarBoss(BossController boss)
     {
-        if (boss.AudioSource == null)
-        {
-            Debug.LogWarning($"[BossSpawner: {name}] Boss sin AudioSource. Se asigna automáticamente.");
-            AudioSource source = boss.GetComponent<AudioSource>();
-            if (source == null) source = boss.gameObject.AddComponent<AudioSource>();
-            boss.AudioSource.enabled = true;
-        }
+        // if (boss.AudioSource == null)
+        // {
+        //     Debug.LogWarning($"[BossSpawner: {name}] Boss sin AudioSource. Se asigna automáticamente.");
+        //     AudioSource source = boss.GetComponent<AudioSource>();
+        //     if (source == null) source = boss.gameObject.AddComponent<AudioSource>();
+        //     boss.AudioSource.enabled = true;
+        // }
 
-        if (!boss.AudioSource.enabled || !boss.AudioSource.gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning($"[BossSpawner: {name}] AudioSource desactivado o inactivo. Se activa.");
-            boss.AudioSource.enabled = true;
-            boss.AudioSource.gameObject.SetActive(true);
-        }
+        // if (!boss.AudioSource.enabled || !boss.AudioSource.gameObject.activeInHierarchy)
+        // {
+        //     Debug.LogWarning($"[BossSpawner: {name}] AudioSource desactivado o inactivo. Se activa.");
+        //     boss.AudioSource.enabled = true;
+        //     boss.AudioSource.gameObject.SetActive(true);
+        // }
 
         Vector3 pos = boss.transform.position;
         if (pos.y < -10f || pos.y > 50f)
@@ -207,7 +207,7 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     private void OnDisable()
     {
-        StopSpawning();
+        // StopSpawning();
     }
 
     private void OnDestroy()

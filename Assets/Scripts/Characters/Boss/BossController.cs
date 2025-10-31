@@ -121,7 +121,7 @@ public class BossController : CharacterBase
         if (vulnerable)
         {
             isVulnerable = true;
-            animator.SetTrigger("Iddle");
+            animator.SetFloat("xVelocity", 0f);
             Debug.Log("Boss entra en estado vulnerable.");
         }
 
@@ -324,7 +324,7 @@ public class BossController : CharacterBase
     public void ApplyFallbackForce()
     {
         Debug.Log("BossController: ApplyFallbackForce fue llamado desde la animación.");
-        
+        // Podés agregar lógica de retroceso, rebote o efectos acá
     }
 
 }
