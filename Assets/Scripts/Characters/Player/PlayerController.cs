@@ -112,7 +112,11 @@ public class PlayerController : CharacterBase
             RegisterAttack();
             ChangeState(new PlayerAttacksState(this));
         }
-
+        if (Keyboard.current?.jKey.wasPressedThisFrame == true && CanAttack())
+        {
+            RegisterAttack();
+            ChangeState(new PlayerKickState(this));
+        }
         // Salto
         if (Keyboard.current?.spaceKey.wasPressedThisFrame == true && isGrounded)
         {

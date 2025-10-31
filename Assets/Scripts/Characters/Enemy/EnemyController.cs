@@ -231,9 +231,11 @@ public class EnemyController : CharacterBase
 
     public override void TakeHit()
     {
-        base.TakeDamage(amount);
         if (!IsDead)
-            TakeHit();
+        {
+            ChangeState(new HitState(this));
+            audioManager?.SonidoDañoEnemigo1(audioSource);
+        }
     }
 
     public override void Die()
