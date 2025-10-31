@@ -275,13 +275,13 @@ public class PlayerController : CharacterBase
 public override void Die()
 {
     // StartCoroutine(WaitAndLoadScene());
-    SceneManager.LoadScene("EndGame");
+    SceneManager.LoadScene("End");
 }
 
 private IEnumerator WaitAndLoadScene()
 {
     yield return new WaitForSeconds(5f);
-    SceneManager.LoadScene("EndGame");
+    SceneManager.LoadScene("End");
 }
     public void StartFall()
     {
