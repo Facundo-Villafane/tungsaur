@@ -42,6 +42,7 @@ public class EnemyController : CharacterBase
     [Header("Audio")]
     [SerializeField] private AudioManager audioManager;
     public AudioManager AudioManager => audioManager;
+
     [SerializeField] private AudioSource audioSource;
     public AudioSource AudioSource => audioSource;
 
@@ -62,8 +63,7 @@ public class EnemyController : CharacterBase
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if (animator == null)
-            animator = GetComponent<Animator>();
+        animator = animator ?? GetComponent<Animator>();
 
         if (audioManager == null)
         {
@@ -73,18 +73,28 @@ public class EnemyController : CharacterBase
                 : "EnemyController: AudioManager no encontrado en escena.");
         }
 
+        if (audioManager == null)
+        {
+            audioManager = AudioManager.Instance;
+            Debug.Log(audioManager != null
+            ? "BossController: AudioManager asignado automáticamente desde instancia."
+            : "BossController: AudioManager no encontrado en escena.");
+        }   
+
+    // Asignación automática si falta AudioSource
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-                audioSource = gameObject.AddComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
 
-            Debug.Log("EnemyController: AudioSource asignado automáticamente.");
+            Debug.Log("Enemycontroller: AudioSource asignado automáticamente.");
         }
 
-        ValidarAudioSource();
+        StartCoroutine(ValidarAudio());
         ChangeState(new CirclePatrolState(this));
     }
+
 
     private void ValidarAudioSource()
     {
@@ -95,16 +105,10 @@ public class EnemyController : CharacterBase
         }
 
         if (!audioSource.enabled)
-        {
-            Debug.LogWarning($"[EnemyController: {name}] AudioSource estaba deshabilitado. Se habilita automáticamente.");
             audioSource.enabled = true;
-        }
 
         if (!audioSource.gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning($"[EnemyController: {name}] GameObject del AudioSource estaba inactivo. Se activa automáticamente.");
             audioSource.gameObject.SetActive(true);
-        }
     }
 
     private void Update()
@@ -129,7 +133,6 @@ public class EnemyController : CharacterBase
     {
         if (IsDead) return;
         currentState?.FixedUpdate();
-
         CheckGrounded();
 
         if (usePhysics && rb != null)
@@ -174,9 +177,7 @@ public class EnemyController : CharacterBase
     private void ApplyExtraGravity()
     {
         if (rb.linearVelocity.y < 0 && !IsGrounded)
-        {
             rb.AddForce(Physics.gravity * (fallMultiplier - 1f), ForceMode.Acceleration);
-        }
     }
 
     public void HandleRotation()
@@ -219,17 +220,20 @@ public class EnemyController : CharacterBase
         Debug.Log($"Enemy recibió {amount} de daño.");
         if (!IsDead)
         {
-            TakeHit();
+            ChangeState(new HitState(this));
+
+            if (audioManager != null && audioSource != null && audioSource.enabled)
+            {
+                audioManager.SonidoDañoEnemigo1(audioSource);
+            }
         }
     }
 
     public override void TakeHit()
     {
+        base.TakeDamage(amount);
         if (!IsDead)
-        {
-            ChangeState(new HitState(this));
-            audioManager?.SonidoDañoEnemigo1(audioSource);
-        }
+            TakeHit();
     }
 
     public override void Die()
@@ -281,4 +285,21 @@ public class EnemyController : CharacterBase
 
         isBouncing = false;
     }
+    private IEnumerator ValidarAudio()
+    {
+    yield return null; // Esperamos un frame por si el AudioManager tarda en inicializar
+
+    if (audioSource == null)
+        Debug.LogError($"EnemyController ({name}): AudioSource sigue siendo null.");
+
+    if (!audioSource.enabled)
+        audioSource.enabled = true;
+
+    if (!audioSource.gameObject.activeInHierarchy)
+        audioSource.gameObject.SetActive(true);
+
+    if (audioManager == null)
+        Debug.LogWarning($"EnemyController ({name}): AudioManager sigue siendo null.");
+    }
+
 }
