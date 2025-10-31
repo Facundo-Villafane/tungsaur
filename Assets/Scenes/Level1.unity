@@ -5449,7 +5449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: audioSource
@@ -5465,7 +5465,7 @@ PrefabInstance:
       objectReference: {fileID: 1996326228}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: attackCooldown

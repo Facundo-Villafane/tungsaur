@@ -4959,9 +4959,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentIDCounter: 7
   json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":-65,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"General
-    San Mart\xEDn, soy Patagonia. \xA1Lo he tra\xEDdo a este tiempo porque la historia
-    de nuestra patria est\xE1 en peligro!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-50,\"yPos\":185},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFQu\xE9
-    es lo que acontece? \xBFD\xF3nde se encuentran mis hombres?\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
+    San Mart\xEDn, soy Patagonia. \xA1Lo he tra\xEDdo a este tiempo porque peligra
+    la historia de nuestra patria!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-50,\"yPos\":185},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\xBFD\xF3nde
+    estoy? \xBFD\xF3nde se encuentran mis hombres?\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"SAN
     MART\xCDN\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":62,\"yPos\":373},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"No
     hay tiempo para explicaciones. Las fuerzas inglesas buscan eliminar los momentos
     cruciales de nuestra independencia. Necesita aprender a luchar contra estas anomal\xEDas.\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"PATAGONIA\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
@@ -5341,7 +5341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: audioSource
@@ -5357,7 +5357,7 @@ PrefabInstance:
       objectReference: {fileID: 1899548884}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7430434913822919773, guid: 385ab8df3fad42f448c9b47c76b603a6, type: 3}
       propertyPath: attackCooldown
