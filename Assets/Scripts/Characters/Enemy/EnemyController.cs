@@ -58,6 +58,8 @@ public class EnemyController : CharacterBase
     private Vector3 currentVelocity;
     private EnemyState currentState;
 
+    private bool deathInvoked = false; // ✅ Para asegurar que el evento solo se invoque una vez
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -212,8 +214,10 @@ public class EnemyController : CharacterBase
         }
     }
 
-    public override void TakeHit()
+    public override void TakeDamage(float amount)
     {
+        base.TakeDamage(amount);
+        Debug.Log($"Enemy recibió {amount} de daño.");
         if (!IsDead)
         {
             ChangeState(new HitState(this));
@@ -225,7 +229,7 @@ public class EnemyController : CharacterBase
         }
     }
 
-    public override void TakeDamage(float amount)
+    public override void TakeHit()
     {
         base.TakeDamage(amount);
         if (!IsDead)
@@ -234,18 +238,14 @@ public class EnemyController : CharacterBase
 
     public override void Die()
     {
-        if (IsDead) return;
-        base.Die();
+        if (deathInvoked) return; // ✅ evita múltiples invocaciones
+        deathInvoked = true;
 
-        if (audioManager != null && audioSource != null && audioSource.enabled)
-            audioManager.SonidoEnemigoMuriendo(audioSource);
+        base.Die();
+        audioManager?.SonidoEnemigoMuriendo(audioSource);
 
         OnEnemyDeath?.Invoke();
-    }
-
-    public void SetHorizontalVelocity(float x)
-    {
-        currentVelocity.x = x;
+        OnEnemyDeath = null; // ✅ limpiar referencias
     }
 
     public void ChangeState(EnemyState newState)
@@ -270,10 +270,6 @@ public class EnemyController : CharacterBase
         float elapsed = 0f;
         float totalForce = fallbackForce;
         float verticalForce = 5f;
-
-        Vector3 localScale = transform.localScale;
-        localScale.x = direction < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-        transform.localScale = localScale;
 
         while (elapsed < duration)
         {
