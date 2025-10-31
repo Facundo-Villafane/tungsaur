@@ -67,21 +67,42 @@ public class EnemyController : CharacterBase
         {
             audioManager = AudioManager.Instance;
             Debug.Log(audioManager != null
-            ? "BossController: AudioManager asignado automáticamente desde instancia."
-            : "BossController: AudioManager no encontrado en escena.");
+                ? "EnemyController: AudioManager asignado automáticamente desde instancia."
+                : "EnemyController: AudioManager no encontrado en escena.");
         }
 
-    
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
 
-            Debug.Log("BossController: AudioSource asignado automáticamente.");
+            Debug.Log("EnemyController: AudioSource asignado automáticamente.");
         }
 
+        ValidarAudioSource();
         ChangeState(new CirclePatrolState(this));
+    }
+
+    private void ValidarAudioSource()
+    {
+        if (audioSource == null)
+        {
+            Debug.LogError($"[EnemyController: {name}] AudioSource no asignado.");
+            return;
+        }
+
+        if (!audioSource.enabled)
+        {
+            Debug.LogWarning($"[EnemyController: {name}] AudioSource estaba deshabilitado. Se habilita automáticamente.");
+            audioSource.enabled = true;
+        }
+
+        if (!audioSource.gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning($"[EnemyController: {name}] GameObject del AudioSource estaba inactivo. Se activa automáticamente.");
+            audioSource.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -212,6 +233,7 @@ public class EnemyController : CharacterBase
             }
         }
     }
+
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
@@ -221,7 +243,7 @@ public class EnemyController : CharacterBase
             TakeHit();
         }
     }
- 
+
     public override void Die()
     {
         if (IsDead) return;
@@ -232,7 +254,6 @@ public class EnemyController : CharacterBase
 
         OnEnemyDeath?.Invoke();
     }
-
 
     public void SetHorizontalVelocity(float x)
     {

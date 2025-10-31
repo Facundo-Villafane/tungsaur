@@ -884,6 +884,7 @@ MonoBehaviour:
   - {fileID: 0}
   totalEnemies: 5
   enemiesDefeated: 0
+  stageActive: 0
 --- !u!65 &652839500
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1319,6 +1320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConversationManager
       objectReference: {fileID: 0}
+    - target: {fileID: 553785669130188760, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
+      propertyPath: AllowMouseInteraction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 553785669130188761, guid: c6edf420c62a4c74cbdd6f7294c1d4a0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1453,6 +1458,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1551,6 +1557,103 @@ MonoBehaviour:
   target: {fileID: 2123830692}
   offset: 0
   smoothSpeed: 5
+--- !u!82 &963194230
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -3124555511105189612, guid: 6cb2f410931f8c6c99e364177a79488f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: a31ee2447a1e7f3c4882f69dbb4426d6, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.127
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &969659098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,6 +1706,7 @@ MonoBehaviour:
   - {fileID: 1909888382}
   totalEnemies: 5
   enemiesDefeated: 0
+  stageActive: 0
 --- !u!114 &969659102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1755,6 +1859,7 @@ MonoBehaviour:
   - {fileID: 1292918940}
   totalEnemies: 5
   enemiesDefeated: 0
+  stageActive: 0
 --- !u!114 &1041077411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,6 +2522,7 @@ MonoBehaviour:
   - {fileID: 0}
   totalEnemies: 5
   enemiesDefeated: 0
+  stageActive: 0
 --- !u!65 &1240682937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2584,7 +2690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
+  enemyPrefab: {fileID: 6868677486855684647, guid: c782a00869b3f3541acd083b4f955ffa, type: 3}
   stageZone: {fileID: 1041077409}
   totalEnemiesToSpawn: 5
   maxEnemiesAlive: 2
@@ -3573,6 +3679,7 @@ MonoBehaviour:
   - {fileID: 0}
   totalEnemies: 5
   enemiesDefeated: 0
+  stageActive: 0
 --- !u!65 &1727930232
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3943,7 +4050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5649645421668853736, guid: 2e6ea58648dbba74299697f3800643cf, type: 3}
+  enemyPrefab: {fileID: 6868677486855684647, guid: c782a00869b3f3541acd083b4f955ffa, type: 3}
   stageZone: {fileID: 969659100}
   totalEnemiesToSpawn: 5
   maxEnemiesAlive: 2
@@ -4668,12 +4775,7 @@ MonoBehaviour:
   currentLevel: 1
   currentStageIndex: 1
   currentStageState: 0
-  stages:
-  - {fileID: 1240682936}
-  - {fileID: 1727930231}
-  - {fileID: 1041077409}
-  - {fileID: 969659100}
-  - {fileID: 652839499}
+  stages: []
 --- !u!1001 &2037296697
 PrefabInstance:
   m_ObjectHideFlags: 0

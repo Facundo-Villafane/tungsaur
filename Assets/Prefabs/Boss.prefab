@@ -238,7 +238,7 @@ MonoBehaviour:
   tookHit: 0
   isDead: 0
   animator: {fileID: 797988970933956536}
-  attackRange: 5
+  attackRange: 10
   attackDamage: 20
   dashForce: 20
   dashDuration: 1
@@ -250,7 +250,7 @@ MonoBehaviour:
   minBounds: {x: -10, y: -5}
   maxBounds: {x: 10, y: 5}
   audioManager: {fileID: 1979007589127747306, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 3974560593955486961, guid: bb09f4401ebd70346839cf36fc4cb5eb, type: 3}
 --- !u!82 &8147670697859967381
 AudioSource:
   m_ObjectHideFlags: 0

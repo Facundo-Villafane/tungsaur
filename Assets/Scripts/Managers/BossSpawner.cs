@@ -3,33 +3,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class BossSpawner : MonoBehaviour, IEnemySpawner
 {
-    [Header("Enemy Settings")]
-    public GameObject enemyPrefab;
+    [Header("Boss Settings")]
+    public GameObject bossPrefab;
 
     [Header("Stage Settings")]
     public StageZone stageZone;
 
     [Header("Spawn Settings")]
-    [Tooltip("Cantidad total de enemigos que este spawner generará durante el stage")]
-    public int totalEnemiesToSpawn = 1;
+    [Tooltip("Cantidad total de bosses que este spawner generará durante el stage")]
+    public int totalBossesToSpawn = 1;
 
-    [Tooltip("Máximo de enemigos vivos simultáneamente")]
-    public int maxEnemiesAlive = 1;
+    [Tooltip("Máximo de bosses vivos simultáneamente")]
+    public int maxBossesAlive = 1;
 
     [Tooltip("Segundos entre intentos de spawn")]
     public float spawnInterval = 2f;
 
     // Estado interno
     private bool isActive = false;
-    private int enemiesSpawned = 0;
-    private List<BossController> activeEnemies = new List<BossController>();
+    private int bossesSpawned = 0;
+    private List<BossController> activeBosses = new List<BossController>();
     private Coroutine spawnCoroutine;
-    private Action onAllEnemiesDefeatedCallback;
+    private Action onBossDefeatedCallback;
+    public int EnemiesToSpawn => totalBossesToSpawn;
 
-    public int EnemiesToSpawn => totalEnemiesToSpawn;
+
+    public int BossesToSpawn => totalBossesToSpawn;
 
     private void Start()
     {
@@ -65,7 +66,7 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
         Debug.Log($"[BossSpawner: {name}] Inicialización completada.");
     }
 
-    public void StartSpawning(Action onAllEnemiesDefeated = null)
+    public void StartSpawning(Action onBossDefeated = null)
     {
         if (isActive)
         {
@@ -73,11 +74,11 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
             return;
         }
 
-        Debug.Log($"[BossSpawner: {name}] Iniciando spawning...");
+        Debug.Log($"[BossSpawner: {name}] Iniciando aparición del Boss...");
         isActive = true;
-        enemiesSpawned = 0;
-        activeEnemies.Clear();
-        onAllEnemiesDefeatedCallback = onAllEnemiesDefeated;
+        bossesSpawned = 0;
+        activeBosses.Clear();
+        onBossDefeatedCallback = onBossDefeated;
 
         if (spawnCoroutine != null)
             StopCoroutine(spawnCoroutine);
@@ -87,7 +88,7 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     public void StopSpawning()
     {
-        Debug.Log($"[BossSpawner: {name}] Deteniendo spawning...");
+        Debug.Log($"[BossSpawner: {name}] Deteniendo aparición del Boss...");
         isActive = false;
 
         if (spawnCoroutine != null)
@@ -99,73 +100,108 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     private IEnumerator SpawnRoutine()
     {
-        while (isActive && enemiesSpawned < totalEnemiesToSpawn)
+        while (isActive && bossesSpawned < totalBossesToSpawn)
         {
-            activeEnemies.RemoveAll(e => e == null || e.IsDead);
+            activeBosses.RemoveAll(b => b == null || b.IsDead);
 
             int canSpawn = Mathf.Min(
-                maxEnemiesAlive - activeEnemies.Count,
-                totalEnemiesToSpawn - enemiesSpawned
+                maxBossesAlive - activeBosses.Count,
+                totalBossesToSpawn - bossesSpawned
             );
 
             if (canSpawn > 0)
             {
                 for (int i = 0; i < canSpawn; i++)
-                    SpawnSingleEnemy();
+                    SpawnSingleBoss();
             }
 
             yield return new WaitForSeconds(spawnInterval);
         }
 
-        Debug.Log($"[BossSpawner: {name}] Todos spawneados. Esperando que mueran...");
+        Debug.Log($"[BossSpawner: {name}] Todos los bosses instanciados. Esperando que sean derrotados...");
 
-        while (activeEnemies.Exists(e => e != null && !e.IsDead))
+        while (activeBosses.Exists(b => b != null && !b.IsDead))
         {
-            activeEnemies.RemoveAll(e => e == null || e.IsDead);
+            activeBosses.RemoveAll(b => b == null || b.IsDead);
             yield return new WaitForSeconds(0.5f);
         }
 
-        Debug.Log($"[BossSpawner: {name}] ✅ Todos los enemigos derrotados.");
+        Debug.Log($"[BossSpawner: {name}] ✅ Boss derrotado.");
 
+        stageZone?.OnEnemyDefeated(); 
 
-        stageZone?.OnEnemyDefeated();
-
-
-        onAllEnemiesDefeatedCallback?.Invoke();
-
-
+        onBossDefeatedCallback?.Invoke();
 
         isActive = false;
         enabled = false;
     }
 
-    private void SpawnSingleEnemy()
+    private void SpawnSingleBoss()
     {
-        if (enemyPrefab == null)
+        if (bossPrefab == null)
         {
-            Debug.LogError($"[BossSpawner: {name}] EnemyPrefab es null!");
+            Debug.LogError($"[BossSpawner: {name}] BossPrefab es null!");
             return;
         }
 
-        if (enemiesSpawned >= totalEnemiesToSpawn)
+        if (bossesSpawned >= totalBossesToSpawn)
         {
-            Debug.LogWarning($"[BossSpawner: {name}] Ya se spawnearon todos los enemigos.");
+            Debug.LogWarning($"[BossSpawner: {name}] Ya se instanciaron todos los bosses.");
             return;
         }
 
-        GameObject enemyObj = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        BossController controller = enemyObj.GetComponent<BossController>();
+        GameObject bossObj = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+
+        if (!bossObj.activeSelf)
+        {
+            Debug.LogWarning($"[BossSpawner: {name}] El Boss instanciado estaba inactivo. Activando...");
+            bossObj.SetActive(true);
+        }
+
+        BossController controller = bossObj.GetComponent<BossController>();
 
         if (controller != null)
         {
-            activeEnemies.Add(controller);
-            enemiesSpawned++;
-            Debug.Log($"[BossSpawner: {name}] Enemigo #{enemiesSpawned} spawneado. Activos: {activeEnemies.Count}");
+            ValidarBoss(controller);
+            activeBosses.Add(controller);
+            bossesSpawned++;
+            Debug.Log($"[BossSpawner: {name}] Boss #{bossesSpawned} instanciado. Activos: {activeBosses.Count}");
         }
         else
         {
             Debug.LogError($"[BossSpawner: {name}] El prefab no tiene BossController!");
-            Destroy(enemyObj);
+            Destroy(bossObj);
+        }
+    }
+
+    private void ValidarBoss(BossController boss)
+    {
+        if (boss.AudioSource == null)
+        {
+            Debug.LogWarning($"[BossSpawner: {name}] Boss sin AudioSource. Se asigna automáticamente.");
+            AudioSource source = boss.GetComponent<AudioSource>();
+            if (source == null) source = boss.gameObject.AddComponent<AudioSource>();
+            boss.AudioSource.enabled = true;
+        }
+
+        if (!boss.AudioSource.enabled || !boss.AudioSource.gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning($"[BossSpawner: {name}] AudioSource desactivado o inactivo. Se activa.");
+            boss.AudioSource.enabled = true;
+            boss.AudioSource.gameObject.SetActive(true);
+        }
+
+        Vector3 pos = boss.transform.position;
+        if (pos.y < -10f || pos.y > 50f)
+        {
+            Debug.LogWarning($"[BossSpawner: {name}] Boss fuera de rango vertical. Reubicando...");
+            boss.transform.position = new Vector3(pos.x, Mathf.Clamp(pos.y, 0f, 10f), pos.z);
+        }
+
+        Renderer renderer = boss.GetComponent<Renderer>();
+        if (renderer == null)
+        {
+            Debug.LogWarning($"[BossSpawner: {name}] Boss sin Renderer. ¿Está oculto?");
         }
     }
 
@@ -176,6 +212,6 @@ public class BossSpawner : MonoBehaviour, IEnemySpawner
 
     private void OnDestroy()
     {
-        activeEnemies.Clear();
+        activeBosses.Clear();
     }
 }

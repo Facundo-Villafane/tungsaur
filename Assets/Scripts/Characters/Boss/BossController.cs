@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BossController : CharacterBase
 {
@@ -35,6 +36,9 @@ public class BossController : CharacterBase
     private bool isVulnerable = false;
     private bool hasHitDuringDash = false;
 
+    private bool muerteIniciada = false;
+    private float tiempoParaCambio = 3f;
+
     protected void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -63,7 +67,37 @@ public class BossController : CharacterBase
 
     private void Update()
     {
-        if (IsDead || SlotManager.Instance?.Player == null) return;
+        if (IsDead)
+        {
+            if (!muerteIniciada)
+            {
+                muerteIniciada = true;
+                Debug.Log("⏳ Boss muerto. Esperando para cambiar de escena...");
+            }
+
+            tiempoParaCambio -= Time.deltaTime;
+
+            if (tiempoParaCambio <= 0f)
+            {
+                int siguiente = SceneManager.GetActiveScene().buildIndex + 1;
+
+                if (siguiente < SceneManager.sceneCountInBuildSettings)
+                {
+                    SceneManager.LoadScene(siguiente);
+                }
+                else
+                {
+                    Debug.LogWarning("No hay más escenas en el Build Settings.");
+                }
+
+                Destroy(gameObject);
+            }
+
+            return; // salimos del Update si está muerto
+        }
+
+        if (SlotManager.Instance?.Player == null) return;
+
         FacePlayer();
     }
 
@@ -278,6 +312,7 @@ public class BossController : CharacterBase
 
         animator.SetTrigger("Fall");
         Debug.Log("Boss ha muerto.");
+        muerteIniciada = true;        
 
         //BossEvents.TriggerBossDeath(transform);
     }

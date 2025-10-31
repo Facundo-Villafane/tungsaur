@@ -25,9 +25,13 @@ public class StageManager : MonoBehaviour
 
     public int CurrentStageIndex => currentStageIndex;
     public bool HasStages => hasStages;
+    private bool isWaitingForSceneChange = false;
+    private float sceneChangeTimer = 0f;
 
     public StageZone CurrentStage =>
         (currentStageIndex >= 0 && currentStageIndex < stages.Count) ? stages[currentStageIndex] : null;
+
+
 
     private void Awake()
     {
@@ -212,6 +216,11 @@ public class StageManager : MonoBehaviour
         }
     }
 
+
+
+
+
+
     /// <summary>
     /// ⚠️ DEPRECADO: Este método ya no debe usarse.
     /// Los stages se cargan automáticamente en Awake() mediante LoadStagesInOrder()
@@ -243,6 +252,7 @@ public class StageManager : MonoBehaviour
         StageZone stage = stages[index];
         Debug.Log($"[StageManager] Inicializando Stage: {stage.name}");
         stage.Initialize();
+       
     }
 
     public void StartStage()
@@ -252,6 +262,8 @@ public class StageManager : MonoBehaviour
             Debug.LogWarning("[StageManager] No se puede iniciar stage, esta escena no tiene stages.");
             return;
         }
+        Debug.Log($"[StageManager] Llamando StartStage en: {CurrentStage?.name}, estado activo: {CurrentStage?.stageActive}");
+
 
         Debug.Log("[StageManager] StartStage llamado");
         if (CurrentStage == null)
@@ -372,6 +384,7 @@ public class StageManager : MonoBehaviour
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(nextIndex);
+            Debug.Log("Go to EndGame");
         }
         else
         {

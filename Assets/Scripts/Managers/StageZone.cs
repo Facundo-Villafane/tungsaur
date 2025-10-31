@@ -12,7 +12,7 @@ public class StageZone : MonoBehaviour
 
     [SerializeField] private int totalEnemies = 0;
     [SerializeField] private int enemiesDefeated = 0;
-    private bool stageActive = false;
+    public bool stageActive = false;
 
     // ❌ ELIMINADO: Ya no se registra en Start()
     // El StageManager carga todos los stages automáticamente desde la jerarquía
